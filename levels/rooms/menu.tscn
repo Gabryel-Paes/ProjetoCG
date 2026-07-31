@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://ho6m444hf2dx"]
+
+[ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="1_4xsfs"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_yc2o0"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ijibq"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nydc8"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h7gdp"]
+size = Vector2(133, 20)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4s7lv"]
+
+[node name="Game" type="Node2D" unique_id=1048735473]
+
+[node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_4xsfs")]
+position = Vector2(161, 718)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2035691264]
+position = Vector2(482, 359)
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=88903904]
+position = Vector2(160, 721)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=2092404355]
+shape = SubResource("WorldBoundaryShape2D_yc2o0")
+
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=737556703]
+position = Vector2(-1, 688)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=520746528]
+shape = SubResource("WorldBoundaryShape2D_ijibq")
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=841938241]
+position = Vector2(960, 686)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=136755558]
+position = Vector2(-1, 0)
+shape = SubResource("WorldBoundaryShape2D_nydc8")
+
+[node name="Plataforma" type="StaticBody2D" parent="." unique_id=1352370594]
+position = Vector2(265, 676)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Plataforma" unique_id=1957815657]
+position = Vector2(56.5, 0)
+shape = SubResource("RectangleShape2D_h7gdp")
+
+[node name="TextureRect" type="TextureRect" parent="Plataforma" unique_id=334735254]
+offset_left = -11.0
+offset_top = -10.0
+offset_right = 123.0
+offset_bottom = 10.0
+texture = SubResource("CanvasTexture_4s7lv")
+metadata/_edit_use_anchors_ = true
