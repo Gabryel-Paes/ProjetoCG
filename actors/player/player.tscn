@@ -76,11 +76,11 @@ script = ExtResource("1_dthho")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1347245688]
 shape = SubResource("CircleShape2D_wa5o0")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CollisionShape2D" unique_id=134978540]
-sprite_frames = SubResource("SpriteFrames_t1g16")
-autoplay = "default"
-frame_progress = 0.43655625
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=134978540]
+sprite_frames = SubResource("SpriteFrames_t1g16")
+autoplay = "default"
+frame_progress = 0.43655625
