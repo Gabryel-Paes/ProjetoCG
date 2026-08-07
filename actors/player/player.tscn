@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
+radius = 7.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ax26v"]
 atlas = ExtResource("2_jg3c0")
@@ -74,9 +75,11 @@ motion_mode = 1
 script = ExtResource("1_dthho")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1347245688]
+position = Vector2(-4, 0)
 shape = SubResource("CircleShape2D_wa5o0")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
+visible = false
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
@@ -85,3 +88,6 @@ rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_t1g16")
 autoplay = "default"
 frame_progress = 0.43655625
+
+[node name="BulletPoint" type="Marker2D" parent="." unique_id=648254355]
+position = Vector2(5, 0)

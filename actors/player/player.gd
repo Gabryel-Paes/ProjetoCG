@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+var cena_bala = preload("res://actors/projectiles/bala/bala.tscn")
+
+var arma_equipada 
+
 # --- Movimento ---
 @export var speed: float = 200.0
 @export var acceleration: float = 2400.0   # px/s². Alto = snap estilo Hotline Miami
@@ -13,14 +17,13 @@ extends CharacterBody2D
 @export var camera_deadzone: float = 120.0   # px de tela sem deslocamento
 @export var max_camera_offset: float = 260.0 # teto do deslocamento
 @export var camera_smooth: float = 8.0       # maior = mais rápido
-@export var zoom_rest: float = 1.15          # mouse perto: zoom in
-@export var zoom_far: float = 0.85           # mouse longe: zoom out
+@export var zoom_rest: float = 3         # mouse perto: zoom in
+@export var zoom_far: float = 2       # mouse longe: zoom out
 
 @onready var aim: Node2D = $Aim
 @onready var camera: Camera2D = $Camera2D
 
 var aim_angle: float = 0.0
-
 
 func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
@@ -65,3 +68,35 @@ func _update_camera(delta: float) -> void:
 
 	var z := lerpf(zoom_rest, zoom_far, t)
 	camera.zoom = camera.zoom.lerp(Vector2(z, z), w)
+	
+#func _input(event):
+	## Equipar a arma (Ex: apertando a tecla 'E' ou botão direito)
+	#if Input.is_action_just_pressed("equipar"): # Lembre-se de criar essa action no Input Map!
+		#arma_equipada = !arma_equipada # Alterna entre verdadeiro/falso
+		#
+		#if arma_equipada:
+			#$Sprite2D.texture = tex_armado
+		#else:
+			#$Sprite2D.texture = tex_normal
+			#rotation = 0 # Volta a rotação ao normal ao desequipar
+			#
+	## Atirar (Botão esquerdo do mouse)
+	#if Input.is_action_just_pressed("atirar") and arma_equipada:
+		#atirar()
+#
+#func atirar():
+	## 1. Cria uma cópia (instância) da bala
+	#var nova_bala = cena_bala.instantiate()
+	#
+	## 2. Posição da bala será a mesma do Marker2D (ponta da arma)
+	#nova_bala.global_position = $PontoDeDisparo.global_position
+	#
+	## 3. Calcula a direção da bala (da ponta da arma até o mouse)
+	#var direcao_tiro = (get_global_mouse_position() - $PontoDeDisparo.global_position).normalized()
+	#nova_bala.direcao = direcao_tiro
+	#
+	## 4. Gira a bala para apontar para onde está indo
+	#nova_bala.rotation = direcao_tiro.angle()
+	#
+	## 5. Adiciona a bala na cena principal do jogo (não como filha do player, senão ela se move junto com ele)
+	#get_tree().root.add_child(nova_bala)

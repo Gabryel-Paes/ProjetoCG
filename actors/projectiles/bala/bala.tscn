@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dp1ulbfra8qje"]
+
+[ext_resource type="Script" uid="uid://c5mmru2e5wrf7" path="res://actors/projectiles/bala/bala.gd" id="1_8vkb4"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_60pvl"]
+size = Vector2(6, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_60pvl"]
+size = Vector2(6, 16)
+
+[node name="Bala" type="Area2D" unique_id=1777222557]
+script = ExtResource("1_8vkb4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=168178662]
+texture = SubResource("PlaceholderTexture2D_60pvl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1202491080]
+shape = SubResource("RectangleShape2D_60pvl")
+
+[node name="Timer" type="Timer" parent="." unique_id=1305321639]
+wait_time = 1.5
+one_shot = true
+autostart = true
