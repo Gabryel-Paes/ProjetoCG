@@ -81,6 +81,7 @@ shape = SubResource("CircleShape2D_wa5o0")
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=134978540]
+rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_t1g16")
 autoplay = "default"
 frame_progress = 0.43655625
