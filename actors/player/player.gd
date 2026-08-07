@@ -19,6 +19,10 @@ extends CharacterBody2D
 @onready var aim: Node2D = $Aim
 @onready var camera: Camera2D = $Camera2D
 
+# ---Animação ---
+@onready var anim: AnimatedSprite2D = $Aim/AnimatedSprite2D
+
+
 var aim_angle: float = 0.0
 
 
@@ -30,6 +34,11 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_vector("Left", "Right", "Up", "Down")
 	velocity = velocity.move_toward(direction * speed, acceleration * delta)
 	move_and_slide()
+	if direction != Vector2.ZERO:
+		anim.play("walking")
+	else:
+		anim.play("idle")
+	
 
 
 func _process(delta: float) -> void:
