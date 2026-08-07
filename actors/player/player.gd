@@ -1,41 +1,67 @@
 extends CharacterBody2D
 
-const WALK_SPEED := 180.0
-const GRAVITY := 3300.0
-const MAX_FALL_SPEED := 1800.0
+# --- Movimento ---
+@export var speed: float = 200.0
+@export var acceleration: float = 2400.0   # px/s². Alto = snap estilo Hotline Miami
 
-const JUMP_FORCE_MIN := 600.0
-const JUMP_FORCE_MAX := 1860.0
-const JUMP_SPEED_H := 300.0
-const CHARGE_TIME := 0.6
+# --- Mira ---
+## Graus de correção se o sprite não foi desenhado apontando para a direita (+X)
+@export var sprite_angle_offset: float = 0.0
 
-var charge := 0.0
-var is_charging := false
+# --- Câmera ---
+@export var camera_lead: float = 0.35        # fração do offset do mouse na tela
+@export var camera_deadzone: float = 120.0   # px de tela sem deslocamento
+@export var max_camera_offset: float = 260.0 # teto do deslocamento
+@export var camera_smooth: float = 8.0       # maior = mais rápido
+@export var zoom_rest: float = 1.15          # mouse perto: zoom in
+@export var zoom_far: float = 0.85           # mouse longe: zoom out
+
+@onready var aim: Node2D = $Aim
+@onready var camera: Camera2D = $Camera2D
+
+var aim_angle: float = 0.0
+
+
+func _ready() -> void:
+	motion_mode = MOTION_MODE_FLOATING
 
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
-		velocity.y = minf(velocity.y + GRAVITY * delta, MAX_FALL_SPEED)
-	else:
-		_handle_ground(delta)
-
+	var direction := Input.get_vector("Left", "Right", "Up", "Down")
+	velocity = velocity.move_toward(direction * speed, acceleration * delta)
 	move_and_slide()
 
 
-func _handle_ground(delta: float) -> void:
-	if Input.is_action_just_pressed("jump"):
-		is_charging = true
-		charge = 0.0
+func _process(delta: float) -> void:
+	_update_aim()
+	_update_camera(delta)
 
-	if is_charging:
-		velocity.x = 0.0                  # trava no lugar enquanto carrega
-		charge = minf(charge + delta, CHARGE_TIME)
 
-		if Input.is_action_just_released("jump"):
-			is_charging = false
-			var t := charge / CHARGE_TIME
-			var dir := Input.get_axis("move_left", "move_right")
-			velocity.y = -lerpf(JUMP_FORCE_MIN, JUMP_FORCE_MAX, t)
-			velocity.x = dir * JUMP_SPEED_H
-	else:
-		velocity.x = Input.get_axis("move_left", "move_right") * WALK_SPEED
+func _update_aim() -> void:
+	# Guardado como variável: sprite, lanterna e projétil bebem da mesma fonte
+	aim_angle = (get_global_mouse_position() - global_position).angle()
+	aim.rotation = aim_angle + deg_to_rad(sprite_angle_offset)
+
+
+func _update_camera(delta: float) -> void:
+	# Offset do mouse em relação ao CENTRO DA TELA — não ao mundo.
+	# É isso que quebra o loop de realimentação.
+	var viewport_size := get_viewport_rect().size
+	var from_center := get_viewport().get_mouse_position() - viewport_size * 0.5
+	var dist := from_center.length()
+
+	var lead := Vector2.ZERO
+	var t := 0.0
+
+	if dist > camera_deadzone:
+		var beyond := dist - camera_deadzone
+		var max_beyond := maxf(viewport_size.length() * 0.5 - camera_deadzone, 1.0)
+		t = clampf(beyond / max_beyond, 0.0, 1.0)
+		lead = (from_center / dist) * minf(beyond * camera_lead, max_camera_offset)
+
+	# Suavização independente de framerate
+	var w := 1.0 - exp(-camera_smooth * delta)
+	camera.position = camera.position.lerp(lead, w)
+
+	var z := lerpf(zoom_rest, zoom_far, t)
+	camera.zoom = camera.zoom.lerp(Vector2(z, z), w)
