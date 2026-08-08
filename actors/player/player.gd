@@ -24,6 +24,7 @@ extends CharacterBody2D
 
  # --- luz ---
 @onready var point_light_2d: PointLight2D = $Aim/AnimatedSprite2D/PointLight2D
+@onready var ray_cast_2d: RayCast2D = %RayCast2D
 
 
 
@@ -42,6 +43,7 @@ func _physics_process(delta: float) -> void:
 		anim.play("walking")
 	else:
 		anim.play("idle")
+		#fisica do raycasting
 	if %RayCast2D.is_colliding():
 		var location = %RayCast2D.get_collision_point()
 		var normal = %RayCast2D.get_collision_normal()

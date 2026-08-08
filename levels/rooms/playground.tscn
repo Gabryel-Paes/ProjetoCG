@@ -3,10 +3,21 @@
 [ext_resource type="Texture2D" uid="uid://7tgprmfmd633" path="res://ui/assets/sprites/world_tileset.png" id="1_edjdf"]
 [ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="2_n617l"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_yf5fn"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_edjdf"]
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_g4v7s"]
-polygon = PackedVector2Array(260, 213.00002, 292, 213.00002, 292, 244.00002, 260, 244.00002)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n617l"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_yf5fn"]
+material = SubResource("StandardMaterial3D_n617l")
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_edjdf"]
+cull_mode = 2
+polygon = PackedVector2Array(291, 214.00002, 291, 243.00002, 261, 243.00002, 261, 214.00002)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g4v7s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(1.058366, 1.0448982)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ocl3h"]
 texture = ExtResource("1_edjdf")
@@ -144,6 +155,8 @@ sources/0 = SubResource("TileSetAtlasSource_ocl3h")
 [node name="Playground" type="Node2D" unique_id=1048735473]
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1614081456]
+modulate = Color(0, 0, 0, 1)
+material = SubResource("CanvasItemMaterial_edjdf")
 position = Vector2(275.9375, 228.6875)
 scale = Vector2(32.124992, 30.624989)
 mesh = SubResource("QuadMesh_yf5fn")
@@ -151,7 +164,14 @@ mesh = SubResource("QuadMesh_yf5fn")
 [node name="LightOccluder2D" type="LightOccluder2D" parent="MeshInstance2D" unique_id=392641833]
 position = Vector2(-8.589497, -7.46735)
 scale = Vector2(0.031128412, 0.032653075)
-occluder = SubResource("OccluderPolygon2D_g4v7s")
+occluder = SubResource("OccluderPolygon2D_edjdf")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="MeshInstance2D" unique_id=43703939]
+physics_material_override = SubResource("PhysicsMaterial_g4v7s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeshInstance2D/StaticBody2D" unique_id=662038601]
+position = Vector2(0.0019454956, 0.010204315)
+shape = SubResource("RectangleShape2D_g4v7s")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1309934378]
 position = Vector2(519, 300)
@@ -165,11 +185,10 @@ tile_set = SubResource("TileSet_h7gdp")
 show_behind_parent = true
 custom_minimum_size = Vector2(1280, 720)
 custom_maximum_size = Vector2(1280, 720)
-offset_left = 23.0
-offset_top = 29.0
-offset_right = 1303.0
-offset_bottom = 749.0
-color = Color(0.05927208, 0.0039027813, 0.11610978, 1)
+offset_left = 13.0
+offset_top = 16.0
+offset_right = 1293.0
+offset_bottom = 736.0
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("2_n617l")]
-position = Vector2(606, 308)
+position = Vector2(607, 305)

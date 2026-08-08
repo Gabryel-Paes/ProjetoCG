@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b7esrgmdyehb1" path="res://actors/player/player.gd" id="1_dthho"]
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
 [ext_resource type="Texture2D" uid="uid://c25o4pt6yg6jc" path="res://actors/player/torch_light.png" id="3_ax26v"]
+[ext_resource type="Texture2D" uid="uid://btvwwma75errb" path="res://actors/player/light_point.webp" id="4_lsqbn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
 
@@ -91,12 +92,29 @@ position = Vector2(1, 0)
 rotation = 0.0146409385
 shape = SubResource("CircleShape2D_wa5o0")
 
-[node name="RayCast2D" type="RayCast2D" parent="CollisionShape2D" unique_id=537473845]
+[node name="Aim" type="Node2D" parent="." unique_id=2121868406]
+
+[node name="PointLight2D" type="PointLight2D" parent="Aim" unique_id=680527637]
+position = Vector2(211.99998, 7)
+scale = Vector2(0.7045833, 0.48285705)
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 0.5
+texture = ExtResource("3_ax26v")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Aim" unique_id=1530368114]
+position = Vector2(1.0000037, -3.8146973e-06)
+rotation = 1.5816814
+scale = Vector2(0.23444968, 0.24294294)
+color = Color(0.6789437, 0.6789437, 0.6789437, 1)
+texture = ExtResource("4_lsqbn")
+
+[node name="RayCast2D" type="RayCast2D" parent="Aim" unique_id=537473845]
 unique_name_in_owner = true
+position = Vector2(1, 0)
+rotation = 0.0146409385
 target_position = Vector2(39.995712, -0.58561665)
 collision_mask = 3
-
-[node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=134978540]
 position = Vector2(2.985145, 1.0291736)
@@ -104,12 +122,5 @@ rotation = 1.5854373
 sprite_frames = SubResource("SpriteFrames_t1g16")
 animation = &"idle"
 autoplay = "walking"
-
-[node name="PointLight2D" type="PointLight2D" parent="Aim/AnimatedSprite2D" unique_id=680527637]
-position = Vector2(-0.37803364, -297.04117)
-rotation = -1.5854373
-scale = Vector2(0.9750001, 0.98857147)
-shadow_enabled = true
-texture = ExtResource("3_ax26v")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
