@@ -22,12 +22,16 @@ extends CharacterBody2D
 # ---Animação ---
 @onready var anim: AnimatedSprite2D = $Aim/AnimatedSprite2D
 
+ # --- luz ---
+@onready var point_light_2d: PointLight2D = $Aim/AnimatedSprite2D/PointLight2D
+
+
 
 var aim_angle: float = 0.0
 
-
 func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
+
 
 
 func _physics_process(delta: float) -> void:
@@ -38,8 +42,12 @@ func _physics_process(delta: float) -> void:
 		anim.play("walking")
 	else:
 		anim.play("idle")
-	
-
+	if %RayCast2D.is_colliding():
+		var location = %RayCast2D.get_collision_point()
+		var normal = %RayCast2D.get_collision_normal()
+		var object = %RayCast2D.get_collider()
+		
+		print(object, location, normal)
 
 func _process(delta: float) -> void:
 	_update_aim()
@@ -74,3 +82,10 @@ func _update_camera(delta: float) -> void:
 
 	var z := lerpf(zoom_rest, zoom_far, t)
 	camera.zoom = camera.zoom.lerp(Vector2(z, z), w)
+
+
+# ligar e desligar a lanterna
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Right_click"):
+		point_light_2d.enabled = not point_light_2d.enabled

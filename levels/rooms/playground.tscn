@@ -3,6 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://7tgprmfmd633" path="res://ui/assets/sprites/world_tileset.png" id="1_edjdf"]
 [ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="2_n617l"]
 
+[sub_resource type="QuadMesh" id="QuadMesh_yf5fn"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_g4v7s"]
+polygon = PackedVector2Array(260, 213.00002, 292, 213.00002, 292, 244.00002, 260, 244.00002)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ocl3h"]
 texture = ExtResource("1_edjdf")
 0:0/0 = 0
@@ -138,6 +143,20 @@ sources/0 = SubResource("TileSetAtlasSource_ocl3h")
 
 [node name="Playground" type="Node2D" unique_id=1048735473]
 
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1614081456]
+position = Vector2(275.9375, 228.6875)
+scale = Vector2(32.124992, 30.624989)
+mesh = SubResource("QuadMesh_yf5fn")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="MeshInstance2D" unique_id=392641833]
+position = Vector2(-8.589497, -7.46735)
+scale = Vector2(0.031128412, 0.032653075)
+occluder = SubResource("OccluderPolygon2D_g4v7s")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1309934378]
+position = Vector2(519, 300)
+color = Color(0.18000486, 0.1800049, 0.1800048, 1)
+
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=268687769]
 tile_map_data = PackedByteArray("AAAWACcAAAAAAAAAAAAVACgAAAAAAAAAAAAUACkAAAAAAAAAAAATACoAAAABAAAAAAAVACoAAAAAAAAAAAAWACoAAAAAAAAAAAAXACoAAAAAAAAAAAAXACcAAAAAAAAAAAAVACkAAAAAAAEAAAAWACkAAAAAAAEAAAAWACgAAAABAAAAAAAXACgAAAABAAAAAAAXACkAAAABAAAAAAAUACoAAAABAAAAAAAUACsAAAABAAAAAAAVACsAAAABAAAAAAAWACsAAAABAAAAAAAXACsAAAABAAAAAAAXACwAAAABAAAAAAAYACwAAAABAAAAAAAZACwAAAABAAAAAAAYACsAAAAAAAEAAAAZACsAAAAAAAEAAAAaACsAAAAAAAEAAAAaACoAAAAAAAEAAAAZACoAAAAAAAEAAAAaACwAAAAAAAEAAAAaAC0AAAAAAAEAAAAZAC0AAAAAAAEAAAAYAC0AAAAAAAEAAAAXAC0AAAAAAAEAAAAYACoAAAABAAAAAAAWACwAAAAAAAEAAAAWAC0AAAAAAAEAAAAVAC0AAAAAAAEAAAAVACwAAAAAAAEAAAAUACwAAAAAAAEAAAAYACkAAAAAAAAAAAAYACgAAAAAAAAAAAAZACgAAAAAAAAAAAAaACgAAAAAAAAAAAAZACkAAAAAAAAAAAAaACkAAAAAAAAAAAAbACkAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_h7gdp")
@@ -146,9 +165,11 @@ tile_set = SubResource("TileSet_h7gdp")
 show_behind_parent = true
 custom_minimum_size = Vector2(1280, 720)
 custom_maximum_size = Vector2(1280, 720)
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 23.0
+offset_top = 29.0
+offset_right = 1303.0
+offset_bottom = 749.0
 color = Color(0.05927208, 0.0039027813, 0.11610978, 1)
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("2_n617l")]
-position = Vector2(641, 361)
+position = Vector2(606, 308)
