@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b7esrgmdyehb1" path="res://actors/player/player.gd" id="1_dthho"]
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
+[ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
 
@@ -89,6 +90,7 @@ script = ExtResource("1_dthho")
 shape = SubResource("CircleShape2D_wa5o0")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
+zoom = Vector2(5, 5)
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
@@ -97,3 +99,5 @@ rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_t1g16")
 animation = &"idle"
 autoplay = "walking"
+
+[node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]

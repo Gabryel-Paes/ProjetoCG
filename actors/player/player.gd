@@ -44,7 +44,8 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	_update_aim()
 	_update_camera(delta)
-
+	if Input.is_action_just_pressed("Attack_Melee"):
+		$Aim/MeleeAttack.attack()
 
 func _update_aim() -> void:
 	# Guardado como variável: sprite, lanterna e projétil bebem da mesma fonte
