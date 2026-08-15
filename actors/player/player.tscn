@@ -9,6 +9,10 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
 radius = 7.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilk7j"]
+atlas = ExtResource("2_jg3c0")
+region = Rect2(0, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ax26v"]
 atlas = ExtResource("2_jg3c0")
 region = Rect2(0, 0, 64, 64)
@@ -45,6 +49,14 @@ region = Rect2(704, 0, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ilk7j")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ax26v")
 }, {
 "duration": 1.0,
@@ -69,7 +81,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_lsln6")
 }],
 "loop": 1,
-"name": &"default",
+"name": &"walking",
 "speed": 5.0
 }]
 
@@ -101,6 +113,8 @@ shape = SubResource("CircleShape2D_wa5o0")
 visible = false
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_t1g16")
+animation = &"idle"
+autoplay = "walking"
 autoplay = "default"
 frame_progress = 0.43655625
 

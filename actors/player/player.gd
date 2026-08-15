@@ -49,6 +49,10 @@ var tremor_atual: float = 0.0 # dá pra imaginar
 @onready var label_ammo: Label = $HUD/LabelMunicao
 @onready var fumaca: GPUParticles2D = $Aim/BulletPoint/FumacaCano
 
+# ---Animação ---
+@onready var anim: AnimatedSprite2D = $Aim/AnimatedSprite2D
+
+
 var aim_angle: float = 0.0
 
 func _ready() -> void:
@@ -61,6 +65,11 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_vector("Left", "Right", "Up", "Down")
 	velocity = velocity.move_toward(direction * speed, acceleration * delta)
 	move_and_slide()
+	if direction != Vector2.ZERO:
+		anim.play("walking")
+	else:
+		anim.play("idle")
+	
 
 func _process(delta: float) -> void:
 	_update_aim()
