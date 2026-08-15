@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
-var cena_bala = preload("res://actors/projectiles/bala/bala.tscn")
+var sprt_normal = preload("res://ui/assets/sprites/Sprite-parado.png")
+var sprt_armado = preload("res://ui/assets/sprites/Sprite-armado.png")
 
-var arma_equipada 
+var arma_equipada: bool = false
 
 # --- Movimento ---
 @export var speed: float = 200.0
@@ -12,6 +13,23 @@ var arma_equipada
 ## Graus de correção se o sprite não foi desenhado apontando para a direita (+X)
 @export var sprite_angle_offset: float = 0.0
 
+# --- Spread ---
+@export var spread_andando: float  = 12.0 
+@export var spread_parado: float = 1.0
+@export var velocidade_mira: float = 20.0
+@export var recuo: float = 4.0
+
+var spread_atual: float = 1.0
+
+# --- Armamento ---
+@export var fire_rate: float = 0.3
+var pode_atirar: bool = true
+
+@export var municao_maxima: int = 6
+var municao_atual: int = municao_maxima
+@export var tempo_recarga: float = 1.5
+var recarregando: bool = false
+
 # --- Câmera ---
 @export var camera_lead: float = 0.35        # fração do offset do mouse na tela
 @export var camera_deadzone: float = 120.0   # px de tela sem deslocamento
@@ -20,31 +38,138 @@ var arma_equipada
 @export var zoom_rest: float = 3         # mouse perto: zoom in
 @export var zoom_far: float = 2       # mouse longe: zoom out
 
+#--- Screen Shake ---
+@export var forca_tremor: float = 20.0 # Numero de pixel que a cam vai tremer
+@export var decay: float = 3.0 # Velocidade de decaimento do tremor
+var tremor_atual: float = 0.0 # dá pra imaginar
+
 @onready var aim: Node2D = $Aim
 @onready var camera: Camera2D = $Camera2D
+@onready var sprite: Sprite2D = $Aim/Sprite2D
+@onready var label_ammo: Label = $HUD/LabelMunicao
+@onready var fumaca: GPUParticles2D = $Aim/BulletPoint/FumacaCano
 
 var aim_angle: float = 0.0
 
 func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
-
+	
+	municao_atual = municao_maxima
+	atualizar_hud()
 
 func _physics_process(delta: float) -> void:
 	var direction := Input.get_vector("Left", "Right", "Up", "Down")
 	velocity = velocity.move_toward(direction * speed, acceleration * delta)
 	move_and_slide()
 
-
 func _process(delta: float) -> void:
 	_update_aim()
 	_update_camera(delta)
+	_update_spread(delta)
 
+# --- Controles de Ação ---
+
+func _input(event:InputEvent) -> void:
+	#equipar arma
+	if event.is_action_pressed("Equipar Arma"):
+		arma_equipada = !arma_equipada
+		#mudar sprite de arma equipada
+		if arma_equipada:
+			sprite.texture = sprt_armado
+		else:
+			sprite.texture = sprt_normal
+	
+	if event.is_action_pressed("Atirar") and arma_equipada and pode_atirar and not recarregando:
+		if municao_atual > 0:
+			atirar()
+		else: label_ammo.text = "Sem munição."
+	if event.is_action_pressed("Recarregar") and arma_equipada and not recarregando:
+		if municao_atual < municao_maxima:
+			recarregar()
+	
+func atualizar_hud()-> void:
+	label_ammo.text = str(municao_atual) + " / " + str(municao_maxima)
+
+func recarregar() -> void:
+	recarregando = true
+	label_ammo.text = "Recarregando..."
+	
+	await get_tree().create_timer(tempo_recarga).timeout
+	municao_atual = municao_maxima
+	recarregando = false
+	atualizar_hud()
+
+
+func atirar() -> void:
+	
+	pode_atirar = false
+	
+	municao_atual -= 1
+	atualizar_hud()
+	
+	fumaca.restart()
+	
+	#Pega o marker2D
+	var ponto_disparo = $Aim/BulletPoint
+	
+	tremor_atual = 1.0
+	
+	# --- Lógica do Hitscan ---
+	var space_state = get_world_2d().direct_space_state
+	
+
+	##Direção base reta até o mouse
+	var direcao_base = (get_global_mouse_position() - ponto_disparo.global_position).normalized()
+	##Sorteia o desvio baseado no spread atual
+	var desvio = deg_to_rad(randf_range(-spread_atual, spread_atual))
+	##Gira direcao base aplicando desvio
+	var direcao_tiro = direcao_base.rotated(desvio)
+	##Coice
+	spread_atual = min(spread_atual + recuo, spread_andando)
+	
+	var alcance_maximo = 1000.0
+	var destino = ponto_disparo.global_position + (direcao_tiro * alcance_maximo)
+	var query = PhysicsRayQueryParameters2D.create(ponto_disparo.global_position, destino)
+	query.exclude = [self]
+	
+	var result = space_state.intersect_ray(query)
+	
+	var ponto_impacto = destino
+	
+	if result:
+		ponto_impacto = result.position
+		#particulas aqui depois
+		# if result.collider.has_method("tomar_dano"):
+		#     result.collider.tomar_dano(10)
+		
+	criar_rastro(ponto_disparo.global_position, ponto_impacto)
+	
+	await get_tree().create_timer(fire_rate).timeout
+	pode_atirar = true
+
+func criar_rastro(inicio: Vector2, fim: Vector2) -> void:
+	var linha = Line2D.new()
+	linha.add_point(inicio)
+	linha.add_point(fim)
+	linha.width = 1.5
+	linha.default_color = Color(1.0,0.9,0.5,0.8)
+	
+	get_tree().root.add_child(linha)
+	
+	var tween = create_tween()
+	tween.tween_property(linha, "modulate:a", 0.0, 0.2)
+	tween.tween_callback(linha.queue_free)
+
+func _update_spread (delta:float) -> void:
+	if velocity.length() > 0:
+		spread_atual = lerpf(spread_atual, spread_andando, 10.0 * delta)
+	else:
+		spread_atual = move_toward(spread_atual, spread_parado, velocidade_mira * delta)
 
 func _update_aim() -> void:
 	# Guardado como variável: sprite, lanterna e projétil bebem da mesma fonte
 	aim_angle = (get_global_mouse_position() - global_position).angle()
 	aim.rotation = aim_angle + deg_to_rad(sprite_angle_offset)
-
 
 func _update_camera(delta: float) -> void:
 	# Offset do mouse em relação ao CENTRO DA TELA — não ao mundo.
@@ -69,34 +194,11 @@ func _update_camera(delta: float) -> void:
 	var z := lerpf(zoom_rest, zoom_far, t)
 	camera.zoom = camera.zoom.lerp(Vector2(z, z), w)
 	
-#func _input(event):
-	## Equipar a arma (Ex: apertando a tecla 'E' ou botão direito)
-	#if Input.is_action_just_pressed("equipar"): # Lembre-se de criar essa action no Input Map!
-		#arma_equipada = !arma_equipada # Alterna entre verdadeiro/falso
-		#
-		#if arma_equipada:
-			#$Sprite2D.texture = tex_armado
-		#else:
-			#$Sprite2D.texture = tex_normal
-			#rotation = 0 # Volta a rotação ao normal ao desequipar
-			#
-	## Atirar (Botão esquerdo do mouse)
-	#if Input.is_action_just_pressed("atirar") and arma_equipada:
-		#atirar()
-#
-#func atirar():
-	## 1. Cria uma cópia (instância) da bala
-	#var nova_bala = cena_bala.instantiate()
-	#
-	## 2. Posição da bala será a mesma do Marker2D (ponta da arma)
-	#nova_bala.global_position = $PontoDeDisparo.global_position
-	#
-	## 3. Calcula a direção da bala (da ponta da arma até o mouse)
-	#var direcao_tiro = (get_global_mouse_position() - $PontoDeDisparo.global_position).normalized()
-	#nova_bala.direcao = direcao_tiro
-	#
-	## 4. Gira a bala para apontar para onde está indo
-	#nova_bala.rotation = direcao_tiro.angle()
-	#
-	## 5. Adiciona a bala na cena principal do jogo (não como filha do player, senão ela se move junto com ele)
-	#get_tree().root.add_child(nova_bala)
+	# -- Camera Shake --
+	if tremor_atual > 0:
+		tremor_atual = max(tremor_atual - decay * delta, 0.0)
+		var forca = pow(tremor_atual, 2)
+		camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * forca_tremor * forca
+		
+	else:
+		camera.offset = Vector2.ZERO

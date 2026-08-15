@@ -2,9 +2,6 @@
 
 [ext_resource type="Script" uid="uid://b7esrgmdyehb1" path="res://actors/player/player.gd" id="1_dthho"]
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
-[ext_resource type="Texture2D" uid="uid://dcyc2euftyhef" path="res://ui/assets/sprites/Sprite-parado.png" id="3_ax26v"]
-[ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="4_lsqbn"]
-[ext_resource type="Script" uid="uid://dps2mixnx2yxd" path="res://actors/player/crosshair.gd" id="5_6p1w3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
 radius = 7.0
@@ -73,66 +70,33 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_60pvl"]
-lifetime_randomness = 0.15
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 7.67
-spread = 108.75
-gravity = Vector3(0, 0, 0)
-color = Color(0.6093093, 0.6094772, 0.65018684, 1)
-
 [node name="Player" type="CharacterBody2D" unique_id=335704334]
 motion_mode = 1
 script = ExtResource("1_dthho")
-velocidade_mira = 13.0
-fire_rate = 0.01
-forca_tremor = 10.0
+speed = null
+acceleration = null
+sprite_angle_offset = null
+camera_lead = null
+camera_deadzone = null
+max_camera_offset = null
+camera_smooth = null
+zoom_rest = null
+zoom_far = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1347245688]
 position = Vector2(-4, 0)
 shape = SubResource("CircleShape2D_wa5o0")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
+visible = false
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=134978540]
-visible = false
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_t1g16")
 autoplay = "default"
 frame_progress = 0.43655625
 
-[node name="Sprite2D" type="Sprite2D" parent="Aim" unique_id=383743649]
-position = Vector2(-4, 0)
-rotation = 1.5707964
-texture = ExtResource("3_ax26v")
-
-[node name="BulletPoint" type="Marker2D" parent="Aim" unique_id=648254355]
-position = Vector2(10, 0)
-
-[node name="FumacaCano" type="GPUParticles2D" parent="Aim/BulletPoint" unique_id=1262005465]
-position = Vector2(4, 0)
-emitting = false
-amount = 20
-lifetime = 0.4
-one_shot = true
-explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_60pvl")
-
-[node name="HUD" type="CanvasLayer" parent="." unique_id=70567460]
-
-[node name="LabelMunicao" type="Label" parent="HUD" unique_id=1178521183]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -32.0
-offset_right = 60.0
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("4_lsqbn")
-theme_override_font_sizes/font_size = 26
-
-[node name="Crosshair" type="Node2D" parent="HUD" unique_id=1920209538]
-script = ExtResource("5_6p1w3")
+[node name="BulletPoint" type="Marker2D" parent="." unique_id=648254355]
+position = Vector2(5, 0)
