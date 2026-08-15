@@ -13,8 +13,8 @@ extends CharacterBody2D
 @export var camera_deadzone: float = 120.0   # px de tela sem deslocamento
 @export var max_camera_offset: float = 260.0 # teto do deslocamento
 @export var camera_smooth: float = 8.0       # maior = mais rápido
-@export var zoom_rest: float = 1.15          # mouse perto: zoom in
-@export var zoom_far: float = 0.85           # mouse longe: zoom out
+@export var zoom_rest: float = 3.15          # mouse perto: zoom in
+@export var zoom_far: float = 1.85           # mouse longe: zoom out
 
 @onready var aim: Node2D = $Aim
 @onready var camera: Camera2D = $Camera2D
@@ -23,8 +23,7 @@ extends CharacterBody2D
 @onready var anim: AnimatedSprite2D = $Aim/AnimatedSprite2D
 
  # --- luz ---
-@onready var point_light_2d: PointLight2D = $Aim/AnimatedSprite2D/PointLight2D
-@onready var ray_cast_2d: RayCast2D = %RayCast2D
+
 
 
 
@@ -87,7 +86,3 @@ func _update_camera(delta: float) -> void:
 
 
 # ligar e desligar a lanterna
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("Right_click"):
-		point_light_2d.enabled = not point_light_2d.enabled
