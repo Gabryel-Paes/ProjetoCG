@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://7tgprmfmd633" path="res://ui/assets/sprites/world_tileset.png" id="1_edjdf"]
 [ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="2_n617l"]
+[ext_resource type="PackedScene" uid="uid://dlx3yfi4cmasq" path="res://actors/enemy/enemy___esqueleto.tscn" id="3_n617l"]
 [ext_resource type="PackedScene" uid="uid://botin4g72p0bd" path="res://props/box.tscn" id="3_n617l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ocl3h"]
@@ -54,6 +55,7 @@ texture = ExtResource("1_edjdf")
 1:4/0 = 0
 2:4/0 = 0
 3:4/0 = 0
+3:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:4/0 = 0
 5:4/0 = 0
 6:4/0 = 0
@@ -63,8 +65,11 @@ texture = ExtResource("1_edjdf")
 0:5/0 = 0
 1:5/0 = 0
 2:5/0 = 0
+2:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 3:5/0 = 0
+3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:5/0 = 0
+4:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 5:5/0 = 0
 6:5/0 = 0
 7:5/0 = 0
@@ -72,6 +77,7 @@ texture = ExtResource("1_edjdf")
 1:6/0 = 0
 2:6/0 = 0
 3:6/0 = 0
+3:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:6/0 = 0
 5:6/0 = 0
 6:6/0 = 0
@@ -80,6 +86,7 @@ texture = ExtResource("1_edjdf")
 0:7/0 = 0
 1:7/0 = 0
 3:7/0 = 0
+3:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 5:7/0 = 0
 6:7/0 = 0
 7:7/0 = 0
@@ -88,6 +95,7 @@ texture = ExtResource("1_edjdf")
 1:8/0 = 0
 2:8/0 = 0
 3:8/0 = 0
+3:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:8/0 = 0
 5:8/0 = 0
 6:8/0 = 0
@@ -135,25 +143,48 @@ texture = ExtResource("1_edjdf")
 3:15/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_h7gdp"]
+physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ocl3h")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ke0wg"]
+size = Vector2(12, 65)
 
 [node name="Playground" type="Node2D" unique_id=1048735473]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=268687769]
-tile_map_data = PackedByteArray("AAAWACcAAAAAAAAAAAAVACgAAAAAAAAAAAAUACkAAAAAAAAAAAATACoAAAABAAAAAAAVACoAAAAAAAAAAAAWACoAAAAAAAAAAAAXACoAAAAAAAAAAAAXACcAAAAAAAAAAAAVACkAAAAAAAEAAAAWACkAAAAAAAEAAAAWACgAAAABAAAAAAAXACgAAAABAAAAAAAXACkAAAABAAAAAAAUACoAAAABAAAAAAAUACsAAAABAAAAAAAVACsAAAABAAAAAAAWACsAAAABAAAAAAAXACsAAAABAAAAAAAXACwAAAABAAAAAAAYACwAAAABAAAAAAAZACwAAAABAAAAAAAYACsAAAAAAAEAAAAZACsAAAAAAAEAAAAaACsAAAAAAAEAAAAaACoAAAAAAAEAAAAZACoAAAAAAAEAAAAaACwAAAAAAAEAAAAaAC0AAAAAAAEAAAAZAC0AAAAAAAEAAAAYAC0AAAAAAAEAAAAXAC0AAAAAAAEAAAAYACoAAAABAAAAAAAWACwAAAAAAAEAAAAWAC0AAAAAAAEAAAAVAC0AAAAAAAEAAAAVACwAAAAAAAEAAAAUACwAAAAAAAEAAAAYACkAAAAAAAAAAAAYACgAAAAAAAAAAAAZACgAAAAAAAAAAAAaACgAAAAAAAAAAAAZACkAAAAAAAAAAAAaACkAAAAAAAAAAAAbACkAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAWACcAAAAAAAAAAAAVACgAAAAAAAAAAAAUACkAAAAAAAAAAAATACoAAAABAAAAAAAVACoAAAAAAAAAAAAWACoAAAAAAAAAAAAXACoAAAAAAAAAAAAXACcAAAAAAAAAAAAVACkAAAAAAAEAAAAWACkAAAAAAAEAAAAWACgAAAABAAAAAAAXACgAAAABAAAAAAAXACkAAAABAAAAAAAUACoAAAABAAAAAAAUACsAAAABAAAAAAAVACsAAAABAAAAAAAWACsAAAABAAAAAAAXACsAAAABAAAAAAAXACwAAAABAAAAAAAYACwAAAABAAAAAAAZACwAAAABAAAAAAAYACsAAAAAAAEAAAAZACsAAAAAAAEAAAAaACsAAAAAAAEAAAAaACoAAAAAAAEAAAAZACoAAAAAAAEAAAAaACwAAAAAAAEAAAAaAC0AAAAAAAEAAAAZAC0AAAAAAAEAAAAYAC0AAAAAAAEAAAAXAC0AAAAAAAEAAAAYACoAAAABAAAAAAAWACwAAAAAAAEAAAAWAC0AAAAAAAEAAAAVAC0AAAAAAAEAAAAVACwAAAAAAAEAAAAUACwAAAAAAAEAAAAYACkAAAAAAAAAAAAYACgAAAAAAAAAAAAZACgAAAAAAAAAAAAaACgAAAAAAAAAAAAZACkAAAAAAAAAAAAaACkAAAAAAAAAAAAbACkAAAAAAAAAAAAxAA4AAAADAAgAAAAxAA8AAAADAAgAAAAxABAAAAADAAgAAAAxAA0AAAADAAUAAAAyAA0AAAAEAAUAAAAwAA0AAAACAAUAAAAvAAwAAAACAAQAAAAwAAwAAAACAAQAAAAxAAwAAAADAAQAAAAyAAwAAAAEAAQAAAA=")
 tile_set = SubResource("TileSet_h7gdp")
 
 [node name="Background" type="ColorRect" parent="." unique_id=637494763]
 show_behind_parent = true
 custom_minimum_size = Vector2(1280, 720)
 custom_maximum_size = Vector2(1280, 720)
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -3.0
+offset_top = 2.0
+offset_right = 1277.0
+offset_bottom = 722.0
 color = Color(0.05927208, 0.0039027813, 0.11610978, 1)
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("2_n617l")]
 position = Vector2(641, 361)
 
+[node name="Enemy - Esqueleto" parent="." unique_id=1523164900 instance=ExtResource("3_n617l")]
+position = Vector2(755, 237)
+
+[node name="Enemy - Esqueleto2" parent="." unique_id=291197074 instance=ExtResource("3_n617l")]
+position = Vector2(556, 220)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=105104103]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1561402735]
+position = Vector2(696, 238)
+shape = SubResource("RectangleShape2D_ke0wg")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=463135586]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=2101266847]
+position = Vector2(534, 234)
+shape = SubResource("RectangleShape2D_ke0wg")
 [node name="Box" parent="." unique_id=1278988528 instance=ExtResource("3_n617l")]
 position = Vector2(709, 357)
 scale = Vector2(5.5560193, 6.999291)

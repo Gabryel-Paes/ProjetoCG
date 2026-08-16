@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://dlx3yfi4cmasq"]
+
+[ext_resource type="Script" uid="uid://dmsu26qid6cx1" path="res://actors/enemy/enemy___esqueleto.gd" id="1_jovwh"]
+[ext_resource type="Texture2D" uid="uid://dpmju81k6iacv" path="res://ui/assets/sprites/slime_green.png" id="2_h1xc6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dr77u"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7c2mg"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsom6"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxkab"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htqs1"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0bgpl"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehxfg"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7xo0"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o5wkw"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqwwg"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(0, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxdkl"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(24, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4pugj"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(48, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xbqtc"]
+atlas = ExtResource("2_h1xc6")
+region = Rect2(72, 48, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ke0wg"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7c2mg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsom6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxkab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htqs1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0bgpl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehxfg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7xo0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o5wkw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqwwg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxdkl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4pugj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbqtc")
+}],
+"loop": 1,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="Enemy - Esqueleto" type="CharacterBody2D" unique_id=1523164900]
+script = ExtResource("1_jovwh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1589681061]
+shape = SubResource("CapsuleShape2D_dr77u")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1917651182]
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1298880304]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2037023990]
+
+[node name="Aim" type="Node2D" parent="." unique_id=806017258]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=1102553919]
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_ke0wg")
+animation = &"new_animation"
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
