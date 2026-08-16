@@ -173,7 +173,8 @@ func _update_spread (delta:float) -> void:
 	if velocity.length() > 0:
 		spread_atual = lerpf(spread_atual, spread_andando, 10.0 * delta)
 	else:
-		spread_atual = move_toward(spread_atual, spread_parado, velocidade_mira * delta)
+		spread_atual = move_toward(spread_atual, spread_parado, velocidade_mira * delta)	if Input.is_action_just_pressed("Attack_Melee"):
+		$Aim/MeleeAttack.attack()
 
 func _update_aim() -> void:
 	# Guardado como variável: sprite, lanterna e projétil bebem da mesma fonte

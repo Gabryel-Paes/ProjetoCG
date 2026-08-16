@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dcyc2euftyhef" path="res://ui/assets/sprites/Sprite-parado.png" id="3_ax26v"]
 [ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="4_lsqbn"]
 [ext_resource type="Script" uid="uid://dps2mixnx2yxd" path="res://actors/player/crosshair.gd" id="5_6p1w3"]
+[ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
 radius = 7.0
@@ -106,6 +107,7 @@ position = Vector2(-4, 0)
 shape = SubResource("CircleShape2D_wa5o0")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
+zoom = Vector2(5, 5)
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
@@ -150,3 +152,5 @@ theme_override_font_sizes/font_size = 26
 
 [node name="Crosshair" type="Node2D" parent="HUD" unique_id=1920209538]
 script = ExtResource("5_6p1w3")
+
+[node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]

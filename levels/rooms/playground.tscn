@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://7tgprmfmd633" path="res://ui/assets/sprites/world_tileset.png" id="1_edjdf"]
 [ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="2_n617l"]
+[ext_resource type="PackedScene" uid="uid://botin4g72p0bd" path="res://props/box.tscn" id="3_n617l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ocl3h"]
 texture = ExtResource("1_edjdf")
@@ -152,3 +153,15 @@ color = Color(0.05927208, 0.0039027813, 0.11610978, 1)
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("2_n617l")]
 position = Vector2(641, 361)
+
+[node name="Box" parent="." unique_id=1278988528 instance=ExtResource("3_n617l")]
+position = Vector2(709, 357)
+scale = Vector2(5.5560193, 6.999291)
+
+[node name="Box2" parent="." unique_id=163592728 instance=ExtResource("3_n617l")]
+position = Vector2(742, 391)
+scale = Vector2(14.746117, 15.642583)
+
+[node name="Box3" parent="." unique_id=108991330 instance=ExtResource("3_n617l")]
+position = Vector2(699, 325)
+scale = Vector2(-12.557302, 14.534474)
