@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://7tgprmfmd633" path="res://ui/assets/sprites/world_tileset.png" id="1_edjdf"]
 [ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="2_n617l"]
-[ext_resource type="PackedScene" uid="uid://dlx3yfi4cmasq" path="res://levels/rooms/enemy___esqueleto.tscn" id="3_n617l"]
+[ext_resource type="PackedScene" uid="uid://dlx3yfi4cmasq" path="res://actors/enemy/enemy___esqueleto.tscn" id="3_n617l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ocl3h"]
 texture = ExtResource("1_edjdf")
