@@ -166,14 +166,16 @@ func criar_rastro(inicio: Vector2, fim: Vector2) -> void:
 	get_tree().root.add_child(linha)
 	
 	var tween = create_tween()
-	tween.tween_property(linha, "modulate:a", 0.0, 0.2)
+	tween.tween_property(linha, "modulate:a", 0.0, 0.07)
 	tween.tween_callback(linha.queue_free)
 
 func _update_spread (delta:float) -> void:
 	if velocity.length() > 0:
 		spread_atual = lerpf(spread_atual, spread_andando, 10.0 * delta)
 	else:
-		spread_atual = move_toward(spread_atual, spread_parado, velocidade_mira * delta)	if Input.is_action_just_pressed("Attack_Melee"):
+		spread_atual = move_toward(spread_atual, spread_parado, velocidade_mira * delta)	
+		
+	if Input.is_action_just_pressed("Attack_Melee"):
 		$Aim/MeleeAttack.attack()
 
 func _update_aim() -> void:
