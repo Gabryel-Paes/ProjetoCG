@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://b7esrgmdyehb1" path="res://actors/player/player.gd" id="1_dthho"]
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
-[ext_resource type="Texture2D" uid="uid://dcyc2euftyhef" path="res://ui/assets/sprites/Sprite-parado.png" id="3_ax26v"]
+[ext_resource type="Texture2D" uid="uid://dcyc2euftyhef" path="res://ui/assets/sprites/Sprite-parado.png" id="3_15y17"]
+[ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
 [ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="4_lsqbn"]
 [ext_resource type="Script" uid="uid://dps2mixnx2yxd" path="res://actors/player/crosshair.gd" id="5_6p1w3"]
-[ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
 radius = 7.0
@@ -116,14 +116,13 @@ visible = false
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_t1g16")
 animation = &"idle"
-autoplay = "walking"
 autoplay = "default"
 frame_progress = 0.43655625
 
 [node name="Sprite2D" type="Sprite2D" parent="Aim" unique_id=383743649]
 position = Vector2(-4, 0)
 rotation = 1.5707964
-texture = ExtResource("3_ax26v")
+texture = ExtResource("3_15y17")
 
 [node name="BulletPoint" type="Marker2D" parent="Aim" unique_id=648254355]
 position = Vector2(10, 0)
@@ -136,6 +135,8 @@ lifetime = 0.4
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_60pvl")
+
+[node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=70567460]
 
@@ -152,5 +153,3 @@ theme_override_font_sizes/font_size = 26
 
 [node name="Crosshair" type="Node2D" parent="HUD" unique_id=1920209538]
 script = ExtResource("5_6p1w3")
-
-[node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]
