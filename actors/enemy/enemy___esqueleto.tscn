@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dmsu26qid6cx1" path="res://actors/enemy/enemy___esqueleto.gd" id="1_jovwh"]
 [ext_resource type="Texture2D" uid="uid://dpmju81k6iacv" path="res://ui/assets/sprites/slime_green.png" id="2_h1xc6"]
+[ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="3_health"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dr77u"]
 radius = 7.0
@@ -133,6 +134,9 @@ collision_layer = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=713755179]
 scale = Vector2(0.8084637, 0.67216957)
 shape = SubResource("CapsuleShape2D_4s7lv")
+
+[node name="Health" parent="." instance=ExtResource("3_health")]
+max_health = 30.0
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

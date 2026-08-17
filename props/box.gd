@@ -1,13 +1,12 @@
 extends StaticBody2D
 
-var health: float = 20.0
+@onready var health: Health = $Health
 
-func take_damage(amount: float, _source_position: Vector2) -> void:
-	health -= amount
-	print("A caixa tomou dano! Vida restante: ", health)
-	
-	if health <= 0:
-		break_box()
+func _ready() -> void:
+	health.died.connect(break_box)
+
+func take_damage(amount: float, source_position: Vector2) -> void:
+	health.apply_damage(amount, source_position)
 
 func break_box() -> void:
 	# Aqui você pode tocar um som ou soltar partículas antes de sumir

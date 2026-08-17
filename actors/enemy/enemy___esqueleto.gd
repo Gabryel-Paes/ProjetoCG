@@ -8,13 +8,16 @@ enum PatrolAxis {
 }
 
 @export var patrol_axis: PatrolAxis = PatrolAxis.HORIZONTAL
-@export var health: float = 30.0
+
+@onready var health: Health = $Health
 
 var direction: Vector2
 var player: CharacterBody2D = null
 
 # Inicialização
 func _ready():
+
+	health.died.connect(die)
 
 	if patrol_axis == PatrolAxis.HORIZONTAL:
 		direction = Vector2.RIGHT
@@ -57,12 +60,8 @@ func _on_detection_area_body_exited(body):
 		player = null
 
 # Dano
-func take_damage(amount: float, _source_position: Vector2) -> void:
-	health -= amount
-	print("Inimigo tomou dano! Vida restante: ", health)
-
-	if health <= 0:
-		die()
+func take_damage(amount: float, source_position: Vector2) -> void:
+	health.apply_damage(amount, source_position)
 
 func die() -> void:
 	queue_free()
