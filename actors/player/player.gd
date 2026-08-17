@@ -23,6 +23,7 @@ var spread_atual: float = 1.0
 
 # --- Armamento ---
 @export var fire_rate: float = 0.3
+@export var dano_tiro: float = 10.0
 var pode_atirar: bool = true
 
 @export var municao_maxima: int = 6
@@ -148,9 +149,9 @@ func atirar() -> void:
 	if result:
 		ponto_impacto = result.position
 		#particulas aqui depois
-		# if result.collider.has_method("tomar_dano"):
-		#     result.collider.tomar_dano(10)
-		
+		if result.collider.has_method("take_damage"):
+			result.collider.take_damage(dano_tiro, ponto_impacto)
+
 	criar_rastro(ponto_disparo.global_position, ponto_impacto)
 	
 	await get_tree().create_timer(fire_rate).timeout

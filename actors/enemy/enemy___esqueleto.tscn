@@ -104,7 +104,11 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s7lv"]
+
 [node name="Enemy - Esqueleto" type="CharacterBody2D" unique_id=1523164900]
+collision_layer = 4
+collision_mask = 1
 script = ExtResource("1_jovwh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1589681061]
@@ -122,6 +126,13 @@ shape = SubResource("CapsuleShape2D_dr77u")
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_ke0wg")
 animation = &"new_animation"
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1993061011]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=713755179]
+scale = Vector2(0.8084637, 0.67216957)
+shape = SubResource("CapsuleShape2D_4s7lv")
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
