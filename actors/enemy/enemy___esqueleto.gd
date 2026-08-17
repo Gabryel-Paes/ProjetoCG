@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 # Configurações
 @export var speed: float = 20.0
-
 enum PatrolAxis {
 	HORIZONTAL,
 	VERTICAL
@@ -10,11 +9,15 @@ enum PatrolAxis {
 
 @export var patrol_axis: PatrolAxis = PatrolAxis.HORIZONTAL
 
+@onready var health: Health = $Health
+
 var direction: Vector2
 var player: CharacterBody2D = null
 
 # Inicialização
 func _ready():
+
+	health.died.connect(die)
 
 	if patrol_axis == PatrolAxis.HORIZONTAL:
 		direction = Vector2.RIGHT
@@ -55,3 +58,10 @@ func _on_detection_area_body_exited(body):
 
 	if body == player:
 		player = null
+
+# Dano
+func take_damage(amount: float, source_position: Vector2) -> void:
+	health.apply_damage(amount, source_position)
+
+func die() -> void:
+	queue_free()
