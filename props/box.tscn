@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://botin4g72p0bd"]
+
+[ext_resource type="Script" uid="uid://dr78gffy7f4qb" path="res://props/box.gd" id="1_gss50"]
+[ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="2_health"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h7gdp"]
+size = Vector2(3.5625, 2.6875)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4s7lv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4s7lv"]
+size = Vector2(3.5, 3)
+
+[node name="Box" type="StaticBody2D" unique_id=1278988528]
+script = ExtResource("1_gss50")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=54263469]
+shape = SubResource("RectangleShape2D_h7gdp")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D" unique_id=360588512]
+position = Vector2(2.842171e-14, 0)
+scale = Vector2(3.562501, 2.6875002)
+texture = SubResource("PlaceholderTexture2D_4s7lv")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1355595932]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1680581011]
+shape = SubResource("RectangleShape2D_4s7lv")
+
+[node name="Health" parent="." instance=ExtResource("2_health")]
+max_health = 20.0

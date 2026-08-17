@@ -3,8 +3,16 @@
 [ext_resource type="Script" uid="uid://b7esrgmdyehb1" path="res://actors/player/player.gd" id="1_dthho"]
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
 [ext_resource type="Script" uid="uid://bw8bvlibmsgin" path="res://actors/player/node_2d.gd" id="4_lsqbn"]
+[ext_resource type="Texture2D" uid="uid://dcyc2euftyhef" path="res://ui/assets/sprites/Sprite-parado.png" id="3_15y17"]
+[ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
+[ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="4_lsqbn"]
+[ext_resource type="Script" uid="uid://dps2mixnx2yxd" path="res://actors/player/crosshair.gd" id="5_6p1w3"]
+[ext_resource type="Script" path="res://actors/player/camera_controller.gd" id="6_camctrl"]
+[ext_resource type="Script" path="res://actors/player/ammo_label.gd" id="7_ammolabel"]
+[ext_resource type="PackedScene" path="res://actors/components/gun.tscn" id="8_gun"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
+radius = 7.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ilk7j"]
 atlas = ExtResource("2_jg3c0")
@@ -82,14 +90,27 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_60pvl"]
+lifetime_randomness = 0.15
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 7.67
+spread = 108.75
+gravity = Vector3(0, 0, 0)
+color = Color(0.6093093, 0.6094772, 0.65018684, 1)
+
 [node name="Player" type="CharacterBody2D" unique_id=335704334]
 motion_mode = 1
 script = ExtResource("1_dthho")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1347245688]
-position = Vector2(1, 0)
-rotation = 0.0146409385
+position = Vector2(-4, 0)
 shape = SubResource("CircleShape2D_wa5o0")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
+zoom = Vector2(5, 5)
+script = ExtResource("6_camctrl")
+shake_strength = 10.0
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
@@ -101,13 +122,55 @@ target_position = Vector2(39.995712, -0.58561665)
 collision_mask = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=134978540]
-position = Vector2(2.985145, 1.0291736)
-rotation = 1.5854373
+visible = false
+rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_t1g16")
 animation = &"idle"
-autoplay = "walking"
+autoplay = "default"
+frame_progress = 0.43655625
 
-[node name="Node2D" type="Node2D" parent="Aim" unique_id=1411042367]
-script = ExtResource("4_lsqbn")
+[node name="Sprite2D" type="Sprite2D" parent="Aim" unique_id=383743649]
+position = Vector2(-4, 0)
+rotation = 1.5707964
+texture = ExtResource("3_15y17")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
+[node name="BulletPoint" type="Marker2D" parent="Aim" unique_id=648254355]
+position = Vector2(10, 0)
+
+[node name="FumacaCano" type="GPUParticles2D" parent="Aim/BulletPoint" unique_id=1262005465]
+position = Vector2(4, 0)
+emitting = false
+amount = 20
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_60pvl")
+
+[node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]
+
+[node name="Gun" parent="Aim" instance=ExtResource("8_gun")]
+position = Vector2(10, 0)
+velocidade_mira = 13.0
+fire_rate = 0.01
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=70567460]
+
+[node name="LabelMunicao" type="Label" parent="HUD" unique_id=1178521183]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -32.0
+offset_right = 60.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_lsqbn")
+theme_override_font_sizes/font_size = 26
+script = ExtResource("7_ammolabel")
+
+[node name="Crosshair" type="Node2D" parent="HUD" unique_id=1920209538]
+script = ExtResource("5_6p1w3")
+
+[connection signal="ammo_changed" from="Aim/Gun" to="HUD/LabelMunicao" method="_on_ammo_changed"]
+[connection signal="reload_started" from="Aim/Gun" to="HUD/LabelMunicao" method="_on_reload_started"]
+[connection signal="ammo_empty" from="Aim/Gun" to="HUD/LabelMunicao" method="_on_ammo_empty"]
+[connection signal="spread_changed" from="Aim/Gun" to="HUD/Crosshair" method="_on_spread_changed"]
