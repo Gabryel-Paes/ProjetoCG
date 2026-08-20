@@ -107,9 +107,12 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s7lv"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h7gdp"]
+radius = 8.0
+height = 20.0
+
 [node name="Enemy - Esqueleto" type="CharacterBody2D" unique_id=1523164900]
 collision_layer = 4
-collision_mask = 1
 script = ExtResource("1_jovwh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1589681061]
@@ -135,8 +138,15 @@ collision_layer = 8
 scale = Vector2(0.8084637, 0.67216957)
 shape = SubResource("CapsuleShape2D_4s7lv")
 
-[node name="Health" parent="." instance=ExtResource("3_health")]
-max_health = 30.0
+[node name="Health" parent="." unique_id=1630372287 instance=ExtResource("3_health")]
+max_health = 12.0
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1594849126]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1839999983]
+shape = SubResource("CapsuleShape2D_h7gdp")
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
