@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b7esrgmdyehb1" path="res://actors/player/player.gd" id="1_dthho"]
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
+[ext_resource type="Script" uid="uid://bw8bvlibmsgin" path="res://actors/player/node_2d.gd" id="4_lsqbn"]
+[ext_resource type="Texture2D" uid="uid://dcyc2euftyhef" path="res://ui/assets/sprites/Sprite-parado.png" id="3_15y17"]
 [ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
 [ext_resource type="Texture2D" uid="uid://bkkbthljbhpgj" path="res://ui/assets/sprites/Sprite-idle.png" id="3_k67x5"]
 [ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="4_lsqbn"]
@@ -136,6 +138,13 @@ script = ExtResource("6_camctrl")
 shake_strength = 10.0
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
+
+[node name="RayCast2D" type="RayCast2D" parent="Aim" unique_id=537473845]
+unique_name_in_owner = true
+position = Vector2(1, 0)
+rotation = 0.0146409385
+target_position = Vector2(39.995712, -0.58561665)
+collision_mask = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=134978540]
 visible = false
