@@ -5,14 +5,20 @@
 [ext_resource type="Script" uid="uid://bw8bvlibmsgin" path="res://actors/player/node_2d.gd" id="4_lsqbn"]
 [ext_resource type="Texture2D" uid="uid://dcyc2euftyhef" path="res://ui/assets/sprites/Sprite-parado.png" id="3_15y17"]
 [ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
+[ext_resource type="Texture2D" uid="uid://bkkbthljbhpgj" path="res://ui/assets/sprites/Sprite-idle.png" id="3_k67x5"]
 [ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="4_lsqbn"]
 [ext_resource type="Script" uid="uid://dps2mixnx2yxd" path="res://actors/player/crosshair.gd" id="5_6p1w3"]
-[ext_resource type="Script" path="res://actors/player/camera_controller.gd" id="6_camctrl"]
-[ext_resource type="Script" path="res://actors/player/ammo_label.gd" id="7_ammolabel"]
+[ext_resource type="Script" uid="uid://cob00ke4wjv11" path="res://actors/player/camera_controller.gd" id="6_camctrl"]
+[ext_resource type="Script" uid="uid://2kpru2rgy0vw" path="res://actors/player/ammo_label.gd" id="7_ammolabel"]
 [ext_resource type="PackedScene" path="res://actors/components/gun.tscn" id="8_gun"]
+[ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="10_lsln6"]
+[ext_resource type="Texture2D" uid="uid://c7ytd0hke0574" path="res://ui/assets/placeholders/TelaSangue.png" id="10_ssdk0"]
+[ext_resource type="PackedScene" uid="uid://dipnngs27gutg" path="res://actors/components/stamina.tscn" id="11_hiosj"]
+[ext_resource type="Script" uid="uid://du0v0n3e4ors7" path="res://ui/hud/weapon_icon.gd" id="12_12xki"]
+[ext_resource type="Texture2D" uid="uid://ccmw4l3owe717" path="res://ui/assets/sprites/Faca.png" id="13_faca_icon"]
+[ext_resource type="Texture2D" uid="uid://cvwkcv2goh87a" path="res://ui/assets/sprites/arma.png" id="14_arma_icon"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_wa5o0"]
-radius = 7.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_388e2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ilk7j"]
 atlas = ExtResource("2_jg3c0")
@@ -99,13 +105,32 @@ spread = 108.75
 gravity = Vector3(0, 0, 0)
 color = Color(0.6093093, 0.6094772, 0.65018684, 1)
 
-[node name="Player" type="CharacterBody2D" unique_id=335704334]
+[sub_resource type="Gradient" id="Gradient_rt46e"]
+offsets = PackedFloat32Array(0.46946564, 0.5839695)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_12xki"]
+gradient = SubResource("Gradient_rt46e")
+width = 150
+height = 4
+fill_from = Vector2(1, 0)
+
+[sub_resource type="Gradient" id="Gradient_12xki"]
+offsets = PackedFloat32Array(0.90076333, 0.980916, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 0.03816794, 0.03816794, 0.03816794, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rt46e"]
+gradient = SubResource("Gradient_12xki")
+width = 150
+height = 4
+fill_from = Vector2(1, 0)
+
+[node name="Player" type="CharacterBody2D" unique_id=335704334 groups=["Player"]]
 motion_mode = 1
 script = ExtResource("1_dthho")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1347245688]
 position = Vector2(-4, 0)
-shape = SubResource("CircleShape2D_wa5o0")
+shape = SubResource("CircleShape2D_388e2")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
 zoom = Vector2(5, 5)
@@ -132,7 +157,7 @@ frame_progress = 0.43655625
 [node name="Sprite2D" type="Sprite2D" parent="Aim" unique_id=383743649]
 position = Vector2(-4, 0)
 rotation = 1.5707964
-texture = ExtResource("3_15y17")
+texture = ExtResource("3_k67x5")
 
 [node name="BulletPoint" type="Marker2D" parent="Aim" unique_id=648254355]
 position = Vector2(10, 0)
@@ -148,20 +173,23 @@ process_material = SubResource("ParticleProcessMaterial_60pvl")
 
 [node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]
 
-[node name="Gun" parent="Aim" instance=ExtResource("8_gun")]
+[node name="Gun" parent="Aim" unique_id=1907474380 instance=ExtResource("8_gun")]
 position = Vector2(10, 0)
-velocidade_mira = 13.0
 fire_rate = 0.01
+velocidade_mira = 13.0
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=70567460]
+visible = false
 
-[node name="LabelMunicao" type="Label" parent="HUD" unique_id=1178521183]
-anchors_preset = 2
+[node name="Municao" type="Label" parent="HUD" unique_id=1178521183]
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
+offset_left = -40.0
 offset_top = -32.0
-offset_right = 60.0
+grow_horizontal = 0
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("4_lsqbn")
 theme_override_font_sizes/font_size = 26
@@ -170,7 +198,55 @@ script = ExtResource("7_ammolabel")
 [node name="Crosshair" type="Node2D" parent="HUD" unique_id=1920209538]
 script = ExtResource("5_6p1w3")
 
-[connection signal="ammo_changed" from="Aim/Gun" to="HUD/LabelMunicao" method="_on_ammo_changed"]
-[connection signal="reload_started" from="Aim/Gun" to="HUD/LabelMunicao" method="_on_reload_started"]
-[connection signal="ammo_empty" from="Aim/Gun" to="HUD/LabelMunicao" method="_on_ammo_empty"]
+[node name="BloodOverlay" type="TextureRect" parent="HUD" unique_id=1583046730]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_ssdk0")
+expand_mode = 1
+
+[node name="WeaponIcon" type="TextureRect" parent="HUD" unique_id=128499284]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -44.0
+offset_right = 44.0
+offset_bottom = -4.0
+grow_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("12_12xki")
+icon_knife = ExtResource("13_faca_icon")
+icon_pistol = ExtResource("14_arma_icon")
+
+[node name="StaminaBar" type="TextureProgressBar" parent="HUD" unique_id=274748334]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -60.0
+offset_right = 20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+fill_mode = 6
+texture_under = SubResource("GradientTexture2D_12xki")
+texture_progress = SubResource("GradientTexture2D_rt46e")
+
+[node name="Health" parent="." unique_id=269361898 instance=ExtResource("10_lsln6")]
+max_health = 5.0
+
+[node name="Stamina" parent="." unique_id=1815946519 instance=ExtResource("11_hiosj")]
+
+[connection signal="weapon_changed" from="." to="HUD/Municao" method="_on_weapon_changed"]
+[connection signal="weapon_changed" from="." to="HUD/WeaponIcon" method="_on_weapon_changed"]
+[connection signal="ammo_changed" from="Aim/Gun" to="HUD/Municao" method="_on_ammo_changed"]
+[connection signal="ammo_empty" from="Aim/Gun" to="HUD/Municao" method="_on_ammo_empty"]
+[connection signal="reload_started" from="Aim/Gun" to="HUD/Municao" method="_on_reload_started"]
 [connection signal="spread_changed" from="Aim/Gun" to="HUD/Crosshair" method="_on_spread_changed"]
+[connection signal="died" from="Health" to="." method="_die"]

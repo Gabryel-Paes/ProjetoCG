@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dipnngs27gutg"]
+
+[ext_resource type="Script" uid="uid://cnto35cbt16rx" path="res://actors/components/stamina.gd" id="1_kcpsx"]
+
+[node name="Stamina" type="Node" unique_id=1815946519]
+script = ExtResource("1_kcpsx")
