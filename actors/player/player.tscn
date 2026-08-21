@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b7esrgmdyehb1" path="res://actors/player/player.gd" id="1_dthho"]
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
-[ext_resource type="Script" uid="uid://bw8bvlibmsgin" path="res://actors/player/node_2d.gd" id="4_lsqbn"]
-[ext_resource type="Texture2D" uid="uid://dcyc2euftyhef" path="res://ui/assets/sprites/Sprite-parado.png" id="3_15y17"]
+[ext_resource type="Texture2D" uid="uid://c25o4pt6yg6jc" path="res://actors/player/torch_light.png" id="3_0wchr"]
 [ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
 [ext_resource type="Texture2D" uid="uid://bkkbthljbhpgj" path="res://ui/assets/sprites/Sprite-idle.png" id="3_k67x5"]
 [ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="4_lsqbn"]
@@ -17,6 +16,8 @@
 [ext_resource type="Script" uid="uid://du0v0n3e4ors7" path="res://ui/hud/weapon_icon.gd" id="12_12xki"]
 [ext_resource type="Texture2D" uid="uid://ccmw4l3owe717" path="res://ui/assets/sprites/Faca.png" id="13_faca_icon"]
 [ext_resource type="Texture2D" uid="uid://cvwkcv2goh87a" path="res://ui/assets/sprites/arma.png" id="14_arma_icon"]
+[ext_resource type="Texture2D" uid="uid://bx0upfpuhby7y" path="res://ui/assets/sprites/punho.png" id="14_qrxv1"]
+[ext_resource type="Script" uid="uid://c66oye216f7a6" path="res://actors/player/point_light_2d.gd" id="15_pointlight"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_388e2"]
 
@@ -139,6 +140,14 @@ shake_strength = 10.0
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
+[node name="PointLight2D" type="PointLight2D" parent="Aim" unique_id=1044243436]
+position = Vector2(19, -3.5527137e-15)
+rotation = -0.006248284
+scale = Vector2(0.35083336, 0.36285713)
+enabled = false
+texture = ExtResource("3_0wchr")
+script = ExtResource("15_pointlight")
+
 [node name="RayCast2D" type="RayCast2D" parent="Aim" unique_id=537473845]
 unique_name_in_owner = true
 position = Vector2(1, 0)
@@ -207,20 +216,56 @@ grow_vertical = 2
 texture = ExtResource("10_ssdk0")
 expand_mode = 1
 
-[node name="WeaponIcon" type="TextureRect" parent="HUD" unique_id=128499284]
+[node name="WeaponIcon" type="Control" parent="HUD" unique_id=128499284]
+layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
-offset_top = -44.0
-offset_right = 44.0
+offset_top = -48.0
+offset_right = 108.0
 offset_bottom = -4.0
 grow_vertical = 0
-expand_mode = 1
-stretch_mode = 5
 script = ExtResource("12_12xki")
+icon_hands = ExtResource("14_qrxv1")
 icon_knife = ExtResource("13_faca_icon")
 icon_pistol = ExtResource("14_arma_icon")
+
+[node name="Drum" type="Control" parent="HUD/WeaponIcon" unique_id=610530215]
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(52, 22)
+offset_transform_enabled = true
+
+[node name="SlotPrev" type="TextureRect" parent="HUD/WeaponIcon/Drum" unique_id=2096531205]
+layout_mode = 0
+offset_left = 11.0
+offset_top = -43.0
+offset_right = 37.0
+offset_bottom = -17.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotCurrent" type="TextureRect" parent="HUD/WeaponIcon/Drum" unique_id=2141063477]
+layout_mode = 0
+offset_left = 30.0
+offset_top = -28.0
+offset_right = 70.0
+offset_bottom = 12.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotNext" type="TextureRect" parent="HUD/WeaponIcon/Drum" unique_id=1015060534]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 1.0
+offset_right = 90.0
+offset_bottom = 27.0
+expand_mode = 1
+stretch_mode = 5
 
 [node name="StaminaBar" type="TextureProgressBar" parent="HUD" unique_id=274748334]
 anchors_preset = 7
