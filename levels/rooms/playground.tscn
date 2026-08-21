@@ -26,6 +26,7 @@ texture = ExtResource("1_edjdf")
 8:0/0 = 0
 8:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 9:0/0 = 0
+9:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 10:0/0 = 0
 11:0/0 = 0
 0:1/0 = 0
@@ -47,6 +48,7 @@ texture = ExtResource("1_edjdf")
 8:1/0 = 0
 8:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 9:1/0 = 0
+9:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 10:1/0 = 0
 11:1/0 = 0
 0:2/0 = 0
@@ -82,9 +84,10 @@ texture = ExtResource("1_edjdf")
 1:4/0 = 0
 2:4/0 = 0
 3:4/0 = 0
-3:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 7.1067877, -8, 7.208314)
 4:4/0 = 0
 5:4/0 = 0
+5:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 7.1067877, -8, 7.208314)
 6:4/0 = 0
 7:4/0 = 0
 8:4/0 = 0
@@ -94,7 +97,7 @@ texture = ExtResource("1_edjdf")
 2:5/0 = 0
 2:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 3:5/0 = 0
-3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 7.1067877, -8, 7.208314)
 4:5/0 = 0
 4:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 5:5/0 = 0
@@ -173,6 +176,9 @@ texture = ExtResource("1_edjdf")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ocl3h")
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r4fh8"]
+polygon = PackedVector2Array(677, 306, 721, 306, 721, 344, 677, 344)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ke0wg"]
 size = Vector2(12, 65)
 
@@ -185,6 +191,9 @@ color = Color(0.18000486, 0.1800049, 0.1800048, 1)
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=268687769]
 tile_map_data = PackedByteArray("AAAWACcAAAAAAAAAAAAVACgAAAAAAAAAAAAUACkAAAAAAAAAAAATACoAAAABAAAAAAAVACoAAAAAAAAAAAAWACoAAAAAAAAAAAAXACoAAAAAAAAAAAAXACcAAAAAAAAAAAAVACkAAAAAAAEAAAAWACkAAAAAAAEAAAAWACgAAAABAAAAAAAXACgAAAABAAAAAAAXACkAAAABAAAAAAAUACoAAAABAAAAAAAUACsAAAABAAAAAAAVACsAAAABAAAAAAAWACsAAAABAAAAAAAXACsAAAABAAAAAAAXACwAAAABAAAAAAAYACwAAAABAAAAAAAZACwAAAABAAAAAAAYACsAAAAAAAEAAAAZACsAAAAAAAEAAAAaACsAAAAAAAEAAAAaACoAAAAAAAEAAAAZACoAAAAAAAEAAAAaACwAAAAAAAEAAAAYACoAAAABAAAAAAAWACwAAAAAAAEAAAAVACwAAAAAAAEAAAAUACwAAAAAAAEAAAAYACkAAAAAAAAAAAAYACgAAAAAAAAAAAAZACgAAAAAAAAAAAAaACgAAAAAAAAAAAAZACkAAAAAAAAAAAAaACkAAAAAAAAAAAAbACkAAAAAAAAAAAAxAA4AAAADAAgAAAAxAA8AAAADAAgAAAAxABAAAAADAAgAAAAxAA0AAAADAAUAAAAyAA0AAAAEAAUAAAAwAA0AAAACAAUAAAAvAAwAAAACAAQAAAAwAAwAAAACAAQAAAAxAAwAAAADAAQAAAAyAAwAAAAEAAQAAABMAAIAAAAAAA4AAABMAAUAAAAAAA4AAABMAAkAAAAAAA8AAABMAAMAAAAAAA8AAABMAAYAAAAAAAwAAABMAAcAAAAAAAwAAABMAAgAAAAAAA0AAABMAAQAAAAAAA0AAABMAAEAAAAAAA0AAABMAAAAAAAAAA0AAAA+AAAAAAADAAoAAAA+AAEAAAACAAsAAAA+AAIAAAACAAsAAAA+AAQAAAACAAsAAAA+AAUAAAAEAAwAAAA+AAMAAAAEAAwAAAA+AAYAAAADAA0AAAA+AAcAAAADAA0AAAA+AAgAAAADAA4AAAA+AAkAAAADAA0AAAA+AAoAAAADAA4AAABBAAAAAAABAA4AAABCAAAAAAABAA4AAABDAAAAAAABAA4AAABEAAAAAAABAA4AAABFAAAAAAABAA0AAABGAAAAAAABAA0AAABHAAAAAAABAA0AAABIAAAAAAABAA0AAABJAAAAAAABAA0AAABCABEAAAACAAwAAABDABEAAAACAAwAAABEABEAAAACAAwAAABFABEAAAACAAwAAABGABEAAAACAAwAAABHABEAAAADAAsAAABIABEAAAADAAsAAABBABEAAAADAAsAAAA=")
 tile_set = SubResource("TileSet_h7gdp")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1394924857]
+occluder = SubResource("OccluderPolygon2D_r4fh8")
 
 [node name="Background" type="ColorRect" parent="." unique_id=637494763]
 show_behind_parent = true
