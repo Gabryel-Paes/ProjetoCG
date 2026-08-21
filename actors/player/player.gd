@@ -29,14 +29,6 @@ var current_weapon: Weapon = Weapon.NONE
 ## Graus de correção se o sprite não foi desenhado apontando para a direita (+X)
 @export var sprite_angle_offset: float = 0.0
 
-# --- Câmera ---
-@export var camera_lead: float = 0.35        # fração do offset do mouse na tela
-@export var camera_deadzone: float = 120.0   # px de tela sem deslocamento
-@export var max_camera_offset: float = 260.0 # teto do deslocamento
-@export var camera_smooth: float = 8.0       # maior = mais rápido
-@export var zoom_rest: float = 3.15          # mouse perto: zoom in
-@export var zoom_far: float = 1.85           # mouse longe: zoom out
-
 @onready var aim: Node2D = $Aim
 @onready var hud: CanvasLayer = $HUD
 @onready var camera: CameraController = $Camera2D
@@ -48,6 +40,7 @@ var current_weapon: Weapon = Weapon.NONE
 @onready var anim: AnimatedSprite2D = $Aim/AnimatedSprite2D
 
  # --- luz ---
+@onready var flashlight: PointLight2D = $Aim/PointLight2D
 
 
 
@@ -131,6 +124,11 @@ func _input(event:InputEvent) -> void:
 		_try_attack()
 	elif event.is_action_pressed("Recarregar") and current_weapon == Weapon.PISTOL:
 		gun.try_reload()
+	elif event.is_action_pressed("Lanterna"):
+		_toggle_flashlight()
+
+func _toggle_flashlight() -> void:
+	flashlight.enabled = !flashlight.enabled
 
 func _cycle_weapon(step: int) -> void:
 	var count := weapon_order.size()
@@ -167,32 +165,5 @@ func _update_aim() -> void:
 	# Guardado como variável: sprite, lanterna e projétil bebem da mesma fonte
 	aim_angle = (get_global_mouse_position() - global_position).angle()
 	aim.rotation = aim_angle + deg_to_rad(sprite_angle_offset)
-func _die() -> void: 
+func _die() -> void:
 	print("MOrreu");
-
-
-func _update_camera(delta: float) -> void:
-	# Offset do mouse em relação ao CENTRO DA TELA — não ao mundo.
-	# É isso que quebra o loop de realimentação.
-	var viewport_size := get_viewport_rect().size
-	var from_center := get_viewport().get_mouse_position() - viewport_size * 0.5
-	var dist := from_center.length()
-
-	var lead := Vector2.ZERO
-	var t := 0.0
-
-	if dist > camera_deadzone:
-		var beyond := dist - camera_deadzone
-		var max_beyond := maxf(viewport_size.length() * 0.5 - camera_deadzone, 1.0)
-		t = clampf(beyond / max_beyond, 0.0, 1.0)
-		lead = (from_center / dist) * minf(beyond * camera_lead, max_camera_offset)
-
-	# Suavização independente de framerate
-	var w := 1.0 - exp(-camera_smooth * delta)
-	camera.position = camera.position.lerp(lead, w)
-
-	var z := lerpf(zoom_rest, zoom_far, t)
-	camera.zoom = camera.zoom.lerp(Vector2(z, z), w)
-
-
-# ligar e desligar a lanterna
