@@ -1,6 +1,6 @@
 extends PointLight2D
 
-const ABERTURA_CONE: float = PI / 12.0 
+const ABERTURA_CONE: float = PI / 4
 const RESOLUCAO_TEXTURA: int = 252
 
 func _ready() -> void:
