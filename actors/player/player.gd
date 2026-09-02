@@ -3,7 +3,7 @@ extends CharacterBody2D
 var sprt_normal = preload("res://ui/assets/sprites/Sprite-idle.png")
 var sprt_armado = preload("res://ui/assets/sprites/Sprite-armado.png")
 var sprt_faca = preload("res://ui/assets/sprites/Sprite-faca.png")
-
+var sprt_facada = preload("res://ui/assets/sprites/Sprite-facada.png")
 signal weapon_changed(weapon: Weapon)
 enum Weapon { NONE, KNIFE, PISTOL }
 
@@ -12,6 +12,7 @@ enum Weapon { NONE, KNIFE, PISTOL }
 var weapon_order: Array[Weapon] = [Weapon.NONE, Weapon.KNIFE, Weapon.PISTOL]
 var weapon_index: int = 0
 var current_weapon: Weapon = Weapon.NONE
+var is_attacking: bool = false
 
 @onready var melee = $Aim/MeleeAttack
 
@@ -55,7 +56,7 @@ func _ready() -> void:
 	stamina.stamina_changed.connect(_update_stamina_bar)
 	# NOVO: Conecta a vida mudando à função que atualiza o sangue
 	health.health_changed.connect(_update_blood_overlay)
-
+	anim.animation_finished.connect(_on_anim_finished)
 	# Garante que o sangue comece invisível
 	blood_overlay.modulate.a = 0.0
 	stamina_bar.modulate.a = 0.0
@@ -109,7 +110,12 @@ func _physics_process(delta: float) -> void:
 		anim.play("idle")
 
 	gun.set_moving(velocity.length() > 0.0)
-
+	
+	if not is_attacking:
+		if direction != Vector2.ZERO:
+			anim.play("walking")
+		else:
+			anim.play("idle")
 func _process(delta: float) -> void:
 	_update_aim()
 
@@ -151,11 +157,18 @@ func _try_attack() -> void:
 		Weapon.PISTOL:
 			gun.try_fire(get_global_mouse_position())
 		Weapon.KNIFE:
-			# Tenta gastar 20 de stamina para o golpe de faca
 			if stamina.drain_stamina(20.0):
+				is_attacking = true # Trava o movimento de animação
 				melee.attack()
+				anim.play("facada")
 		Weapon.NONE:
-			pass # mãos vazias não atacam
+			pass 
+func _animate_knife_attack() -> void:
+	sprite.texture = sprt_facada
+	await get_tree().create_timer(0.15).timeout
+	if current_weapon == Weapon.KNIFE:
+		sprite.texture = sprt_faca
+
 
 func _on_gun_fired() -> void:
 	camera.shake(1.0)
@@ -167,3 +180,14 @@ func _update_aim() -> void:
 	aim.rotation = aim_angle + deg_to_rad(sprite_angle_offset)
 func _die() -> void:
 	print("MOrreu");
+	
+func _on_anim_finished() -> void:
+	# Verifica se a animação que terminou foi a de ataque
+	if anim.animation == "facada":
+		is_attacking = false
+		
+	if velocity == Vector2.ZERO:
+		anim.play("idle")
+	else:
+		anim.play("walking")
+	
