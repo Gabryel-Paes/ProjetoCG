@@ -1,4 +1,5 @@
 extends PointLight2D
+class_name PlayerFlashlight
 
 const ABERTURA_CONE: float = PI / 4
 const RESOLUCAO_TEXTURA: int = 450
