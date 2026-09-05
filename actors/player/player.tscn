@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dps2mixnx2yxd" path="res://actors/player/crosshair.gd" id="5_6p1w3"]
 [ext_resource type="Script" uid="uid://cob00ke4wjv11" path="res://actors/player/camera_controller.gd" id="6_camctrl"]
 [ext_resource type="Script" uid="uid://2kpru2rgy0vw" path="res://actors/player/ammo_label.gd" id="7_ammolabel"]
-[ext_resource type="PackedScene" path="res://actors/components/gun.tscn" id="8_gun"]
+[ext_resource type="PackedScene" uid="uid://058jykq0qse7" path="res://actors/components/gun.tscn" id="8_gun"]
 [ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="10_lsln6"]
 [ext_resource type="Texture2D" uid="uid://c7ytd0hke0574" path="res://ui/assets/placeholders/TelaSangue.png" id="10_ssdk0"]
 [ext_resource type="PackedScene" uid="uid://dipnngs27gutg" path="res://actors/components/stamina.tscn" id="11_hiosj"]
@@ -253,6 +253,7 @@ animation = &"walking"
 [node name="PointLight2D" type="PointLight2D" parent="Aim" unique_id=1802786243]
 light_mask = 3
 visibility_layer = 3
+color = Color(1, 1, 1, 0.7372549)
 blend_mode = 2
 range_item_cull_mask = 3
 texture = SubResource("CompressedTexture2D_qrxv1")
@@ -285,11 +286,9 @@ sprite_frames = SubResource("SpriteFrames_knife")
 animation = &"swing_start"
 
 [node name="BulletPoint" type="Marker2D" parent="Aim" unique_id=648254355]
-visible = false
 position = Vector2(17, 0)
 
 [node name="FumacaCano" type="GPUParticles2D" parent="Aim/BulletPoint" unique_id=1262005465]
-visible = false
 position = Vector2(2, 0)
 emitting = false
 amount = 20
@@ -299,11 +298,9 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_60pvl")
 
 [node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]
-visible = false
 position = Vector2(6, 0)
 
 [node name="Gun" parent="Aim" unique_id=1907474380 instance=ExtResource("8_gun")]
-visible = false
 position = Vector2(17, 0)
 fire_rate = 0.01
 velocidade_mira = 13.0

@@ -109,7 +109,7 @@ func _criar_rastro(inicio: Vector2, fim: Vector2) -> void:
 	linha.add_point(inicio)
 	linha.add_point(fim)
 	linha.width = 1.5
-	linha.default_color = Color(1.0, 0.9, 0.5, 0.8)
+	linha.default_color = Color(1.0, 0.973, 0.808, 1.0)
 
 	get_tree().root.add_child(linha)
 
