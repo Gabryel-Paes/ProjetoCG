@@ -44,7 +44,8 @@ var current_weapon: Weapon = Weapon.NONE
 var _knife_swinging: bool = false
 var _knife_combo_queued: bool = false
 
- # --- luz ---
+# --- luz ---
+# Exposto pra outros scripts (ex: angel.gd) checarem o estado da lanterna.
 @onready var flashlight: PlayerFlashlight = $Aim/PointLight2D
 
 var aim_angle: float = 0.0
@@ -132,11 +133,8 @@ func _input(event:InputEvent) -> void:
 		_try_attack()
 	elif event.is_action_pressed("Recarregar") and current_weapon == Weapon.PISTOL:
 		gun.try_reload()
-	elif event.is_action_pressed("Lanterna"):
-		_toggle_flashlight()
-
-func _toggle_flashlight() -> void:
-	flashlight.enabled = !flashlight.enabled
+	# O toggle da lanterna (tecla F) mora no próprio point_light_2d.gd agora —
+	# não duplica aqui.
 
 func _cycle_weapon(step: int) -> void:
 	var count := weapon_order.size()
