@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d0hfp556ihm2f" path="res://ui/assets/sprites/character_placeholder.png" id="2_jg3c0"]
 [ext_resource type="PackedScene" uid="uid://b6j0eteafpf7t" path="res://actors/components/melee_attack.tscn" id="3_ax26v"]
 [ext_resource type="Texture2D" uid="uid://bkkbthljbhpgj" path="res://ui/assets/sprites/Sprite-idle.png" id="3_k67x5"]
+[ext_resource type="Script" uid="uid://bw8bvlibmsgin" path="res://actors/player/node_2d.gd" id="3_qrxv1"]
 [ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="4_lsqbn"]
 [ext_resource type="Script" uid="uid://dps2mixnx2yxd" path="res://actors/player/crosshair.gd" id="5_6p1w3"]
 [ext_resource type="Script" uid="uid://cob00ke4wjv11" path="res://actors/player/camera_controller.gd" id="6_camctrl"]
@@ -16,7 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://ccmw4l3owe717" path="res://ui/assets/sprites/Faca.png" id="13_faca_icon"]
 [ext_resource type="Texture2D" uid="uid://cvwkcv2goh87a" path="res://ui/assets/sprites/arma.png" id="14_arma_icon"]
 [ext_resource type="Texture2D" uid="uid://bx0upfpuhby7y" path="res://ui/assets/sprites/punho.png" id="14_qrxv1"]
-[ext_resource type="Script" uid="uid://c66oye216f7a6" path="res://actors/player/point_light_2d.gd" id="15_pointlight"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_388e2"]
 
@@ -139,12 +139,13 @@ shake_strength = 10.0
 
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
-[node name="PointLight2D" type="PointLight2D" parent="Aim" unique_id=1802786243]
-light_mask = 3
-visibility_layer = 3
-position = Vector2(15, 2)
-range_item_cull_mask = 3
-script = ExtResource("15_pointlight")
+[node name="Node2D" type="Node2D" parent="Aim" unique_id=676843120]
+z_index = 10
+script = ExtResource("3_qrxv1")
+raio_alcance = null
+angulo_abertura = null
+resolucao_raios = null
+cor_luz = null
 
 [node name="RayCast2D" type="RayCast2D" parent="Aim" unique_id=537473845]
 unique_name_in_owner = true

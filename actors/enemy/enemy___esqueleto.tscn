@@ -2,10 +2,14 @@
 
 [ext_resource type="Script" uid="uid://dmsu26qid6cx1" path="res://actors/enemy/enemy___esqueleto.gd" id="1_jovwh"]
 [ext_resource type="Texture2D" uid="uid://dpmju81k6iacv" path="res://ui/assets/sprites/slime_green.png" id="2_h1xc6"]
+[ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="3_health"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dr77u"]
 radius = 7.0
 height = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_plw3o"]
+radius = 90.199776
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7c2mg"]
 atlas = ExtResource("2_h1xc6")
@@ -104,7 +108,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s7lv"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h7gdp"]
+radius = 8.0
+height = 20.0
+
 [node name="Enemy - Esqueleto" type="CharacterBody2D" unique_id=1523164900]
+collision_layer = 4
 script = ExtResource("1_jovwh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1589681061]
@@ -115,6 +126,7 @@ shape = SubResource("CapsuleShape2D_dr77u")
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1298880304]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2037023990]
+shape = SubResource("CircleShape2D_plw3o")
 
 [node name="Aim" type="Node2D" parent="." unique_id=806017258]
 
@@ -123,5 +135,22 @@ position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_ke0wg")
 animation = &"new_animation"
 
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1993061011]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=713755179]
+scale = Vector2(0.8084637, 0.67216957)
+shape = SubResource("CapsuleShape2D_4s7lv")
+
+[node name="Health" parent="." unique_id=1630372287 instance=ExtResource("3_health")]
+max_health = 12.0
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1594849126]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1839999983]
+shape = SubResource("CapsuleShape2D_h7gdp")
+
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
