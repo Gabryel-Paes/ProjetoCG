@@ -20,6 +20,8 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_388e2"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qrxv1"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ilk7j"]
 atlas = ExtResource("2_jg3c0")
 region = Rect2(0, 0, 64, 64)
@@ -125,6 +127,7 @@ height = 4
 fill_from = Vector2(1, 0)
 
 [node name="Player" type="CharacterBody2D" unique_id=335704334 groups=["Player"]]
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_dthho")
 
@@ -144,13 +147,14 @@ light_mask = 3
 visibility_layer = 3
 position = Vector2(15, 2)
 range_item_cull_mask = 3
+texture = SubResource("CompressedTexture2D_qrxv1")
 script = ExtResource("15_pointlight")
 
 [node name="RayCast2D" type="RayCast2D" parent="Aim" unique_id=537473845]
 unique_name_in_owner = true
 position = Vector2(1, 0)
 rotation = 0.0146409385
-target_position = Vector2(39.995712, -0.58561665)
+target_position = Vector2(126.98639, -1.8593327)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=134978540]
 visible = false
