@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://c66oye216f7a6" path="res://actors/player/point_light_2d.gd" id="15_pointlight"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_388e2"]
+radius = 8.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qrxv1"]
 
@@ -98,6 +99,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6ww7p"]
+light_mode = 1
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_60pvl"]
 lifetime_randomness = 0.15
 particle_flag_disable_z = true
@@ -132,7 +136,6 @@ motion_mode = 1
 script = ExtResource("1_dthho")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1347245688]
-position = Vector2(-4, 0)
 shape = SubResource("CircleShape2D_388e2")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=293020164]
@@ -145,13 +148,14 @@ shake_strength = 10.0
 [node name="PointLight2D" type="PointLight2D" parent="Aim" unique_id=1802786243]
 light_mask = 3
 visibility_layer = 3
-position = Vector2(15, 2)
+blend_mode = 2
 range_item_cull_mask = 3
 texture = SubResource("CompressedTexture2D_qrxv1")
 script = ExtResource("15_pointlight")
 
 [node name="RayCast2D" type="RayCast2D" parent="Aim" unique_id=537473845]
 unique_name_in_owner = true
+visible = false
 position = Vector2(1, 0)
 rotation = 0.0146409385
 target_position = Vector2(126.98639, -1.8593327)
@@ -165,15 +169,17 @@ autoplay = "default"
 frame_progress = 0.43655625
 
 [node name="Sprite2D" type="Sprite2D" parent="Aim" unique_id=383743649]
-position = Vector2(-4, 0)
+material = SubResource("CanvasItemMaterial_6ww7p")
 rotation = 1.5707964
 texture = ExtResource("3_k67x5")
 
 [node name="BulletPoint" type="Marker2D" parent="Aim" unique_id=648254355]
-position = Vector2(10, 0)
+visible = false
+position = Vector2(17, 0)
 
 [node name="FumacaCano" type="GPUParticles2D" parent="Aim/BulletPoint" unique_id=1262005465]
-position = Vector2(4, 0)
+visible = false
+position = Vector2(2, 0)
 emitting = false
 amount = 20
 lifetime = 0.4
@@ -182,14 +188,16 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_60pvl")
 
 [node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]
+visible = false
+position = Vector2(6, 0)
 
 [node name="Gun" parent="Aim" unique_id=1907474380 instance=ExtResource("8_gun")]
-position = Vector2(10, 0)
+visible = false
+position = Vector2(17, 0)
 fire_rate = 0.01
 velocidade_mira = 13.0
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=70567460]
-visible = false
 
 [node name="Municao" type="Label" parent="HUD" unique_id=1178521183]
 anchors_preset = 3
