@@ -1,3 +1,48 @@
-[gd_scene format=3 uid="uid://bn4tnkj3nut6l"]
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://actors/enemy/angel.gd" id="1_angel"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_angel"]
+radius = 8.0
+height = 24.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_angel"]
+size = Vector2(20, 32)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hitbox"]
+radius = 9.0
+height = 26.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detection"]
+radius = 220.0
 
 [node name="Angel" type="CharacterBody2D" unique_id=78216036]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_angel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_angel")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_angel")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+radius = 8.0
+path_desired_distance = 6.0
+target_desired_distance = 6.0
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detection")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CapsuleShape2D_hitbox")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
