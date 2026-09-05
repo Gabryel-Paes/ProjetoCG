@@ -17,9 +17,54 @@
 [ext_resource type="Texture2D" uid="uid://cvwkcv2goh87a" path="res://ui/assets/sprites/arma.png" id="14_arma_icon"]
 [ext_resource type="Texture2D" uid="uid://bx0upfpuhby7y" path="res://ui/assets/sprites/punho.png" id="14_qrxv1"]
 [ext_resource type="Script" uid="uid://c66oye216f7a6" path="res://actors/player/point_light_2d.gd" id="15_pointlight"]
+[ext_resource type="Texture2D" uid="uid://b32awv1rmryav" path="res://ui/assets/sprites/Pernas.png" id="16_pernas"]
+[ext_resource type="Texture2D" uid="uid://cf35qc1mlgbiq" path="res://ui/assets/sprites/Sprite-faca-sheet.png" id="17_faca_sheet"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_388e2"]
 radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pernas0"]
+atlas = ExtResource("16_pernas")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pernas1"]
+atlas = ExtResource("16_pernas")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pernas2"]
+atlas = ExtResource("16_pernas")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pernas3"]
+atlas = ExtResource("16_pernas")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pernas4"]
+atlas = ExtResource("16_pernas")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_legs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pernas0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pernas1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pernas2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pernas3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pernas4")
+}],
+"loop": 1,
+"name": &"walking",
+"speed": 8.0
+}]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qrxv1"]
 
@@ -102,6 +147,61 @@ animations = [{
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6ww7p"]
 light_mode = 1
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_faca3"]
+atlas = ExtResource("17_faca_sheet")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_faca4"]
+atlas = ExtResource("17_faca_sheet")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_faca5"]
+atlas = ExtResource("17_faca_sheet")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_faca0"]
+atlas = ExtResource("17_faca_sheet")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_faca1"]
+atlas = ExtResource("17_faca_sheet")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_faca2"]
+atlas = ExtResource("17_faca_sheet")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_knife"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_faca3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_faca4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_faca5")
+}],
+"loop": 0,
+"name": &"swing_finish",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_faca0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_faca1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_faca2")
+}],
+"loop": 0,
+"name": &"swing_start",
+"speed": 14.0
+}]
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_60pvl"]
 lifetime_randomness = 0.15
 particle_flag_disable_z = true
@@ -143,6 +243,11 @@ zoom = Vector2(5, 5)
 script = ExtResource("6_camctrl")
 shake_strength = 10.0
 
+[node name="Legs" type="AnimatedSprite2D" parent="." unique_id=-1448774221]
+rotation = -4.712389
+sprite_frames = SubResource("SpriteFrames_legs")
+animation = &"walking"
+
 [node name="Aim" type="Node2D" parent="." unique_id=2121868406]
 
 [node name="PointLight2D" type="PointLight2D" parent="Aim" unique_id=1802786243]
@@ -158,7 +263,7 @@ script = ExtResource("15_pointlight")
 unique_name_in_owner = true
 position = Vector2(1, 0)
 rotation = 0.0146409385
-target_position = Vector2(126.98639, -1.8593327)
+target_position = Vector2(29.996784, -0.43921244)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=134978540]
 visible = false
@@ -172,6 +277,13 @@ frame_progress = 0.43655625
 material = SubResource("CanvasItemMaterial_6ww7p")
 rotation = 1.5707964
 texture = ExtResource("3_k67x5")
+
+[node name="KnifeAttack" type="AnimatedSprite2D" parent="Aim" unique_id=-1448774220]
+visible = false
+material = SubResource("CanvasItemMaterial_6ww7p")
+rotation = 1.5707964
+sprite_frames = SubResource("SpriteFrames_knife")
+animation = &"swing_start"
 
 [node name="BulletPoint" type="Marker2D" parent="Aim" unique_id=648254355]
 position = Vector2(17, 0)
@@ -194,6 +306,7 @@ fire_rate = 0.01
 velocidade_mira = 13.0
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=70567460]
+visible = false
 
 [node name="Municao" type="Label" parent="HUD" unique_id=1178521183]
 anchors_preset = 3

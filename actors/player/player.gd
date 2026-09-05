@@ -35,12 +35,17 @@ var current_weapon: Weapon = Weapon.NONE
 @onready var sprite: Sprite2D = $Aim/Sprite2D
 @onready var fumaca: GPUParticles2D = $Aim/BulletPoint/FumacaCano
 @onready var gun: Gun = $Aim/Gun
+@onready var knife_attack: AnimatedSprite2D = $Aim/KnifeAttack
 
 # ---Animação ---
 @onready var anim: AnimatedSprite2D = $Aim/AnimatedSprite2D
+@onready var legs: AnimatedSprite2D = $Legs
+
+var _knife_swinging: bool = false
+var _knife_combo_queued: bool = false
 
  # --- luz ---
-@onready var flashlight: PointLight2D = $Aim/PointLight2D
+@onready var flashlight: PlayerFlashlight = $Aim/PointLight2D
 
 var aim_angle: float = 0.0
 
@@ -48,6 +53,7 @@ func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
 	hud.visible = true
 	gun.fired.connect(_on_gun_fired)
+	knife_attack.animation_finished.connect(_on_knife_animation_finished)
 
 	stamina.stamina_changed.connect(_update_stamina_bar)
 	# NOVO: Conecta a vida mudando à função que atualiza o sangue
@@ -102,8 +108,13 @@ func _physics_process(delta: float) -> void:
 	
 	if direction != Vector2.ZERO:
 		anim.play("walking")
+		# +90°: a arte das pernas foi desenhada de frente (postura vertical),
+		# não de lado — mesma correção que o Sprite2D do corpo já usa.
+		legs.rotation = direction.angle() + PI / 2.0
+		legs.play("walking")
 	else:
 		anim.play("idle")
+		legs.stop() # congela no último quadro, pernas paradas
 
 	gun.set_moving(velocity.length() > 0.0)
 
@@ -151,8 +162,32 @@ func _try_attack() -> void:
 			# Tenta gastar 20 de stamina para o golpe de faca
 			if stamina.drain_stamina(20.0):
 				melee.attack()
+				_play_knife_swing()
 		Weapon.NONE:
 			pass # mãos vazias não atacam
+
+func _play_knife_swing() -> void:
+	if _knife_swinging:
+		# Já está no meio de um golpe: sinaliza que é pra continuar pro combo
+		_knife_combo_queued = true
+		return
+
+	_knife_swinging = true
+	_knife_combo_queued = false
+	sprite.visible = false
+	knife_attack.visible = true
+	knife_attack.play("swing_start")
+
+func _on_knife_animation_finished() -> void:
+	if knife_attack.animation == "swing_start" and _knife_combo_queued:
+		_knife_combo_queued = false
+		knife_attack.play("swing_finish")
+		return
+
+	# Acabou de vez (golpe único, ou combo já terminou)
+	_knife_swinging = false
+	knife_attack.visible = false
+	sprite.visible = true
 
 func _on_gun_fired() -> void:
 	camera.shake(1.0)

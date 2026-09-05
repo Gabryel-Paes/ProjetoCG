@@ -5,16 +5,13 @@ extends CharacterBody2D
 # É pedra: sem Health, sem Hurtbox, "take_damage" é um no-op de propósito.
 
 @export var speed: float = 40.0
-@export var view_cone_deg: float = 65.0      # meio-ângulo do campo de visão do Player
-@export var flank_distance: float = 24.0     # o quanto ele tenta se posicionar atrás do Player
+@export var flank_distance: float = 10.0     # o quanto ele tenta se posicionar atrás do Player
 @export var dano_toque: float = 1.0          # dano se ele alcançar o Player
 
 # --- Wanderer (quando nenhum Player foi detectado ainda) ---
 @export var wander_speed: float = 24.0
 @export var wander_radius: float = 400.0     # o quanto ele se afasta do ponto de origem
 @export var wander_interval: float = 3.0     # segundos até escolher um novo destino
-
-const MIN_WATCH_DISTANCE: float = 16.0 # perto demais pra "ângulo de visão" fazer sentido
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
@@ -27,6 +24,10 @@ var _wander_timer: float = 0.0
 func _ready() -> void:
 	_spawn_position = global_position
 	_pick_wander_target()
+	# Traça a rota pelo meio de cada abertura em vez do caminho mais curto
+	# possível (que corta rente nas quinas) — evita grudar na parede sem
+	# precisar erodir o polígono de navegação (isso quebra a conexão entre tiles).
+	nav_agent.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_EDGECENTERED
 
 
 func _physics_process(delta: float) -> void:
@@ -77,18 +78,28 @@ func _pick_wander_target() -> void:
 
 
 func _is_being_watched() -> bool:
-	var to_angel := global_position - player.global_position
+	var flashlight: PlayerFlashlight = player.flashlight
+
+	# Lanterna apagada = escuridão total (estilo Darkwood) — nunca "visto".
+	if not flashlight.enabled:
+		return false
+
+	var to_angel := global_position - flashlight.global_position
 	var distance := to_angel.length()
 
-	# Perto demais: o vetor de direção fica instável (quase zero) e o ângulo
-	# não tem mais sentido — nessa distância, o Player sempre "vê" ele de qualquer jeito.
-	if distance < MIN_WATCH_DISTANCE:
-		return true
+	# Nota: não usa RAIO_AMBIENTE aqui de propósito — o brilho ambiente é só
+	# pra você enxergar o chão ao redor, não conta como "estar olhando" pro
+	# Anjo. "Visto" é só sobre o cone (direção), senão ele travava nas costas
+	# do Player mesmo estando fora do campo de visão, só por estar perto.
 
-	# O alcance de "existe o suficiente pra importar" já é decidido pelo
-	# DetectionArea (quem seta/limpa a var `player`) — não duplica aqui.
-	var angle_diff := rad_to_deg(absf(wrapf(to_angel.angle() - player.aim_angle, -PI, PI)))
-	if angle_diff > view_cone_deg:
+	# Fora do alcance máximo do cone: escuro demais pra enxergar.
+	if distance > float(PlayerFlashlight.RESOLUCAO_TEXTURA) / 2.0:
+		return false
+
+	# Mesmo cone da lanterna de verdade — não um ângulo "de mira" à parte,
+	# que é o que fazia ele travar mesmo estando atrás do Player.
+	var angle_diff := absf(wrapf(to_angel.angle() - flashlight.global_rotation, -PI, PI))
+	if angle_diff > PlayerFlashlight.ABERTURA_CONE:
 		return false
 
 	return _has_line_of_sight()

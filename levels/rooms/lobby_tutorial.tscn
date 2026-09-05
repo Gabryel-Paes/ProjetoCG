@@ -8,17 +8,63 @@
 [ext_resource type="PackedScene" path="res://props/key.tscn" id="6_ad2o2"]
 [ext_resource type="PackedScene" path="res://props/lever.tscn" id="7_ptjnr"]
 [ext_resource type="PackedScene" path="res://props/lever_puzzle.tscn" id="8_yokfp"]
-[ext_resource type="PackedScene" uid="uid://bn4tnkj3nut6l" path="res://actors/enemy/angel.tscn" id="9_ad2o2"]
+[ext_resource type="PackedScene" uid="uid://cihj6bltwdi1w" path="res://actors/enemy/angel.tscn" id="9_ad2o2"]
 [ext_resource type="PackedScene" uid="uid://c2asx2wu3lukj" path="res://props/simple_door.tscn" id="10_ptjnr"]
+[ext_resource type="PackedScene" path="res://actors/components/stalker_director.tscn" id="12_w6hk7"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_w6hk7"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_5cw8o"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_35gje"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_puglh"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_d72jg"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_g54nn"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_yokfp"]
+vertices = PackedVector2Array(7.21875, 8, -7.296875, 8, -7.296875, -8, 7.1328125, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-7.2997704, -8, 7.131959, -8, 7.215865, 8, -7.2997704, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ixkek"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_puglh"]
 texture = ExtResource("2_2opja")
 0:0/0 = 0
+0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_w6hk7")
 1:0/0 = 0
+1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_d72jg")
 2:0/0 = 0
+2:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 4:0/0 = 0
 5:0/0 = 0
 6:0/0 = 0
@@ -27,8 +73,11 @@ texture = ExtResource("2_2opja")
 12:0/0 = 0
 13:0/0 = 0
 0:1/0 = 0
+0:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_5cw8o")
 1:1/0 = 0
+1:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_g54nn")
 2:1/0 = 0
+2:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ixkek")
 4:1/0 = 0
 5:1/0 = 0
 6:1/0 = 0
@@ -36,6 +85,7 @@ texture = ExtResource("2_2opja")
 9:1/0 = 0
 10:1/0 = 0
 0:2/0 = 0
+0:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_35gje")
 4:2/0 = 0
 5:2/0 = 0
 6:2/0 = 0
@@ -80,7 +130,7 @@ texture = ExtResource("2_2opja")
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_yk4ps"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_ad2o2"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_7oabu"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
@@ -144,7 +194,7 @@ texture = ExtResource("2_6nswd")
 8:3/0 = 0
 9:3/0 = 0
 0:4/0 = 0
-0:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ad2o2")
+0:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_7oabu")
 1:4/0 = 0
 2:4/0 = 0
 3:4/0 = 0
@@ -476,7 +526,8 @@ color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1153864829]
-color = Color(0.06666667, 0.06666667, 0.13333334, 1)
+visible = false
+color = Color(0.011955088, 0.0026631625, 0.036364146, 1)
 
 [node name="TileMap_1sFloor" type="TileMapLayer" parent="." unique_id=1508748006]
 position = Vector2(20, -490)
@@ -506,7 +557,7 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_t1g16")
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_guq88")]
-position = Vector2(548, -633)
+position = Vector2(930, -1430)
 scale = Vector2(1.0281326, 1.0298357)
 
 [node name="Door" parent="." unique_id=1439609534 instance=ExtResource("5_6ww7p")]
@@ -557,15 +608,19 @@ position = Vector2(268, -1336)
 position = Vector2(269, -1419)
 
 [node name="LeverPuzzle" parent="." unique_id=201661630 node_paths=PackedStringArray("required_on", "required_off") instance=ExtResource("8_yokfp")]
-required_on = [NodePath("../Lever"), NodePath("../Lever5"), NodePath("../Lever8"), NodePath("../Lever12")]
-required_off = [NodePath("../Lever2"), NodePath("../Lever10"), NodePath("../Lever9"), NodePath("../Lever7")]
-
-[node name="Angel" parent="." unique_id=78216036 instance=ExtResource("9_ad2o2")]
-position = Vector2(428, -1988)
+required_on = [NodePath("../Lever")]
+required_off = [NodePath("../Lever7")]
 
 [node name="SimpleDoor" parent="." unique_id=1210969321 instance=ExtResource("10_ptjnr")]
 position = Vector2(-116, -793)
 scale = Vector2(1.723851, 0.92089915)
+
+[node name="StalkerDirector" parent="." unique_id=1854428480 instance=ExtResource("12_w6hk7")]
+min_delay = 15.0
+max_delay = 30.0
+
+[node name="Angel" parent="." unique_id=78216036 instance=ExtResource("9_ad2o2")]
+position = Vector2(586, -1965)
 
 [connection signal="body_entered" from="Trigger_Up" to="." method="_on_trigger_up_body_entered"]
 [connection signal="body_entered" from="Trigger_Down" to="." method="_on_trigger_down_body_entered"]
