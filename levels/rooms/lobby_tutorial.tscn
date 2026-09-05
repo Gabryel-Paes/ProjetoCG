@@ -12,19 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c2asx2wu3lukj" path="res://props/simple_door.tscn" id="10_ptjnr"]
 [ext_resource type="PackedScene" path="res://actors/components/stalker_director.tscn" id="12_w6hk7"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_w6hk7"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_5cw8o"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_35gje"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_yokfp"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
@@ -33,63 +21,47 @@ agent_radius = 0.0
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_puglh"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_d72jg"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_g54nn"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_yokfp"]
-vertices = PackedVector2Array(7.21875, 8, -7.296875, 8, -7.296875, -8, 7.1328125, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-7.2997704, -8, 7.131959, -8, 7.215865, 8, -7.2997704, 8)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_ixkek"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_puglh"]
 texture = ExtResource("2_2opja")
 0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_w6hk7")
+0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 1:0/0 = 0
-1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_d72jg")
+1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 2:0/0 = 0
 2:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 4:0/0 = 0
 5:0/0 = 0
 6:0/0 = 0
 8:0/0 = 0
+8:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 9:0/0 = 0
+9:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 12:0/0 = 0
+12:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 13:0/0 = 0
+13:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 0:1/0 = 0
-0:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_5cw8o")
+0:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 1:1/0 = 0
-1:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_g54nn")
+1:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 2:1/0 = 0
-2:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ixkek")
+2:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 4:1/0 = 0
 5:1/0 = 0
 6:1/0 = 0
 8:1/0 = 0
+8:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 9:1/0 = 0
+9:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 10:1/0 = 0
+10:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 0:2/0 = 0
-0:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_35gje")
+0:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 4:2/0 = 0
 5:2/0 = 0
 6:2/0 = 0
 8:2/0 = 0
+8:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yokfp")
 4:3/0 = 0
 5:3/0 = 0
 6:3/0 = 0
@@ -526,7 +498,6 @@ color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1153864829]
-visible = false
 color = Color(0.011955088, 0.0026631625, 0.036364146, 1)
 
 [node name="TileMap_1sFloor" type="TileMapLayer" parent="." unique_id=1508748006]
@@ -535,7 +506,6 @@ tile_map_data = PackedByteArray("AAAoAP//AQADAA8AAAAnAP//AQADAA8AAAAmAP//AQADAA8
 tile_set = SubResource("TileSet_h7gdp")
 
 [node name="TileMap_2sFloor" type="TileMapLayer" parent="." unique_id=1178223054]
-visible = false
 light_mask = 2
 z_index = 1
 position = Vector2(20, -538)
@@ -557,7 +527,7 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_t1g16")
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_guq88")]
-position = Vector2(930, -1430)
+position = Vector2(680, -677)
 scale = Vector2(1.0281326, 1.0298357)
 
 [node name="Door" parent="." unique_id=1439609534 instance=ExtResource("5_6ww7p")]
@@ -571,45 +541,12 @@ position = Vector2(1466, -1495)
 [node name="Lever" parent="." unique_id=65747202 instance=ExtResource("7_ptjnr")]
 position = Vector2(27, -1339)
 
-[node name="Lever2" parent="." unique_id=1616735990 instance=ExtResource("7_ptjnr")]
-position = Vector2(27, -1405)
-
-[node name="Lever3" parent="." unique_id=1628829031 instance=ExtResource("7_ptjnr")]
-position = Vector2(-53, -1356)
-
-[node name="Lever4" parent="." unique_id=962627215 instance=ExtResource("7_ptjnr")]
-position = Vector2(-51, -1448)
-
-[node name="Lever5" parent="." unique_id=1318879740 instance=ExtResource("7_ptjnr")]
-position = Vector2(-178, -1282)
-
-[node name="Lever6" parent="." unique_id=1972035009 instance=ExtResource("7_ptjnr")]
-position = Vector2(-132, -1242)
-
-[node name="Lever7" parent="." unique_id=973427572 instance=ExtResource("7_ptjnr")]
-position = Vector2(221, -1490)
-
-[node name="Lever8" parent="." unique_id=606644536 instance=ExtResource("7_ptjnr")]
-position = Vector2(334, -1457)
-
-[node name="Lever9" parent="." unique_id=1773698852 instance=ExtResource("7_ptjnr")]
-position = Vector2(174, -1375)
-
-[node name="Lever10" parent="." unique_id=471784751 instance=ExtResource("7_ptjnr")]
-position = Vector2(173, -1452)
-
-[node name="Lever11" parent="." unique_id=897339377 instance=ExtResource("7_ptjnr")]
-position = Vector2(224, -1283)
-
-[node name="Lever12" parent="." unique_id=1061890847 instance=ExtResource("7_ptjnr")]
-position = Vector2(268, -1336)
-
-[node name="Lever13" parent="." unique_id=1353777728 instance=ExtResource("7_ptjnr")]
-position = Vector2(269, -1419)
+[node name="Lever3" parent="." unique_id=1774276350 instance=ExtResource("7_ptjnr")]
+position = Vector2(170, -1339)
 
 [node name="LeverPuzzle" parent="." unique_id=201661630 node_paths=PackedStringArray("required_on", "required_off") instance=ExtResource("8_yokfp")]
 required_on = [NodePath("../Lever")]
-required_off = [NodePath("../Lever7")]
+required_off = [NodePath("../Lever3")]
 
 [node name="SimpleDoor" parent="." unique_id=1210969321 instance=ExtResource("10_ptjnr")]
 position = Vector2(-116, -793)
@@ -620,7 +557,8 @@ min_delay = 15.0
 max_delay = 30.0
 
 [node name="Angel" parent="." unique_id=78216036 instance=ExtResource("9_ad2o2")]
-position = Vector2(586, -1965)
+position = Vector2(488, -1781)
+speed = 150.0
 
 [connection signal="body_entered" from="Trigger_Up" to="." method="_on_trigger_up_body_entered"]
 [connection signal="body_entered" from="Trigger_Down" to="." method="_on_trigger_down_body_entered"]

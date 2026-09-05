@@ -80,8 +80,10 @@ func _pick_wander_target() -> void:
 func _is_being_watched() -> bool:
 	var flashlight: PlayerFlashlight = player.flashlight
 
-	# Lanterna apagada = escuridão total (estilo Darkwood) — nunca "visto".
-	if not flashlight.enabled:
+	# Feixe desligado (F alterna pra textura só-ambiente) = sem cone
+	# apontado pra nada — nunca "visto". `enabled` não serve mais aqui,
+	# porque o Light2D continua ligado até no modo só-ambiente.
+	if not flashlight.lanterna_ligada:
 		return false
 
 	var to_angel := global_position - flashlight.global_position

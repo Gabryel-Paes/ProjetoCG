@@ -13,7 +13,7 @@ size = Vector2(24, 36)
 [node name="Stalker" type="CharacterBody2D" unique_id=1797581993]
 collision_layer = 4
 script = ExtResource("1_stalker")
-speed = 180.0
+speed = 100.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1612777989]
 shape = SubResource("CircleShape2D_stalker")
