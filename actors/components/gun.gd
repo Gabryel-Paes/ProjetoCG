@@ -90,9 +90,18 @@ func try_fire(alvo: Vector2) -> bool:
 	return true
 
 
-func try_reload() -> bool:
+func try_reload(inventory: Inventory = null) -> bool:
 	if recarregando or municao_atual >= municao_maxima:
 		return false
+
+	# Se um inventário foi passado, a recarga só acontece se houver uma
+	# pilha de munição nele — e essa pilha é gasta (1 unidade) na hora.
+	if inventory:
+		var ammo_slot = _find_ammo_slot(inventory)
+		if ammo_slot == -1:
+			ammo_empty.emit()
+			return false
+		inventory.consume_item(ammo_slot)
 
 	recarregando = true
 	reload_started.emit()
@@ -102,6 +111,14 @@ func try_reload() -> bool:
 	recarregando = false
 	ammo_changed.emit(municao_atual, municao_maxima)
 	return true
+
+
+func _find_ammo_slot(inventory: Inventory) -> int:
+	for i in range(inventory.capacity):
+		var item = inventory.get_item(i)
+		if item and item.type == Item.ItemType.AMMO and inventory.get_quantity(i) > 0:
+			return i
+	return -1
 
 
 func _criar_rastro(inicio: Vector2, fim: Vector2) -> void:

@@ -37,7 +37,7 @@ func _ready() -> void:
 				var angulo_pixel:= vetor_cone.angle()
 				if absf(angulo_pixel) <= ABERTURA_CONE:
 					var fator_cone = distancia_cone/raio_maximo
-					intensidade_cone = 1.0 - pow(fator_cone,1.5)
+					intensidade_cone = 1 - pow(fator_cone,1.5)
 					
 					var limite_suavizacao:= ABERTURA_CONE * 0.85
 					if absf(angulo_pixel) > limite_suavizacao:

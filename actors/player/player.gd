@@ -35,6 +35,7 @@ var current_weapon: Weapon = Weapon.NONE
 @onready var sprite: Sprite2D = $Aim/Sprite2D
 @onready var fumaca: GPUParticles2D = $Aim/BulletPoint/FumacaCano
 @onready var gun: Gun = $Aim/Gun
+@onready var inventory: Inventory = $Inventory
 @onready var knife_attack: AnimatedSprite2D = $Aim/KnifeAttack
 
 # ---Animação ---
@@ -49,6 +50,7 @@ var _knife_combo_queued: bool = false
 @onready var flashlight: PlayerFlashlight = $Aim/PointLight2D
 
 var aim_angle: float = 0.0
+var menu_open: bool = false # travado pelo inventory_ui.gd enquanto o menu está aberto
 
 func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
@@ -125,6 +127,8 @@ func _process(delta: float) -> void:
 # --- Controles de Ação ---
 
 func _input(event:InputEvent) -> void:
+	if menu_open:
+		return
 	if event.is_action_pressed("NextWeapon"):
 		_cycle_weapon(1)
 	elif event.is_action_pressed("LastWeapon"):
@@ -132,7 +136,12 @@ func _input(event:InputEvent) -> void:
 	elif event.is_action_pressed("Attack"):
 		_try_attack()
 	elif event.is_action_pressed("Recarregar") and current_weapon == Weapon.PISTOL:
-		gun.try_reload()
+		gun.try_reload(inventory)
+	elif event.is_action_pressed("Lanterna"):
+		_toggle_flashlight()
+
+func _toggle_flashlight() -> void:
+	flashlight.enabled = !flashlight.enabled
 	# O toggle da lanterna (tecla F) mora no próprio point_light_2d.gd agora —
 	# não duplica aqui.
 
@@ -195,5 +204,6 @@ func _update_aim() -> void:
 	# Guardado como variável: sprite, lanterna e projétil bebem da mesma fonte
 	aim_angle = (get_global_mouse_position() - global_position).angle()
 	aim.rotation = aim_angle + deg_to_rad(sprite_angle_offset)
+
 func _die() -> void:
 	print("MOrreu");

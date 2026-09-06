@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cc5ft3rif5dve"]
+
+[ext_resource type="Script" uid="uid://d2aua770dsvt1" path="res://Items/item.gd" id="1_vqths"]
+[ext_resource type="Texture2D" uid="uid://ccmw4l3owe717" path="res://ui/assets/sprites/Faca.png" id="2_vqths"]
+
+[resource]
+script = ExtResource("1_vqths")
+item_name = "Faca"
+texture = ExtResource("2_vqths")
+description = "\"Faca de combate da minha época de acampamentos.\""
+type = 2
+value = 1

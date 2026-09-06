@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://jaxmrpf5t28n"]
+
+[ext_resource type="Script" uid="uid://ideak0mli264" path="res://ui/hud/Inventario/inventory_slot_ui.gd" id="1_2br3a"]
+[ext_resource type="Texture2D" uid="uid://b2ewg881mkovp" path="res://ui/assets/inv/INVbox.png" id="1_ua7ly"]
+[ext_resource type="Texture2D" uid="uid://dsygsoex7k3tu" path="res://ui/assets/inv/INVbox_SLC.png" id="2_n7ome"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_60pvl"]
+texture = ExtResource("1_ua7ly")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a1iy5"]
+texture = ExtResource("2_n7ome")
+
+[node name="InventorySlot" type="Button" unique_id=833343996]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 40.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_60pvl")
+theme_override_styles/hover = SubResource("StyleBoxTexture_a1iy5")
+script = ExtResource("1_2br3a")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1025116796]
+layout_mode = 0
+mouse_filter = 2
+offset_right = 40.0
+offset_bottom = 40.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="QtyLabel" type="Label" parent="." unique_id=1025116797]
+layout_mode = 0
+mouse_filter = 2
+offset_left = 20.0
+offset_top = 24.0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 2
+vertical_alignment = 2
+visible = false
