@@ -389,8 +389,15 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_t1g16")
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_guq88")]
-position = Vector2(706.00006, -853.99994)
-scale = Vector2(1.0197155, 1.0387352)
+position = Vector2(680, -677)
+scale = Vector2(1.0281326, 1.0298357)
+
+[node name="Enemy - Esqueleto" parent="." unique_id=1523164900 instance=ExtResource("5_puglh")]
+position = Vector2(793, -747)
+[node name="Door" parent="." unique_id=1439609534 instance=ExtResource("5_6ww7p")]
+position = Vector2(684, -791)
+rotation = -1.5707964
+scale = Vector2(-0.35693467, 7.4904394)
 
 [node name="Key" parent="." unique_id=1805828081 instance=ExtResource("6_ad2o2")]
 position = Vector2(1466, -1495)
