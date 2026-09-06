@@ -1,4 +1,5 @@
 extends PointLight2D
+class_name PlayerFlashlight
 
 var textura_com_lanterna: ImageTexture
 var textura_circulo: ImageTexture

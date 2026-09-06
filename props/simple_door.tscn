@@ -1,38 +1,40 @@
 [gd_scene format=3 uid="uid://c2asx2wu3lukj"]
 
 [ext_resource type="Script" uid="uid://cldaa6w7kr8dg" path="res://props/simple_door.gd" id="1_door"]
+[ext_resource type="Texture2D" uid="uid://bxoem6ckhckng" path="res://ui/assets/sprites/Atlas.png" id="2_uqrad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
-size = Vector2(28, 38)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_door"]
-size = Vector2(16, 32)
+size = Vector2(7, 84)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_door"]
-polygon = PackedVector2Array(-14, -22, 14, -22, 14, 16, -14, 16)
+polygon = PackedVector2Array(-2, -17, 4, -17, 4, 67, -2, 67)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact"]
-size = Vector2(28, 51)
+size = Vector2(17, 84)
 
 [node name="SimpleDoor" type="StaticBody2D" unique_id=308717192]
 script = ExtResource("1_door")
 
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1731123173]
+position = Vector2(0, -5)
+rotation = 1.5707964
+scale = Vector2(1.75, 1.1875)
+texture = ExtResource("2_uqrad")
+region_enabled = true
+region_rect = Rect2(-0.31016636, 180.81757, 48.54035, 8.390549)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=313568673]
-position = Vector2(0, -3)
+position = Vector2(1.5, -5)
 shape = SubResource("RectangleShape2D_door")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1731123173]
-position = Vector2(2.3841858e-07, -3)
-scale = Vector2(1.75, 1.1875)
-texture = SubResource("PlaceholderTexture2D_door")
-
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1105675754]
+position = Vector2(1, -30)
 occluder = SubResource("OccluderPolygon2D_door")
 
 [node name="InteractArea" type="Area2D" parent="." unique_id=887815715]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=649108733]
-position = Vector2(0, -1.5)
+position = Vector2(1.5, -5)
 shape = SubResource("RectangleShape2D_interact")
 
 [connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]

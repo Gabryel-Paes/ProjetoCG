@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://actors/components/stalker_director.gd" id="1_director"]
+[ext_resource type="PackedScene" path="res://actors/enemy/stalker.tscn" id="2_stalker"]
+
+[node name="StalkerDirector" type="Node"]
+script = ExtResource("1_director")
+stalker_scene = ExtResource("2_stalker")
