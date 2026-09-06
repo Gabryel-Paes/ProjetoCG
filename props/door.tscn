@@ -1,18 +1,21 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://84jd1ry1w6iv"]
 
-[ext_resource type="Script" path="res://props/door.gd" id="1_door"]
+[ext_resource type="Script" uid="uid://cwu7v8lxl56ji" path="res://props/door.gd" id="1_door"]
+[ext_resource type="Texture2D" uid="uid://bxoem6ckhckng" path="res://ui/assets/sprites/Atlas.png" id="2_8066x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
-size = Vector2(16, 32)
+size = Vector2(54, 33)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_door"]
-size = Vector2(16, 32)
-
-[node name="Door" type="StaticBody2D"]
+[node name="Door" type="StaticBody2D" unique_id=1555460614]
 script = ExtResource("1_door")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_door")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=292260390]
+position = Vector2(3, 0.49999952)
+scale = Vector2(1.125, 6.6)
+texture = ExtResource("2_8066x")
+region_enabled = true
+region_rect = Rect2(-0.12299347, 213.82277, 48.309193, 5.648468)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_door")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=290956167]
+position = Vector2(3, -0.5)
+shape = SubResource("RectangleShape2D_door")

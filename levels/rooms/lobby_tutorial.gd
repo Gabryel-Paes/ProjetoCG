@@ -5,24 +5,39 @@ func _ready() -> void:
 		$Player.z_index = 0
 		$Player.set_collision_mask_value(1, true)
 		$Player.set_collision_mask_value(2, false)
+		# Marca o Player como "presente no térreo" pra quem precisa saber
+		# em qual andar ele está de verdade (não só a parede que ele bate).
+		$Player.set_collision_layer_value(6, true)
+		$Player.set_collision_layer_value(7, false)
 	
 	# Garante que o mezanino comece totalmente transparente (invisível)
 	if has_node("TileMap_2sFloor"):
 		$TileMap_2sFloor.modulate.a = 0.0
 
+	# Mesma coisa pra tudo que é exclusivo do 2º andar (Hearer, e qualquer
+	# outra coisa que entrar no grupo "floor2_only" no futuro).
+	for node in get_tree().get_nodes_in_group("floor2_only"):
+		node.modulate.a = 0.0
+
 # Conectado ao Trigger_Up (Subindo)
 func _on_trigger_up_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
-		body.z_index = 1 
+		body.z_index = 1
 		body.set_collision_mask_value(1, false)
 		body.set_collision_mask_value(2, true)
-		
+		body.set_collision_layer_value(6, false)
+		body.set_collision_layer_value(7, true)
+
 		# Animação suave para APARECER (Fade-In)
 		if has_node("TileMap_2sFloor"):
 			var tween = create_tween()
 			# Faz a opacidade (Alpha) ir de onde está até 1.0 em 0.5 segundos
 			tween.tween_property($TileMap_2sFloor, "modulate:a", 1.0, 0.5)
-			
+
+		for node in get_tree().get_nodes_in_group("floor2_only"):
+			var tween_node = create_tween()
+			tween_node.tween_property(node, "modulate:a", 1.0, 0.5)
+
 		print("Subiu: Mezanino aparecendo gradualmente!")
 
 # MÁGICA DA LUZ: Muda a lanterna para a Camada 2 (Mezanino)
@@ -35,16 +50,22 @@ func _on_trigger_up_body_entered(body: Node2D) -> void:
 		
 func _on_trigger_down_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
-		body.z_index = 0 
+		body.z_index = 0
 		body.set_collision_mask_value(1, true)
 		body.set_collision_mask_value(2, false)
-		
+		body.set_collision_layer_value(6, true)
+		body.set_collision_layer_value(7, false)
+
 		# Animação suave para SUMIR (Fade-Out)
 		if has_node("TileMap_2sFloor"):
 			var tween = create_tween()
 			# Faz a opacidade (Alpha) ir para 0.0 em 0.5 segundos
 			tween.tween_property($TileMap_2sFloor, "modulate:a", 0.0, 0.5)
-			
+
+		for node in get_tree().get_nodes_in_group("floor2_only"):
+			var tween_node = create_tween()
+			tween_node.tween_property(node, "modulate:a", 0.0, 0.5)
+
 		print("Desceu: Mezanino sumindo gradualmente!")
 		
 		# MÁGICA DA LUZ: Volta a lanterna para a Camada 1 (Térreo)

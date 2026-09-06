@@ -231,6 +231,7 @@ height = 4
 fill_from = Vector2(1, 0)
 
 [node name="Player" type="CharacterBody2D" unique_id=335704334 groups=["Player"]]
+collision_layer = 33
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_dthho")
