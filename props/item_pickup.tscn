@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b1sjkfqn15ncx"]
+
+[ext_resource type="Script" uid="uid://wo6xwrh06a3x" path="res://props/item_pickup.gd" id="1_pickup"]
+[ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="2_font"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 46.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lj3dd"]
+light_mode = 1
+
+[node name="ItemPickup" type="Area2D" unique_id=1516117658]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_pickup")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1687399642]
+shape = SubResource("CircleShape2D_pickup")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=673181732]
+
+[node name="PromptLabel" type="Label" parent="." unique_id=143803166]
+material = SubResource("CanvasItemMaterial_lj3dd")
+offset_left = -101.0
+offset_top = -25.0
+offset_right = 102.0
+offset_bottom = -9.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 10
+text = "Pressione E para pegar"
+horizontal_alignment = 1
+vertical_alignment = 1
