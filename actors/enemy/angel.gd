@@ -13,7 +13,14 @@ extends CharacterBody2D
 @export var wander_radius: float = 400.0     # o quanto ele se afasta do ponto de origem
 @export var wander_interval: float = 3.0     # segundos até escolher um novo destino
 
+## Ajusta se a arte não foi desenhada de frente/direita (+X) — mesma ideia do sprite_angle_offset do Player.
+@export var sprite_angle_offset_deg: float = 0.0
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var sprite: Sprite2D = $Sprite2D
+
+var sprt_idle = preload("res://ui/assets/sprites/angel_idle.png")
+var sprt_moving = preload("res://ui/assets/sprites/angel_moving.png")
 
 var player: CharacterBody2D = null
 
@@ -39,6 +46,9 @@ func _physics_process(delta: float) -> void:
 	if _is_being_watched():
 		velocity = Vector2.ZERO
 		move_and_slide()
+		# Congelado olhando pra quem o observou — não pra onde ele ia indo.
+		sprite.texture = sprt_idle
+		sprite.rotation = (player.global_position - global_position).angle() + deg_to_rad(sprite_angle_offset_deg)
 	else:
 		# Tenta chegar nas costas do Player, não direto na frente dele
 		var aim_dir := Vector2.RIGHT.rotated(player.aim_angle)
@@ -62,6 +72,17 @@ func _move_along_path(current_speed: float) -> void:
 			velocity = Vector2.ZERO
 
 	move_and_slide()
+	_update_sprite()
+
+
+func _update_sprite() -> void:
+	if velocity.length() > 1.0:
+		sprite.texture = sprt_moving
+		sprite.rotation = velocity.angle() + deg_to_rad(sprite_angle_offset_deg)
+	else:
+		sprite.texture = sprt_idle
+		# Parado sem estar sendo observado (ex: esperando novo destino do
+		# wander) — mantém a última rotação, não trava num ângulo fixo.
 
 
 func _wander(delta: float) -> void:

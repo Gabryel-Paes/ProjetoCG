@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://bf6s58cvu8m67"]
+
+[ext_resource type="Script" uid="uid://bbpk6bniqtntq" path="res://actors/enemy/hearer.gd" id="1_hearer"]
+[ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="2_health"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hearer"]
+radius = 6.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hearer"]
+size = Vector2(20, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hitbox"]
+radius = 9.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detection"]
+radius = 550.0
+
+[node name="Hearer" type="CharacterBody2D" unique_id=728058646]
+z_index = 1
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_hearer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1257999533]
+shape = SubResource("CircleShape2D_hearer")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1751426282]
+texture = SubResource("PlaceholderTexture2D_hearer")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2042115877]
+path_desired_distance = 6.0
+target_desired_distance = 6.0
+radius = 6.0
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1578659506]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=697385239]
+shape = SubResource("CircleShape2D_hearer")
+
+[node name="Health" parent="." unique_id=1197569412 instance=ExtResource("2_health")]
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1107325264]
+collision_layer = 16
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1785183221]
+shape = SubResource("CircleShape2D_hitbox")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=191263330]
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=801365685]
+shape = SubResource("CircleShape2D_detection")
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
