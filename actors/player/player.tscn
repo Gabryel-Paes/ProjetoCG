@@ -17,6 +17,12 @@
 [ext_resource type="Texture2D" uid="uid://cvwkcv2goh87a" path="res://ui/assets/sprites/arma.png" id="14_arma_icon"]
 [ext_resource type="Texture2D" uid="uid://bx0upfpuhby7y" path="res://ui/assets/sprites/punho.png" id="14_qrxv1"]
 [ext_resource type="Script" uid="uid://c66oye216f7a6" path="res://actors/player/point_light_2d.gd" id="15_pointlight"]
+[ext_resource type="Script" uid="uid://biu1k5p1xo8fu" path="res://Items/inventory.gd" id="18_qrxv1"]
+[ext_resource type="PackedScene" uid="uid://cmq3b2x1t2hf4" path="res://ui/hud/Inventario/inventory_ui.tscn" id="19_invui"]
+[ext_resource type="Resource" uid="uid://rmw78yy8m075" path="res://Items/item_arma.tres" id="20_item_pistol"]
+[ext_resource type="Script" uid="uid://d2aua770dsvt1" path="res://Items/item.gd" id="20_lj3dd"]
+[ext_resource type="Resource" uid="uid://cc5ft3rif5dve" path="res://Items/item_faca.tres" id="21_item_faca"]
+[ext_resource type="Texture2D" uid="uid://bm6rly60y06jf" path="res://ui/assets/sprites/Lanterna.png" id="23_nsxbo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_388e2"]
 radius = 8.0
@@ -130,6 +136,16 @@ width = 150
 height = 4
 fill_from = Vector2(1, 0)
 
+[sub_resource type="Resource" id="Resource_8jo5n"]
+script = ExtResource("20_lj3dd")
+item_name = "Lanterna"
+texture = ExtResource("23_nsxbo")
+description = "\"Espero que a bateria ainda preste\""
+type = 2
+value = 1
+stackable = false
+metadata/_custom_type_script = "uid://d2aua770dsvt1"
+
 [node name="Player" type="CharacterBody2D" unique_id=335704334 groups=["Player"]]
 collision_mask = 5
 motion_mode = 1
@@ -148,7 +164,7 @@ shake_strength = 10.0
 [node name="PointLight2D" type="PointLight2D" parent="Aim" unique_id=1802786243]
 light_mask = 3
 visibility_layer = 3
-color = Color(1, 1, 1, 0.7372549)
+color = Color(1, 0.9647059, 0.93333334, 0.5764706)
 blend_mode = 2
 range_item_cull_mask = 3
 texture = SubResource("CompressedTexture2D_qrxv1")
@@ -272,6 +288,18 @@ offset_bottom = 27.0
 expand_mode = 1
 stretch_mode = 5
 
+[node name="InventoryUI" parent="HUD" unique_id=317169479 instance=ExtResource("19_invui")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -116.0
+offset_right = 160.0
+offset_bottom = 116.0
+inventory = NodePath("../../Inventory")
+
 [node name="StaminaBar" type="TextureProgressBar" parent="HUD" unique_id=274748334]
 anchors_preset = 7
 anchor_left = 0.5
@@ -292,6 +320,10 @@ texture_progress = SubResource("GradientTexture2D_rt46e")
 max_health = 5.0
 
 [node name="Stamina" parent="." unique_id=1815946519 instance=ExtResource("11_hiosj")]
+
+[node name="Inventory" type="Node" parent="." unique_id=237130853]
+script = ExtResource("18_qrxv1")
+starting_items = Array[ExtResource("20_lj3dd")]([ExtResource("20_item_pistol"), ExtResource("21_item_faca"), SubResource("Resource_8jo5n")])
 
 [connection signal="weapon_changed" from="." to="HUD/Municao" method="_on_weapon_changed"]
 [connection signal="weapon_changed" from="." to="HUD/WeaponIcon" method="_on_weapon_changed"]

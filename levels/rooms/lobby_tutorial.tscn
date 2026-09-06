@@ -8,8 +8,11 @@
 [ext_resource type="PackedScene" path="res://props/key.tscn" id="6_ad2o2"]
 [ext_resource type="PackedScene" path="res://props/lever.tscn" id="7_ptjnr"]
 [ext_resource type="PackedScene" path="res://props/lever_puzzle.tscn" id="8_yokfp"]
-[ext_resource type="PackedScene" uid="uid://bn4tnkj3nut6l" path="res://actors/enemy/angel.tscn" id="9_ad2o2"]
+[ext_resource type="PackedScene" path="res://actors/enemy/angel.tscn" id="9_ad2o2"]
 [ext_resource type="PackedScene" uid="uid://c2asx2wu3lukj" path="res://props/simple_door.tscn" id="10_ptjnr"]
+[ext_resource type="PackedScene" uid="uid://b1sjkfqn15ncx" path="res://props/item_pickup.tscn" id="11_5cw8o"]
+[ext_resource type="Script" uid="uid://d2aua770dsvt1" path="res://Items/item.gd" id="12_35gje"]
+[ext_resource type="Texture2D" uid="uid://dora55o7nfddr" path="res://ui/assets/sprites/Bullet_Box.png" id="13_d72jg"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_puglh"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -460,6 +463,15 @@ size = Vector2(231.125, 4)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t1g16"]
 size = Vector2(227.125, 3)
 
+[sub_resource type="Resource" id="Resource_vqths"]
+script = ExtResource("12_35gje")
+item_name = "Munição"
+texture = ExtResource("13_d72jg")
+description = "\"uma caixa de balas, tem seis aí dentro.\""
+type = 3
+value = 6
+metadata/_custom_type_script = "uid://d2aua770dsvt1"
+
 [node name="Lobby_Tutorial" type="Node2D" unique_id=1382052866]
 script = ExtResource("1_6nswd")
 
@@ -476,6 +488,7 @@ color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1153864829]
+visible = false
 color = Color(0.06666667, 0.06666667, 0.13333334, 1)
 
 [node name="TileMap_1sFloor" type="TileMapLayer" parent="." unique_id=1508748006]
@@ -566,6 +579,11 @@ position = Vector2(428, -1988)
 [node name="SimpleDoor" parent="." unique_id=1210969321 instance=ExtResource("10_ptjnr")]
 position = Vector2(-116, -793)
 scale = Vector2(1.723851, 0.92089915)
+
+[node name="ItemPickup" parent="." unique_id=2143198142 instance=ExtResource("11_5cw8o")]
+position = Vector2(600, -608)
+scale = Vector2(0.5, 0.5)
+item = SubResource("Resource_vqths")
 
 [connection signal="body_entered" from="Trigger_Up" to="." method="_on_trigger_up_body_entered"]
 [connection signal="body_entered" from="Trigger_Down" to="." method="_on_trigger_down_body_entered"]

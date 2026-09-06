@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://cmq3b2x1t2hf4"]
+
+[ext_resource type="Script" uid="uid://c812n3lkxcq2b" path="res://ui/hud/Inventario/inventory_ui.gd" id="1_6uc15"]
+[ext_resource type="Texture2D" uid="uid://c2tsky8qxokr1" path="res://ui/assets/inv/INVdiv.png" id="2_va7sq"]
+[ext_resource type="PackedScene" uid="uid://jaxmrpf5t28n" path="res://ui/hud/Inventario/inventory_slot.tscn" id="3_1alxu"]
+
+[node name="Control" type="Control" unique_id=831833857]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6uc15")
+slot_scene = ExtResource("3_1alxu")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1707207235]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 232.0
+texture = ExtResource("2_va7sq")
+
+[node name="MainContainer" type="Control" parent="." unique_id=1356143701]
+anchors_preset = 0
+offset_right = 320.0
+offset_bottom = 232.0
+
+[node name="GridContainer" type="GridContainer" parent="MainContainer" unique_id=122419882]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 53.0
+offset_right = 158.0
+offset_bottom = 181.0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 3
+
+[node name="RightPanel" type="Control" parent="MainContainer" unique_id=1220151580]
+anchors_preset = 0
+offset_left = 160.0
+offset_top = 14.0
+offset_right = 304.0
+offset_bottom = 142.0
+
+[node name="NameLabel" type="Label" parent="MainContainer/RightPanel" unique_id=1372457543]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 32.0
+offset_right = 145.0
+offset_bottom = 55.0
+text = "Nome do Item"
+horizontal_alignment = 1
+
+[node name="SelectedIcon" type="TextureRect" parent="MainContainer/RightPanel" unique_id=841560203]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 55.0
+offset_right = 121.0
+offset_bottom = 151.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DescLabel" type="Label" parent="MainContainer" unique_id=813385010]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 183.0
+offset_right = 300.0
+offset_bottom = 210.0
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PopupMenu" type="PopupMenu" parent="." unique_id=1343360040]
+oversampling_override = 1.0

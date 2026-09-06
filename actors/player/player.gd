@@ -35,6 +35,7 @@ var current_weapon: Weapon = Weapon.NONE
 @onready var sprite: Sprite2D = $Aim/Sprite2D
 @onready var fumaca: GPUParticles2D = $Aim/BulletPoint/FumacaCano
 @onready var gun: Gun = $Aim/Gun
+@onready var inventory: Inventory = $Inventory
 
 # ---Animação ---
 @onready var anim: AnimatedSprite2D = $Aim/AnimatedSprite2D
@@ -43,6 +44,7 @@ var current_weapon: Weapon = Weapon.NONE
 @onready var flashlight: PointLight2D = $Aim/PointLight2D
 
 var aim_angle: float = 0.0
+var menu_open: bool = false # travado pelo inventory_ui.gd enquanto o menu está aberto
 
 func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
@@ -113,6 +115,8 @@ func _process(delta: float) -> void:
 # --- Controles de Ação ---
 
 func _input(event:InputEvent) -> void:
+	if menu_open:
+		return
 	if event.is_action_pressed("NextWeapon"):
 		_cycle_weapon(1)
 	elif event.is_action_pressed("LastWeapon"):
@@ -120,7 +124,7 @@ func _input(event:InputEvent) -> void:
 	elif event.is_action_pressed("Attack"):
 		_try_attack()
 	elif event.is_action_pressed("Recarregar") and current_weapon == Weapon.PISTOL:
-		gun.try_reload()
+		gun.try_reload(inventory)
 	elif event.is_action_pressed("Lanterna"):
 		_toggle_flashlight()
 
