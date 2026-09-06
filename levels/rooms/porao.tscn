@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://c7ug70ownj2sb"]
+
+[ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://actors/enemy/stalker_boss.tscn" id="2_boss"]
+
+[node name="Porao" type="Node2D" unique_id=658509346]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2042911787]
+show_behind_parent = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.03, 0.045, 1)
+
+[node name="Player" parent="." unique_id=686276152 instance=ExtResource("1_player")]
+
+[node name="StalkerBoss" parent="." unique_id=1631235918 instance=ExtResource("2_boss")]
+position = Vector2(200, 0)

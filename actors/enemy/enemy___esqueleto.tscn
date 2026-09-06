@@ -116,6 +116,7 @@ height = 20.0
 
 [node name="Enemy - Esqueleto" type="CharacterBody2D" unique_id=1523164900]
 collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_jovwh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1589681061]

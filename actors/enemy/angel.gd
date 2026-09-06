@@ -16,6 +16,11 @@ extends CharacterBody2D
 ## Ajusta se a arte não foi desenhada de frente/direita (+X) — mesma ideia do sprite_angle_offset do Player.
 @export var sprite_angle_offset_deg: float = 0.0
 
+## Distância em que ele para de avançar. Sem isso ele mira o ponto de flanco
+## exato pra sempre e fica "empurrando"/colado no Player — e perto o bastante
+## o vetor de direção (quase zero) normalizado fica instável e treme.
+@export var stop_distance: float = 14.0
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -57,6 +62,12 @@ func _physics_process(delta: float) -> void:
 
 
 func _move_along_path(current_speed: float) -> void:
+	if player != null and global_position.distance_to(player.global_position) <= stop_distance:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		_update_sprite()
+		return
+
 	var has_path := not nav_agent.is_navigation_finished() and not nav_agent.get_current_navigation_path().is_empty()
 
 	if has_path:
