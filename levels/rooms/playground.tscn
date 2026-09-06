@@ -190,6 +190,7 @@ polygon = PackedVector2Array(676.99994, 302.99997, 720.99994, 302.99997, 721, 32
 [node name="Playground" type="Node2D" unique_id=1048735473]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1309934378]
+visible = false
 position = Vector2(519, 300)
 color = Color(0.18000486, 0.1800049, 0.1800048, 1)
 

@@ -19,8 +19,8 @@ var current_weapon: Weapon = Weapon.NONE
 @onready var health: Health = $Health
 @onready var blood_overlay = $HUD/BloodOverlay
 # --- Movimento ---
-@export var base_speed: float = 200.0
-@export var sprint_speed: float = 350.0 # Velocidade da corrida
+@export var base_speed: float = 95.0
+@export var sprint_speed: float = 190.0 # Velocidade da corrida
 @export var sprint_cost: float = 25.0   # Custo de stamina por segundo
 @export var acceleration: float = 2400.0   # px/s². Alto = snap estilo Hotline Miami
 @onready var stamina = $Stamina
@@ -35,15 +35,18 @@ var current_weapon: Weapon = Weapon.NONE
 @onready var sprite: Sprite2D = $Aim/Sprite2D
 @onready var fumaca: GPUParticles2D = $Aim/BulletPoint/FumacaCano
 @onready var gun: Gun = $Aim/Gun
+@onready var knife_attack: AnimatedSprite2D = $Aim/KnifeAttack
 
 # ---Animação ---
 @onready var anim: AnimatedSprite2D = $Aim/AnimatedSprite2D
+@onready var legs: AnimatedSprite2D = $Legs
 
- # --- luz ---
-@onready var flashlight: PointLight2D = $Aim/PointLight2D
+var _knife_swinging: bool = false
+var _knife_combo_queued: bool = false
 
-
-
+# --- luz ---
+# Exposto pra outros scripts (ex: angel.gd) checarem o estado da lanterna.
+@onready var flashlight: PlayerFlashlight = $Aim/PointLight2D
 
 var aim_angle: float = 0.0
 
@@ -51,6 +54,7 @@ func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
 	hud.visible = true
 	gun.fired.connect(_on_gun_fired)
+	knife_attack.animation_finished.connect(_on_knife_animation_finished)
 
 	stamina.stamina_changed.connect(_update_stamina_bar)
 	# NOVO: Conecta a vida mudando à função que atualiza o sangue
@@ -105,8 +109,13 @@ func _physics_process(delta: float) -> void:
 	
 	if direction != Vector2.ZERO:
 		anim.play("walking")
+		# +90°: a arte das pernas foi desenhada de frente (postura vertical),
+		# não de lado — mesma correção que o Sprite2D do corpo já usa.
+		legs.rotation = direction.angle() + PI / 2.0
+		legs.play("walking")
 	else:
 		anim.play("idle")
+		legs.stop() # congela no último quadro, pernas paradas
 
 	gun.set_moving(velocity.length() > 0.0)
 
@@ -124,11 +133,8 @@ func _input(event:InputEvent) -> void:
 		_try_attack()
 	elif event.is_action_pressed("Recarregar") and current_weapon == Weapon.PISTOL:
 		gun.try_reload()
-	elif event.is_action_pressed("Lanterna"):
-		_toggle_flashlight()
-
-func _toggle_flashlight() -> void:
-	flashlight.enabled = !flashlight.enabled
+	# O toggle da lanterna (tecla F) mora no próprio point_light_2d.gd agora —
+	# não duplica aqui.
 
 func _cycle_weapon(step: int) -> void:
 	var count := weapon_order.size()
@@ -154,8 +160,32 @@ func _try_attack() -> void:
 			# Tenta gastar 20 de stamina para o golpe de faca
 			if stamina.drain_stamina(20.0):
 				melee.attack()
+				_play_knife_swing()
 		Weapon.NONE:
 			pass # mãos vazias não atacam
+
+func _play_knife_swing() -> void:
+	if _knife_swinging:
+		# Já está no meio de um golpe: sinaliza que é pra continuar pro combo
+		_knife_combo_queued = true
+		return
+
+	_knife_swinging = true
+	_knife_combo_queued = false
+	sprite.visible = false
+	knife_attack.visible = true
+	knife_attack.play("swing_start")
+
+func _on_knife_animation_finished() -> void:
+	if knife_attack.animation == "swing_start" and _knife_combo_queued:
+		_knife_combo_queued = false
+		knife_attack.play("swing_finish")
+		return
+
+	# Acabou de vez (golpe único, ou combo já terminou)
+	_knife_swinging = false
+	knife_attack.visible = false
+	sprite.visible = true
 
 func _on_gun_fired() -> void:
 	camera.shake(1.0)
