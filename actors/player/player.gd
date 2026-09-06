@@ -142,7 +142,6 @@ func _input(event:InputEvent) -> void:
 
 func _toggle_flashlight() -> void:
 	flashlight.enabled = !flashlight.enabled
-		gun.try_reload()
 	# O toggle da lanterna (tecla F) mora no próprio point_light_2d.gd agora —
 	# não duplica aqui.
 
@@ -205,5 +204,6 @@ func _update_aim() -> void:
 	# Guardado como variável: sprite, lanterna e projétil bebem da mesma fonte
 	aim_angle = (get_global_mouse_position() - global_position).angle()
 	aim.rotation = aim_angle + deg_to_rad(sprite_angle_offset)
+
 func _die() -> void:
 	print("MOrreu");
