@@ -4,6 +4,15 @@ extends CharacterBody2D
 @export var speed: float = 20.0
 @export var dano_do_ataque: float = 1.0 # <-- NOVO: Dano que este inimigo causa
 
+## Distância em que ele para de avançar. Sem isso ele mira o centro exato do
+## Player pra sempre e fica "empurrando"/colado nele — e perto o bastante o
+## vetor de direção (quase zero) normalizado fica instável e treme.
+@export var stop_distance: float = 14.0
+
+## Pequeno empurrão ao tomar dano (tiro/faca), pra dar espaço de reação.
+@export var knockback_strength: float = 160.0
+@export var knockback_friction: float = 900.0
+
 enum PatrolAxis {
 	HORIZONTAL,
 	VERTICAL
@@ -15,10 +24,12 @@ enum PatrolAxis {
 
 var direction: Vector2
 var player: CharacterBody2D = null
+var _knockback: Vector2 = Vector2.ZERO
 
 # Inicialização
 func _ready():
 	health.died.connect(die)
+	health.damaged.connect(_on_damaged)
 
 	if patrol_axis == PatrolAxis.HORIZONTAL:
 		direction = Vector2.RIGHT
@@ -27,16 +38,21 @@ func _ready():
 
 # Loop principal
 func _physics_process(delta):
+	_knockback = _knockback.move_toward(Vector2.ZERO, knockback_friction * delta)
+	var chase_velocity := Vector2.ZERO
 
 	if player != null:
-		# Persegue o jogador
-		var chase_direction = (player.global_position - global_position).normalized()
-		velocity = chase_direction * speed
+		# Persegue o jogador, mas para perto o bastante em vez de ficar
+		# empurrando/colado nele pra sempre.
+		var to_player = player.global_position - global_position
+		if to_player.length() > stop_distance:
+			chase_velocity = to_player.normalized() * speed
 
 	else:
 		# Patrulha
-		velocity = direction * speed
+		chase_velocity = direction * speed
 
+	velocity = chase_velocity + _knockback
 	move_and_slide()
 
 	# Se estiver patrulhando e bater em algo, inverte a direção.
@@ -64,6 +80,12 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 # Dano recebido pelo inimigo
 func take_damage(amount: float, source_position: Vector2) -> void:
 	health.apply_damage(amount, source_position)
+
+func _on_damaged(_amount: float, source_position: Vector2) -> void:
+	var push_dir := global_position - source_position
+	if push_dir.length() < 0.01:
+		push_dir = Vector2.RIGHT
+	_knockback = push_dir.normalized() * knockback_strength
 
 func die() -> void:
 	queue_free()
