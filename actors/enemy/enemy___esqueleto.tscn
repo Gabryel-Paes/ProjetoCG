@@ -8,6 +8,9 @@
 radius = 7.0
 height = 18.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_plw3o"]
+radius = 90.199776
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_7c2mg"]
 atlas = ExtResource("2_h1xc6")
 region = Rect2(0, 0, 24, 24)
@@ -123,6 +126,7 @@ shape = SubResource("CapsuleShape2D_dr77u")
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1298880304]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2037023990]
+shape = SubResource("CircleShape2D_plw3o")
 
 [node name="Aim" type="Node2D" parent="." unique_id=806017258]
 
