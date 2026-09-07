@@ -1,5 +1,13 @@
-extends Area2D
+extends RigidBody2D
 class_name ItemPickup
+
+# --- Item largado no chão ---
+# É um RigidBody2D de verdade (não Area2D) de propósito: andar contra ele
+# empurra/"chuta" o item pra valer, deslizando até parar sozinho por atrito
+# — física de verdade, não um balancinho que volta pro lugar (isso é só pra
+# decoração, ver nudge_on_approach.gd). A detecção de "pode pegar com E"
+# mora à parte, no PickupArea (Area2D filho), com um alcance maior que o
+# corpo físico do item.
 
 @export var item: Item
 @export var amount: int = 1
@@ -12,8 +20,6 @@ var _player_in_range: Node2D = null
 
 
 func _ready() -> void:
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
 	prompt.text = prompt_text
 	prompt.visible = false
 	if item:
@@ -43,13 +49,13 @@ func _collect() -> void:
 		queue_free()
 
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_pickup_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		_player_in_range = body
 		prompt.visible = true
 
 
-func _on_body_exited(body: Node2D) -> void:
+func _on_pickup_area_body_exited(body: Node2D) -> void:
 	if body == _player_in_range:
 		_player_in_range = null
 		prompt.visible = false

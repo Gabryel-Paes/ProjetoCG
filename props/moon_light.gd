@@ -23,6 +23,14 @@ class_name MoonLight
 
 const RESOLUCAO_TEXTURA: int = 256
 
+# A textura de queda suave é idêntica pra toda MoonLight (só depende da
+# constante acima, nunca de cor/intensidade/raio) — sem isso, cada uma das
+# ~27 instâncias do lobby refazia os mesmos 256×256 = 65536 Image.set_pixel
+# no _ready(), mais de 1,7 milhão de chamadas síncronas travando o
+# carregamento da cena. `static var` faz a primeira instância gerar e todo
+# o resto só reaproveitar.
+static var _textura_compartilhada: ImageTexture = null
+
 func _ready() -> void:
 	range_item_cull_mask = andar
 	shadow_item_cull_mask = andar
@@ -32,10 +40,15 @@ func _ready() -> void:
 	shadow_enabled = true
 	shadow_filter = PointLight2D.SHADOW_FILTER_PCF5
 
-	texture = _criar_textura_suave()
+	texture = _obter_textura_compartilhada()
 	texture_scale = raio_px / (RESOLUCAO_TEXTURA / 2.0)
 
-func _criar_textura_suave() -> ImageTexture:
+static func _obter_textura_compartilhada() -> ImageTexture:
+	if _textura_compartilhada == null:
+		_textura_compartilhada = _criar_textura_suave()
+	return _textura_compartilhada
+
+static func _criar_textura_suave() -> ImageTexture:
 	var raio_maximo := float(RESOLUCAO_TEXTURA) / 2.0
 	var centro := Vector2(raio_maximo, raio_maximo)
 	var imagem := Image.create(RESOLUCAO_TEXTURA, RESOLUCAO_TEXTURA, false, Image.FORMAT_RGBA8)
