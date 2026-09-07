@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cp118gj0gi1x2"]
 
-[ext_resource type="Script" uid="uid://dmsu26qid6cx1" path="res://actors/enemy/enemy___esqueleto.gd" id="1_3csrs"]
+[ext_resource type="Script" uid="uid://b2gjk45lxmurx" path="res://actors/enemy/zumbi.gd" id="1_3csrs"]
 [ext_resource type="Texture2D" uid="uid://dpmju81k6iacv" path="res://ui/assets/sprites/slime_green.png" id="2_lv60e"]
 [ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="3_rgqll"]
 
@@ -108,6 +108,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 6.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4s7lv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h7gdp"]
@@ -120,14 +123,14 @@ collision_mask = 3
 script = ExtResource("1_3csrs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1589681061]
-shape = SubResource("CapsuleShape2D_dr77u")
+shape = SubResource("CircleShape2D_body")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1917651182]
 
-[node name="DetectionArea" type="Area2D" parent="." unique_id=1298880304]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=2037023990]
-shape = SubResource("CircleShape2D_plw3o")
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=3021771845]
+path_desired_distance = 6.0
+target_desired_distance = 6.0
+radius = 6.0
 
 [node name="Aim" type="Node2D" parent="." unique_id=806017258]
 
@@ -152,6 +155,4 @@ collision_layer = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1839999983]
 shape = SubResource("CapsuleShape2D_h7gdp")
 
-[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
-[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
