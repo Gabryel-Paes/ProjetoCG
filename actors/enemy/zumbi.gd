@@ -2,16 +2,12 @@ extends CharacterBody2D
 
 # Configurações
 @export var speed: float = 25.0
-@export var dano_do_ataque: float = 1.0 # <-- NOVO: Dano que este inimigo causa
-
-## Distância em que ele para de avançar. Sem isso ele mira o centro exato do
-## Player pra sempre e fica "empurrando"/colado nele — e perto o bastante o
-## vetor de direção (quase zero) normalizado fica instável e treme.
+@export var dano_do_ataque: float = 1.0 
 @export var stop_distance: float = 8.0
 
 ## Pequeno empurrão ao tomar dano (tiro/faca), pra dar espaço de reação.
-@export var knockback_strength: float = 160.0
-@export var knockback_friction: float = 900.0
+@export var knockback_strength: float = 120.0
+@export var knockback_friction: float = 800.0
 
 enum PatrolAxis {
 	HORIZONTAL,
@@ -69,7 +65,6 @@ func _on_detection_area_body_exited(body):
 	if body == player:
 		player = null
 
-# --- NOVO: Lógica de Causar Dano (Hitbox) ---
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	# Confirma se é o Player e se ele possui o componente de vida
 	if body.is_in_group("Player") and body.has_node("Health"):
