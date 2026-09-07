@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://bxoem6ckhckng" path="res://ui/assets/sprites/Atlas.png" id="2_uqrad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
-size = Vector2(7, 84)
+size = Vector2(9.96, 48)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_door"]
-polygon = PackedVector2Array(-2, -17, 4, -17, 4, 67, -2, 67)
+polygon = PackedVector2Array(0, -24, 2, -24, 2, 24, 0, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact"]
-size = Vector2(17, 84)
+size = Vector2(17, 54)
 
 [node name="SimpleDoor" type="StaticBody2D" unique_id=308717192]
 script = ExtResource("1_door")
@@ -18,17 +18,17 @@ script = ExtResource("1_door")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1731123173]
 position = Vector2(0, -5)
 rotation = 1.5707964
-scale = Vector2(1.75, 1.1875)
+scale = Vector2(0.98887, 1.1875)
 texture = ExtResource("2_uqrad")
 region_enabled = true
 region_rect = Rect2(-0.31016636, 180.81757, 48.54035, 8.390549)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=313568673]
-position = Vector2(1.5, -5)
+position = Vector2(0, -5)
 shape = SubResource("RectangleShape2D_door")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1105675754]
-position = Vector2(1, -30)
+position = Vector2(0, -5)
 occluder = SubResource("OccluderPolygon2D_door")
 
 [node name="InteractArea" type="Area2D" parent="." unique_id=887815715]
