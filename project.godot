@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ProjetoCG"
-run/main_scene="uid://dq21wj03rqw0p"
+run/main_scene="uid://c7ug70ownj2sb"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://ui/assets/icon.svg"
 
