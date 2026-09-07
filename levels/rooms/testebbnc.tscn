@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cd0atniwxg1b4"]
+
+[ext_resource type="TileSet" uid="uid://dwowauhja5bow" path="res://ui/Atlas.tres" id="1_l5cw4"]
+
+[node name="Testebbnc" type="Node2D" unique_id=605783267]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1196297986]
+tile_set = ExtResource("1_l5cw4")
