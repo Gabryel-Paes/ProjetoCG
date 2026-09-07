@@ -11,11 +11,22 @@ class_name Stalker
 @export var slow_amount: float = 0.5   # fração da velocidade normal enquanto lento (0.5 = -50%)
 @export var slow_duration: float = 1.5 # segundos que a lentidão dura a cada acerto
 
+## Distância em que ele para de avançar. Sem isso ele mira o centro exato do
+## Player pra sempre e fica "empurrando"/colado nele — e perto o bastante o
+## vetor de direção (quase zero) normalizado fica instável e treme.
+@export var stop_distance: float = 14.0
+
+## Quão rápido o empurrão de knockback desaparece (px/s²). Só é usado por
+## quem realmente toma dano de verdade (ver StalkerBoss) — o Stalker normal
+## nunca recebe o sinal "damaged" porque não tem Health.
+@export var knockback_friction: float = 900.0
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 var player: CharacterBody2D = null
 
 var _slow_timer: float = 0.0
+var _knockback: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -25,9 +36,11 @@ func _ready() -> void:
 	nav_agent.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_EDGECENTERED
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	_knockback = _knockback.move_toward(Vector2.ZERO, knockback_friction * delta)
+
 	if player == null:
-		velocity = Vector2.ZERO
+		velocity = _knockback
 		move_and_slide()
 		return
 
@@ -45,20 +58,22 @@ func _current_speed() -> float:
 
 
 func _move_along_path() -> void:
-	var has_path := not nav_agent.is_navigation_finished() and not nav_agent.get_current_navigation_path().is_empty()
-	var current_speed := _current_speed()
+	var chase_velocity := Vector2.ZERO
 
-	if has_path:
-		var next_point := nav_agent.get_next_path_position()
-		velocity = (next_point - global_position).normalized() * current_speed
-	else:
-		# Sem navmesh (ainda) ou sem rota: cai pra linha reta, mesmo recurso do Anjo.
-		var target := nav_agent.target_position
-		if global_position.distance_to(target) > 2.0:
-			velocity = (target - global_position).normalized() * current_speed
+	if player == null or global_position.distance_to(player.global_position) > stop_distance:
+		var has_path := not nav_agent.is_navigation_finished() and not nav_agent.get_current_navigation_path().is_empty()
+		var current_speed := _current_speed()
+
+		if has_path:
+			var next_point := nav_agent.get_next_path_position()
+			chase_velocity = (next_point - global_position).normalized() * current_speed
 		else:
-			velocity = Vector2.ZERO
+			# Sem navmesh (ainda) ou sem rota: cai pra linha reta, mesmo recurso do Anjo.
+			var target := nav_agent.target_position
+			if global_position.distance_to(target) > 2.0:
+				chase_velocity = (target - global_position).normalized() * current_speed
 
+	velocity = chase_velocity + _knockback
 	move_and_slide()
 
 

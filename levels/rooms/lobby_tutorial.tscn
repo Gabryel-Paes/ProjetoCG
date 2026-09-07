@@ -433,7 +433,7 @@ position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_t1g16")
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_guq88")]
-position = Vector2(613.00006, -706.99994)
+position = Vector2(851, -1508)
 scale = Vector2(1.0197155, 1.0387352)
 
 [node name="Key" parent="." unique_id=1805828081 instance=ExtResource("6_ad2o2")]
@@ -570,6 +570,11 @@ position = Vector2(-279, -1389)
 
 [node name="MoonLight26" parent="Luzes" unique_id=1569601819 instance=ExtResource("18_7oabu")]
 position = Vector2(-285, -1150)
+
+[node name="Angel" parent="." unique_id=78216036 instance=ExtResource("9_ad2o2")]
+position = Vector2(506, -1777)
+scale = Vector2(2, 2)
+speed = 200.0
 
 [connection signal="body_entered" from="Trigger_Up" to="." method="_on_trigger_up_body_entered"]
 [connection signal="body_entered" from="Trigger_Down" to="." method="_on_trigger_down_body_entered"]

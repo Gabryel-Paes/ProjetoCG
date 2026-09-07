@@ -23,6 +23,13 @@ var current_weapon: Weapon = Weapon.NONE
 @export var sprint_speed: float = 190.0 # Velocidade da corrida
 @export var sprint_cost: float = 25.0   # Custo de stamina por segundo
 @export var acceleration: float = 2400.0   # px/s². Alto = snap estilo Hotline Miami
+# --- Knockback ---
+# Sem isso, um inimigo com velocidade igual/maior que a sua sempre reocupava
+# o espaço no frame seguinte e dava a sensação de "grudar" ao encostar.
+@export var knockback_strength: float = 220.0 # impulso aplicado ao tomar dano
+@export var knockback_friction: float = 900.0 # px/s² de quão rápido o empurrão desaparece
+var _input_velocity: Vector2 = Vector2.ZERO   # movimento controlado pelo jogador
+var _knockback: Vector2 = Vector2.ZERO        # empurrão externo, decai sozinho
 @onready var stamina = $Stamina
 @onready var stamina_bar = $HUD/StaminaBar
 # --- Mira ---
@@ -61,6 +68,7 @@ func _ready() -> void:
 	stamina.stamina_changed.connect(_update_stamina_bar)
 	# NOVO: Conecta a vida mudando à função que atualiza o sangue
 	health.health_changed.connect(_update_blood_overlay)
+	health.damaged.connect(_on_damaged)
 
 	# Garante que o sangue comece invisível
 	blood_overlay.modulate.a = 0.0
@@ -80,6 +88,12 @@ func _update_stamina_bar(current: float, max_value: float) -> void:
 		# Se a stamina voltou pro máximo, some suavemente ao longo de 0.5 segundos
 		var tween = create_tween()
 		tween.tween_property(stamina_bar, "modulate:a", 0.0, 0.5)
+
+func _on_damaged(_amount: float, source_position: Vector2) -> void:
+	var push_dir := global_position - source_position
+	if push_dir.length() < 0.01:
+		push_dir = Vector2.RIGHT # posições coincidentes: empurra em qualquer direção em vez de ficar zerado
+	_knockback = push_dir.normalized() * knockback_strength
 
 func _update_blood_overlay(current_health: float, max_health: float) -> void:
 	# Calcula a porcentagem de DANO sofrido (0.0 a 1.0)
@@ -106,7 +120,11 @@ func _physics_process(delta: float) -> void:
 		target_speed *= unarmed_speed_multiplier
 
 	# Aplica o target_speed na movimentação (mantendo sua aceleração fluida)
-	velocity = velocity.move_toward(direction * target_speed, acceleration * delta)
+	_input_velocity = _input_velocity.move_toward(direction * target_speed, acceleration * delta)
+	# Empurrão de knockback é somado por cima e desaparece sozinho — assim ele
+	# te afasta de verdade do inimigo mesmo se você não estiver se mexendo.
+	_knockback = _knockback.move_toward(Vector2.ZERO, knockback_friction * delta)
+	velocity = _input_velocity + _knockback
 	move_and_slide()
 	
 	if direction != Vector2.ZERO:

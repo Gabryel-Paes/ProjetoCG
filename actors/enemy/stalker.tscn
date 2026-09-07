@@ -12,6 +12,7 @@ size = Vector2(24, 36)
 
 [node name="Stalker" type="CharacterBody2D" unique_id=1797581993]
 collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_stalker")
 speed = 100.0
 
