@@ -38,6 +38,14 @@ func _on_trigger_up_body_entered(body: Node2D) -> void:
 			var tween_node = create_tween()
 			tween_node.tween_property(node, "modulate:a", 1.0, 0.5)
 
+		if has_node("TileMap_1sFloor"):
+			var tween_floor1 = create_tween()
+			tween_floor1.tween_property($TileMap_1sFloor, "modulate:a", 0.0, 0.5)
+
+		for node in get_tree().get_nodes_in_group("floor1_only"):
+			var tween_node1 = create_tween()
+			tween_node1.tween_property(node, "modulate:a", 0.0, 0.5)
+
 		print("Subiu: Mezanino aparecendo gradualmente!")
 
 # MÁGICA DA LUZ: Muda a lanterna para a Camada 2 (Mezanino)
@@ -65,6 +73,14 @@ func _on_trigger_down_body_entered(body: Node2D) -> void:
 		for node in get_tree().get_nodes_in_group("floor2_only"):
 			var tween_node = create_tween()
 			tween_node.tween_property(node, "modulate:a", 0.0, 0.5)
+
+		if has_node("TileMap_1sFloor"):
+			var tween_floor1 = create_tween()
+			tween_floor1.tween_property($TileMap_1sFloor, "modulate:a", 1.0, 0.5)
+
+		for node in get_tree().get_nodes_in_group("floor1_only"):
+			var tween_node1 = create_tween()
+			tween_node1.tween_property(node, "modulate:a", 1.0, 0.5)
 
 		print("Desceu: Mezanino sumindo gradualmente!")
 		
