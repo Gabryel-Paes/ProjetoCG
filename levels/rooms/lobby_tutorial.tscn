@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" path="res://props/dust_motes.tscn" id="3_bfm5w"]
 [ext_resource type="PackedScene" uid="uid://84jd1ry1w6iv" path="res://props/door.tscn" id="5_6ww7p"]
 [ext_resource type="PackedScene" path="res://props/key.tscn" id="6_ad2o2"]
+[ext_resource type="PackedScene" uid="uid://cp118gj0gi1x2" path="res://actors/enemy/Zumbi.tscn" id="7_7ehem"]
 [ext_resource type="PackedScene" path="res://props/lever.tscn" id="7_ptjnr"]
+[ext_resource type="Script" uid="uid://coveb47fjaek5" path="res://actors/enemy/zumbi.gd" id="8_7hpn8"]
 [ext_resource type="PackedScene" path="res://props/lever_puzzle.tscn" id="8_yokfp"]
 [ext_resource type="PackedScene" uid="uid://cihj6bltwdi1w" path="res://actors/enemy/angel.tscn" id="9_ad2o2"]
 [ext_resource type="PackedScene" uid="uid://c2asx2wu3lukj" path="res://props/simple_door.tscn" id="10_ptjnr"]
@@ -424,7 +426,6 @@ tile_map_data = PackedByteArray("AAD9/9P/AgACAA8AAAD+/9P/AgADAA8AAAD//9P/AgAAAA8
 tile_set = ExtResource("2_35gje")
 
 [node name="TileMap_2sFloor" type="TileMapLayer" parent="." unique_id=1178223054]
-visible = false
 light_mask = 2
 z_index = 1
 position = Vector2(20, -538)
@@ -448,6 +449,12 @@ position = Vector2(-13, -1118)
 
 [node name="Enemy - Esqueleto" parent="inimigos" unique_id=1523164900 instance=ExtResource("12_5cw8o")]
 position = Vector2(860, -710)
+
+[node name="Zumbi" parent="inimigos" unique_id=1114700753 instance=ExtResource("7_7ehem")]
+position = Vector2(1670, -1477)
+script = ExtResource("8_7hpn8")
+knockback_strength = 120.0
+knockback_friction = 800.0
 
 [node name="Angel" parent="inimigos" unique_id=78216036 instance=ExtResource("9_ad2o2")]
 position = Vector2(494, -1891)
@@ -627,7 +634,7 @@ area_size = Vector2(400, 150)
 quantidade = 50
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_guq88")]
-position = Vector2(641.00006, -691.99994)
+position = Vector2(1631, -1305)
 scale = Vector2(1.0197155, 1.0387352)
 
 [node name="ReflectiveFloor" parent="." unique_id=1935488396 instance=ExtResource("23_10whp")]
