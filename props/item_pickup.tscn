@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wo6xwrh06a3x" path="res://props/item_pickup.gd" id="1_pickup"]
 [ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="2_font"]
+[ext_resource type="PackedScene" path="res://props/dust_motes.tscn" id="3_smoke"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_body"]
 radius = 6.0
@@ -14,7 +15,6 @@ light_mode = 1
 
 [node name="ItemPickup" type="RigidBody2D" unique_id=1516117658]
 collision_layer = 128
-collision_mask = 1
 mass = 0.3
 gravity_scale = 0.0
 lock_rotation = true
@@ -25,12 +25,20 @@ script = ExtResource("1_pickup")
 shape = SubResource("CircleShape2D_body")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=673181732]
+scale = Vector2(0.5, 0.5)
 
-[node name="PickupArea" type="Area2D" parent="."]
+[node name="Smoke" parent="." unique_id=541438915 instance=ExtResource("3_smoke")]
+position = Vector2(0, -4)
+area_size = Vector2(6, 6)
+quantidade = 3
+velocidade_max = 3.0
+spread_deg = 40.0
+
+[node name="PickupArea" type="Area2D" parent="." unique_id=1769617905]
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea" unique_id=1461047155]
+scale = Vector2(0.25, 0.25)
 shape = SubResource("CircleShape2D_pickup")
 
 [node name="PromptLabel" type="Label" parent="." unique_id=143803166]

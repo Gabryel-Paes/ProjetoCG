@@ -17,8 +17,8 @@ radius = 550.0
 
 [node name="Hearer" type="CharacterBody2D" unique_id=728058646]
 z_index = 1
-collision_layer = 4
-collision_mask = 3
+collision_layer = 64
+collision_mask = 65
 script = ExtResource("1_hearer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1257999533]

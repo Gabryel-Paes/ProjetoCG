@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bqxckql0j0lba"]
+
+[ext_resource type="Script" uid="uid://cllkfda38gsny" path="res://ui/menu/victory_screen.gd" id="1_victory"]
+[ext_resource type="PackedScene" uid="uid://boovwso8krbqb" path="res://ui/menu/text_sequence.tscn" id="2_seq"]
+
+[node name="VictoryScreen" type="Control" unique_id=1954970831]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_victory")
+
+[node name="TextSequence" parent="." unique_id=1422813070 instance=ExtResource("2_seq")]
+layout_mode = 1
+pages = Array[String](["Após a batalha feroz Claudio saiu vitorioso, mas após vencer contra o gigante ele abre seus olhos e se ve deitado na frente das ruinas de uma casa velha e que ja tombou a anos. Claudio se levanta e com apenas um graveto e um ramo de folhas em maos decide voltar com seu tratamento e ir tomar os remedios", "PARABÉNS!
+
+VOCÊ VENCEU!"])
+
+[node name="MenuButton" type="Button" parent="." unique_id=911972716]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -100.0
+offset_right = 90.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 18
+text = "Voltar ao Menu"
+
+[connection signal="finished" from="TextSequence" to="." method="_on_sequence_finished"]
+[connection signal="pressed" from="MenuButton" to="." method="_on_menu_pressed"]

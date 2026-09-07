@@ -61,34 +61,20 @@ var _knife_combo_queued: bool = false
 # Exposto pra outros scripts (ex: angel.gd) checarem o estado da lanterna.
 @onready var flashlight: PlayerFlashlight = $Aim/PointLight2D
 
-# --- reflexo (poça/espelho) ---
-@onready var mirror_viewport: SubViewport = $MirrorViewport
-@onready var mirror_camera: Camera2D = $MirrorViewport/MirrorCamera
-
 var aim_angle: float = 0.0
 var menu_open: bool = false # travado pelo inventory_ui.gd enquanto o menu está aberto
 
 func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
 	hud.visible = true
-
-	# Sem isso, o SubViewport renderiza no próprio World2D isolado dele —
-	# a câmera fica "olhando" pra um mundo vazio, mesmo em cima do Player,
-	# e o ReflectiveFloor nunca tem nada de verdade pra mostrar.
-	mirror_viewport.world_2d = get_viewport().world_2d
-
-	# Mas aí ela passa a enxergar TUDO nesse mundo, incluindo o próprio
-	# ReflectionSprite da ReflectiveFloor (que mostra a textura dela mesma)
-	# — um loop (textura sendo destino e entrada ao mesmo tempo) que a GPU
-	# recusa. "Visibility Layer 2" é reservada pra reflexos: tudo que estiver
-	# nela fica escondido só pra essa câmera, sem afetar colisão nem luz.
-	mirror_viewport.canvas_cull_mask = 0xFFFFFFFF & ~2
 	gun.fired.connect(_on_gun_fired)
 	knife_attack.animation_finished.connect(_on_knife_animation_finished)
 
 	stamina.stamina_changed.connect(_update_stamina_bar)
 	# NOVO: Conecta a vida mudando à função que atualiza o sangue
 	health.health_changed.connect(_update_blood_overlay)
+	# died já vem conectado a _die() pelo próprio player.tscn (editor) —
+	# conectar de novo aqui duplicava o sinal.
 	health.damaged.connect(_on_damaged)
 
 	# Garante que o sangue comece invisível
@@ -148,10 +134,6 @@ func _physics_process(delta: float) -> void:
 	velocity = _input_velocity + _knockback
 	move_and_slide()
 	_push_kicked_bodies()
-
-	# SubViewport não é Node2D — a MirrorCamera não herda a posição do
-	# Player só por ser "filha" dele, então sincroniza na mão todo frame.
-	mirror_camera.global_position = global_position
 
 	if direction != Vector2.ZERO:
 		anim.play("walking")
@@ -260,7 +242,10 @@ func _update_aim() -> void:
 	aim.rotation = aim_angle + deg_to_rad(sprite_angle_offset)
 
 func _die() -> void:
-	print("MOrreu");
+	# died dispara no meio de um callback de física (Hitbox/apply_damage) —
+	# trocar de cena na hora tenta remover o Player (CollisionObject2D) nesse
+	# momento, o que o Godot não permite. Adia pro fim do frame.
+	get_tree().change_scene_to_file.call_deferred("res://ui/menu/death_screen.tscn")
 
 # --- Cura (chamado pela UI do inventário ao usar Medkit/Pills) ---
 func heal(amount: float) -> bool:
