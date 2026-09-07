@@ -106,7 +106,23 @@ func _wander(delta: float) -> void:
 func _pick_wander_target() -> void:
 	_wander_timer = wander_interval
 	var offset := Vector2.RIGHT.rotated(randf_range(0.0, TAU)) * randf_range(0.0, wander_radius)
-	nav_agent.target_position = _spawn_position + offset
+	nav_agent.target_position = _snap_to_navmesh(_spawn_position + offset)
+
+
+# Wander_radius pode facilmente cair fora da área navegável (fora da casa,
+# do outro lado de uma parede). Sem isso, o NavigationAgent2D fica pedindo
+# rota pra um ponto que não existe e o motor spama aviso toda hora — mesma
+# correção já usada no stalker_director.gd pra posicionar o Stalker.
+func _snap_to_navmesh(point: Vector2) -> Vector2:
+	var map_rid: RID = get_viewport().world_2d.navigation_map
+	var snapped_point := NavigationServer2D.map_get_closest_point(map_rid, point)
+
+	# Navmesh ainda não pronto (mapa vazio) devolve (0,0) — nesse caso é
+	# pior "ajustar" pra origem do mundo do que só usar o ponto original.
+	if snapped_point == Vector2.ZERO and point != Vector2.ZERO:
+		return point
+
+	return snapped_point
 
 
 func _is_being_watched() -> bool:

@@ -113,7 +113,20 @@ func _pick_wander_target() -> void:
 		return
 
 	var offset := Vector2.RIGHT.rotated(randf_range(0.0, TAU)) * randf_range(0.0, wander_radius)
-	nav_agent.target_position = _spawn_position + offset
+	nav_agent.target_position = _snap_to_navmesh(_spawn_position + offset)
+
+
+# Wander_radius pode cair fora da área navegável. Sem isso, o
+# NavigationAgent2D pede rota pra um ponto que não existe e o motor spama
+# aviso toda hora — mesma correção usada no Anjo/stalker_director.gd.
+func _snap_to_navmesh(point: Vector2) -> Vector2:
+	var map_rid: RID = get_viewport().world_2d.navigation_map
+	var snapped_point := NavigationServer2D.map_get_closest_point(map_rid, point)
+
+	if snapped_point == Vector2.ZERO and point != Vector2.ZERO:
+		return point
+
+	return snapped_point
 
 
 # --- Audição ---
