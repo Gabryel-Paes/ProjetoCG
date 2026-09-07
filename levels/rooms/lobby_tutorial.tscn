@@ -384,7 +384,6 @@ color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1153864829]
-visible = false
 color = Color(0.011955088, 0.0026631625, 0.036364146, 1)
 
 [node name="TileMap_1sFloor" type="TileMapLayer" parent="." unique_id=1508748006]
@@ -437,15 +436,12 @@ position = Vector2(851, -1508)
 scale = Vector2(1.0197155, 1.0387352)
 
 [node name="Key" parent="." unique_id=1805828081 instance=ExtResource("6_ad2o2")]
-visible = false
 position = Vector2(1466, -1495)
 
 [node name="Lever" parent="." unique_id=65747202 instance=ExtResource("7_ptjnr")]
-visible = false
 position = Vector2(27, -1339)
 
 [node name="Lever3" parent="." unique_id=1774276350 instance=ExtResource("7_ptjnr")]
-visible = false
 position = Vector2(170, -1339)
 
 [node name="LeverPuzzle" parent="." unique_id=201661630 node_paths=PackedStringArray("required_on", "required_off") instance=ExtResource("8_yokfp")]
@@ -457,11 +453,9 @@ min_delay = 15.0
 max_delay = 30.0
 
 [node name="Enemy - Esqueleto" parent="." unique_id=1523164900 instance=ExtResource("12_5cw8o")]
-visible = false
 position = Vector2(860, -710)
 
 [node name="Hearer" parent="." unique_id=1266722377 node_paths=PackedStringArray("patrol_points") groups=["floor2_only"] instance=ExtResource("13_5cw8o")]
-visible = false
 light_mask = 2
 visibility_layer = 2
 position = Vector2(-171, -935)
@@ -469,11 +463,9 @@ collision_mask = 6
 patrol_points = [NodePath("../Marker2D"), NodePath("../Marker2D2"), NodePath("../Marker2D3")]
 
 [node name="Angel" parent="." unique_id=78216036 instance=ExtResource("9_ad2o2")]
-visible = false
 position = Vector2(494, -1891)
 
 [node name="ItemPickup2" parent="." unique_id=1516117658 instance=ExtResource("11_5cw8o")]
-visible = false
 position = Vector2(681, -605)
 scale = Vector2(0.5, 0.5)
 item = SubResource("Resource_ixkek")
