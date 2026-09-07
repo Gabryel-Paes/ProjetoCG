@@ -37,5 +37,12 @@ occluder = SubResource("OccluderPolygon2D_door")
 position = Vector2(1.5, -5)
 shape = SubResource("RectangleShape2D_interact")
 
+[node name="Label" type="Label" parent="." unique_id=2081017020]
+offset_left = 10.0
+offset_top = -33.0
+offset_right = 63.0
+offset_bottom = -10.0
+theme_override_colors/font_color = Color(0.92629945, 2.5027991e-06, 1.540184e-06, 1)
+
 [connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
 [connection signal="body_exited" from="InteractArea" to="." method="_on_interact_area_body_exited"]
