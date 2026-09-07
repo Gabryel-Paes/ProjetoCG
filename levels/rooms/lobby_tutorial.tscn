@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" path="res://props/key.tscn" id="6_ad2o2"]
 [ext_resource type="PackedScene" uid="uid://cp118gj0gi1x2" path="res://actors/enemy/Zumbi.tscn" id="7_7ehem"]
 [ext_resource type="PackedScene" path="res://props/lever.tscn" id="7_ptjnr"]
-[ext_resource type="Script" uid="uid://coveb47fjaek5" path="res://actors/enemy/zumbi.gd" id="8_7hpn8"]
+[ext_resource type="Script" uid="uid://b2gjk45lxmurx" path="res://actors/enemy/zumbi.gd" id="8_7hpn8"]
 [ext_resource type="PackedScene" path="res://props/lever_puzzle.tscn" id="8_yokfp"]
 [ext_resource type="PackedScene" uid="uid://cihj6bltwdi1w" path="res://actors/enemy/angel.tscn" id="9_ad2o2"]
 [ext_resource type="PackedScene" uid="uid://c2asx2wu3lukj" path="res://props/simple_door.tscn" id="10_ptjnr"]
@@ -426,6 +426,7 @@ tile_map_data = PackedByteArray("AAD9/9P/AgACAA8AAAD+/9P/AgADAA8AAAD//9P/AgAAAA8
 tile_set = ExtResource("2_35gje")
 
 [node name="TileMap_2sFloor" type="TileMapLayer" parent="." unique_id=1178223054]
+visible = false
 light_mask = 2
 z_index = 1
 position = Vector2(20, -538)
@@ -448,7 +449,7 @@ position = Vector2(57, -972)
 position = Vector2(-13, -1118)
 
 [node name="Enemy - Esqueleto" parent="inimigos" unique_id=1523164900 instance=ExtResource("12_5cw8o")]
-position = Vector2(860, -710)
+position = Vector2(923, -770)
 
 [node name="Zumbi" parent="inimigos" unique_id=1114700753 instance=ExtResource("7_7ehem")]
 position = Vector2(1670, -1477)
@@ -587,7 +588,16 @@ required_off = [NodePath("../Lever3")]
 position = Vector2(-127, -1074)
 rotation = -1.5707964
 
-[node name="SimpleDoor2" parent="Portas_Puzzles" unique_id=308717192 instance=ExtResource("10_ptjnr")]
+[node name="SimpleDoor4" parent="Portas_Puzzles" unique_id=308717192 instance=ExtResource("10_ptjnr")]
+position = Vector2(1633, -1402)
+rotation = -1.5707964
+
+[node name="SimpleDoor5" parent="Portas_Puzzles" unique_id=1118278581 instance=ExtResource("10_ptjnr")]
+position = Vector2(1132.9999, -1091)
+rotation = 0.002274775
+scale = Vector2(1.0446552, 1.2987537)
+
+[node name="SimpleDoor2" parent="Portas_Puzzles" unique_id=316141902 instance=ExtResource("10_ptjnr")]
 position = Vector2(305, -786)
 rotation = -1.5707964
 
@@ -634,7 +644,7 @@ area_size = Vector2(400, 150)
 quantidade = 50
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_guq88")]
-position = Vector2(1631, -1305)
+position = Vector2(1042, -1107)
 scale = Vector2(1.0197155, 1.0387352)
 
 [node name="ReflectiveFloor" parent="." unique_id=1935488396 instance=ExtResource("23_10whp")]
