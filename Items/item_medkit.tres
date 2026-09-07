@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" uid="uid://d2aua770dsvt1" path="res://Items/item.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://dua2b6kq1n4fl" path="res://ui/assets/sprites/Medibox.png" id="2_texture"]
+
+[resource]
+script = ExtResource("1_item")
+item_name = "Kit Médico"
+texture = ExtResource("2_texture")
+description = "Um kit de primeiros socorros completo. Cura todos os ferimentos."
+type = 0
+stackable = true

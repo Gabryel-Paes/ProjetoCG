@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ProjetoCG"
-run/main_scene="uid://dq21wj03rqw0p"
+run/main_scene="uid://c7ug70ownj2sb"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://ui/assets/icon.svg"
 
@@ -108,6 +108,7 @@ toggle_inventory={
 2d_physics/layer_5="attack_hitbox"
 2d_physics/layer_6="floor1_occupant"
 2d_physics/layer_7="floor2_occupant"
+2d_physics/layer_8="movable_prop"
 
 [navigation]
 

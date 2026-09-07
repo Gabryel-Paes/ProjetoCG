@@ -14,14 +14,19 @@ class_name Stalker
 ## Distância em que ele para de avançar. Sem isso ele mira o centro exato do
 ## Player pra sempre e fica "empurrando"/colado nele — e perto o bastante o
 ## vetor de direção (quase zero) normalizado fica instável e treme.
-@export var stop_distance: float = 14.0
+@export var stop_distance: float = 8.0
 
 ## Quão rápido o empurrão de knockback desaparece (px/s²). Só é usado por
 ## quem realmente toma dano de verdade (ver StalkerBoss) — o Stalker normal
 ## nunca recebe o sinal "damaged" porque não tem Health.
 @export var knockback_friction: float = 900.0
 
+## Ajusta se a arte não foi desenhada de frente/direita (+X) — mesma ideia
+## do sprite_angle_offset do Player/Anjo.
+@export var sprite_angle_offset_deg: float = -90.0
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var sprite: AnimatedSprite2D = $Sprite2D
 
 var player: CharacterBody2D = null
 
@@ -30,6 +35,14 @@ var _knockback: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
+	# O StalkerDirector normalmente atribui isso na mão logo depois de
+	# instanciar (pra escolher o Player certo em cenas com mais de um caso
+	# especial). Mas se o Stalker/StalkerBoss for colocado direto numa cena
+	# (ex: o chefe fixo do porão, ou um teste) e ninguém fizer isso, ele
+	# ficava parado pra sempre — esse fallback acha o Player sozinho.
+	if player == null:
+		player = get_tree().get_first_node_in_group("Player") as CharacterBody2D
+
 	# Traça a rota pelo meio de cada abertura em vez do caminho mais curto
 	# possível (que corta rente nas quinas) — evita grudar na parede sem
 	# precisar erodir o polígono de navegação (isso quebra a conexão entre tiles).
@@ -42,6 +55,7 @@ func _physics_process(delta: float) -> void:
 	if player == null:
 		velocity = _knockback
 		move_and_slide()
+		_update_sprite()
 		return
 
 	nav_agent.target_position = player.global_position
@@ -75,6 +89,15 @@ func _move_along_path() -> void:
 
 	velocity = chase_velocity + _knockback
 	move_and_slide()
+	_update_sprite()
+
+
+func _update_sprite() -> void:
+	# Ciclo de passos só faz sentido girando pra direção que ele anda —
+	# sem isso, o sprite fica sempre voltado pro mesmo lado enquanto persegue
+	# de qualquer ângulo.
+	if velocity.length() > 1.0:
+		sprite.rotation = velocity.angle() + deg_to_rad(sprite_angle_offset_deg)
 
 
 # --- Dano de contato ---
