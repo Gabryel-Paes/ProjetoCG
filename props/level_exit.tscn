@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://levels/level_exit.gd" id="1_exit"]
+[ext_resource type="Script" uid="uid://due1v2mfhwku4" path="res://props/level_exit.gd" id="1_exit"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(24, 24)
