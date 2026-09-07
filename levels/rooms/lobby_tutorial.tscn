@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://actors/components/stalker_director.tscn" id="12_w6hk7"]
 [ext_resource type="PackedScene" uid="uid://bf6s58cvu8m67" path="res://actors/enemy/hearer.tscn" id="13_5cw8o"]
 [ext_resource type="Texture2D" uid="uid://dora55o7nfddr" path="res://ui/assets/sprites/Bullet_Box.png" id="13_d72jg"]
+[ext_resource type="PackedScene" path="res://props/moon_light.tscn" id="18_7oabu"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_2opja"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -383,7 +384,6 @@ color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1153864829]
-visible = false
 color = Color(0.011955088, 0.0026631625, 0.036364146, 1)
 
 [node name="TileMap_1sFloor" type="TileMapLayer" parent="." unique_id=1508748006]
@@ -488,6 +488,87 @@ rotation = -1.5707964
 [node name="SimpleDoor3" parent="." unique_id=9058280 instance=ExtResource("10_ptjnr")]
 position = Vector2(-111, -786)
 rotation = -1.5707964
+
+[node name="Luzes" type="Node" parent="." unique_id=1213335746]
+
+[node name="MoonLight" parent="Luzes" unique_id=1178959641 instance=ExtResource("18_7oabu")]
+position = Vector2(475, -494)
+cor_luar = Color(0.70324636, 0.77599496, 0.9999996, 1)
+
+[node name="MoonLight2" parent="Luzes" unique_id=2107279304 instance=ExtResource("18_7oabu")]
+position = Vector2(316, -494)
+
+[node name="MoonLight3" parent="Luzes" unique_id=1050040988 instance=ExtResource("18_7oabu")]
+position = Vector2(-135, -496)
+
+[node name="MoonLight4" parent="Luzes" unique_id=1147456290 instance=ExtResource("18_7oabu")]
+position = Vector2(-295, -596)
+
+[node name="MoonLight5" parent="Luzes" unique_id=363720982 instance=ExtResource("18_7oabu")]
+position = Vector2(-289, -735)
+
+[node name="MoonLight6" parent="Luzes" unique_id=1629621718 instance=ExtResource("18_7oabu")]
+position = Vector2(-290, -865)
+
+[node name="MoonLight7" parent="Luzes" unique_id=166992752 instance=ExtResource("18_7oabu")]
+position = Vector2(-291, -1000)
+
+[node name="MoonLight8" parent="Luzes" unique_id=1062263122 instance=ExtResource("18_7oabu")]
+position = Vector2(889, -497)
+
+[node name="MoonLight9" parent="Luzes" unique_id=83476103 instance=ExtResource("18_7oabu")]
+position = Vector2(1048, -497)
+
+[node name="MoonLight10" parent="Luzes" unique_id=1770910914 instance=ExtResource("18_7oabu")]
+position = Vector2(1147, -494)
+
+[node name="MoonLight11" parent="Luzes" unique_id=272810824 instance=ExtResource("18_7oabu")]
+position = Vector2(1530, -501)
+
+[node name="MoonLight12" parent="Luzes" unique_id=2140486869 instance=ExtResource("18_7oabu")]
+position = Vector2(1626, -500)
+
+[node name="MoonLight13" parent="Luzes" unique_id=998920555 instance=ExtResource("18_7oabu")]
+position = Vector2(1768, -648)
+
+[node name="MoonLight14" parent="Luzes" unique_id=2006851846 instance=ExtResource("18_7oabu")]
+position = Vector2(1768, -796)
+
+[node name="MoonLight15" parent="Luzes" unique_id=1245991738 instance=ExtResource("18_7oabu")]
+position = Vector2(1765, -885)
+
+[node name="MoonLight16" parent="Luzes" unique_id=1873291297 instance=ExtResource("18_7oabu")]
+position = Vector2(1766, -983)
+
+[node name="MoonLight17" parent="Luzes" unique_id=1002436672 instance=ExtResource("18_7oabu")]
+position = Vector2(1765, -1156)
+
+[node name="MoonLight18" parent="Luzes" unique_id=1917113790 instance=ExtResource("18_7oabu")]
+position = Vector2(1771, -1075)
+
+[node name="MoonLight19" parent="Luzes" unique_id=2090450722 instance=ExtResource("18_7oabu")]
+position = Vector2(1766, -1246)
+
+[node name="MoonLight20" parent="Luzes" unique_id=1257782413 instance=ExtResource("18_7oabu")]
+position = Vector2(1768, -1337)
+
+[node name="MoonLight21" parent="Luzes" unique_id=2020993223 instance=ExtResource("18_7oabu")]
+position = Vector2(1630, -1603)
+
+[node name="MoonLight22" parent="Luzes" unique_id=1905402587 instance=ExtResource("18_7oabu")]
+position = Vector2(1436, -1598)
+
+[node name="MoonLight23" parent="Luzes" unique_id=1868402416 instance=ExtResource("18_7oabu")]
+position = Vector2(444, -1379)
+
+[node name="MoonLight24" parent="Luzes" unique_id=159190101 instance=ExtResource("18_7oabu")]
+position = Vector2(103, -1599)
+
+[node name="MoonLight25" parent="Luzes" unique_id=406421525 instance=ExtResource("18_7oabu")]
+position = Vector2(-279, -1389)
+
+[node name="MoonLight26" parent="Luzes" unique_id=1569601819 instance=ExtResource("18_7oabu")]
+position = Vector2(-285, -1150)
 
 [connection signal="body_entered" from="Trigger_Up" to="." method="_on_trigger_up_body_entered"]
 [connection signal="body_entered" from="Trigger_Down" to="." method="_on_trigger_down_body_entered"]
