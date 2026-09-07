@@ -439,15 +439,6 @@ max_health = 5.0
 script = ExtResource("18_qrxv1")
 starting_items = Array[ExtResource("20_lj3dd")]([ExtResource("20_item_pistol"), ExtResource("21_item_faca"), SubResource("Resource_8jo5n")])
 
-[node name="MirrorViewport" type="SubViewport" parent="."]
-transparent_bg = true
-size = Vector2i(64, 80)
-render_target_update_mode = 4
-
-[node name="MirrorCamera" type="Camera2D" parent="MirrorViewport"]
-zoom = Vector2(3, 3)
-current = true
-
 [connection signal="weapon_changed" from="." to="HUD/Municao" method="_on_weapon_changed"]
 [connection signal="weapon_changed" from="." to="HUD/WeaponIcon" method="_on_weapon_changed"]
 [connection signal="ammo_changed" from="Aim/Gun" to="HUD/Municao" method="_on_ammo_changed"]

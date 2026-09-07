@@ -22,6 +22,14 @@ class_name DustMotes
 @export var quantidade: int = 12
 @export var velocidade_max: float = 6.0 # px/s — bem lento, só flutuando
 
+## Direção central da pluma, em graus (-90 = pra cima, no sistema de ângulos
+## do Godot). Só importa quando spread_deg < 180.
+@export var direction_deg: float = -90.0
+## Abertura do cone de emissão. 180° = todas as direções (poeira de
+## ambiente, o padrão). Um valor menor vira uma "pluma" saindo só numa
+## direção — ex: fumacinha subindo de um item.
+@export var spread_deg: float = 180.0
+
 const RESOLUCAO_TEXTURA: int = 8
 
 static var _textura_compartilhada: GradientTexture2D = null
@@ -46,7 +54,8 @@ func _ready() -> void:
 	mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
 	mat.emission_box_extents = Vector3(area_size.x / 2.0, area_size.y / 2.0, 0.0)
 	mat.gravity = Vector3.ZERO
-	mat.spread = 180.0 # cobre todas as direções, não só um cone
+	mat.direction = Vector3(cos(deg_to_rad(direction_deg)), sin(deg_to_rad(direction_deg)), 0.0)
+	mat.spread = spread_deg
 	mat.initial_velocity_min = velocidade_max * 0.3
 	mat.initial_velocity_max = velocidade_max
 	mat.angular_velocity_min = -20.0

@@ -27,6 +27,10 @@ func _on_trigger_up_body_entered(body: Node2D) -> void:
 		body.set_collision_mask_value(2, true)
 		body.set_collision_layer_value(6, false)
 		body.set_collision_layer_value(7, true)
+		# O Hearer só está na camada floor2_occupant (não a "enemies"
+		# genérica) — sem isso na própria máscara do Player, ele nunca
+		# colide com o Hearer, nem estando no mesmo andar de verdade.
+		body.set_collision_mask_value(7, true)
 
 		# Animação suave para APARECER (Fade-In)
 		if has_node("TileMap_2sFloor"):
@@ -63,6 +67,7 @@ func _on_trigger_down_body_entered(body: Node2D) -> void:
 		body.set_collision_mask_value(2, false)
 		body.set_collision_layer_value(6, true)
 		body.set_collision_layer_value(7, false)
+		body.set_collision_mask_value(7, false)
 
 		# Animação suave para SUMIR (Fade-Out)
 		if has_node("TileMap_2sFloor"):

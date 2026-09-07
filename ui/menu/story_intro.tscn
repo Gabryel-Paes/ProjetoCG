@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://ddtldhc3eng7g"]
+
+[ext_resource type="PackedScene" uid="uid://boovwso8krbqb" path="res://ui/menu/text_sequence.tscn" id="1_seq"]
+
+[node name="StoryIntro" unique_id=2004582815 instance=ExtResource("1_seq")]
+pages = Array[String](["Após anos fora de serviço e convivendo com duvidas marcadas na alma, Claudio recebe uma chamada que o leva para um casarão misterioso afastado da cidade. Sem saber oque o aguarda parte erm direção ao local.", "Voce chega e entra no casarão velho..."])
+next_scene_path = "res://levels/rooms/lobby_tutorial.tscn"

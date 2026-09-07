@@ -3,8 +3,10 @@
 [ext_resource type="TileSet" uid="uid://dwowauhja5bow" path="res://ui/Atlas.tres" id="1_jnhdj"]
 [ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://actors/enemy/stalker_boss.tscn" id="2_boss"]
+[ext_resource type="Script" path="res://levels/rooms/porao.gd" id="3_porao"]
 
 [node name="Porao" type="Node2D" unique_id=658509346]
+script = ExtResource("3_porao")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1132074979]
 offset_top = -350.0
