@@ -45,16 +45,16 @@ func _start_encounter() -> void:
 
 func _snap_to_navmesh(point: Vector2) -> Vector2:
 	var map_rid: RID = get_viewport().world_2d.navigation_map
-	var snapped := NavigationServer2D.map_get_closest_point(map_rid, point)
+	var snapped_point := NavigationServer2D.map_get_closest_point(map_rid, point)
 
 	# Se o navmesh ainda não estiver "bakeado" (mapa vazio), isso volta (0,0) —
 	# nesse caso é bem pior teleportar o Stalker pra origem do mundo do que
 	# só usar o ponto original (sem garantia de não cair na parede, mas ao
 	# menos fica perto de onde devia).
-	if snapped == Vector2.ZERO and point != Vector2.ZERO:
+	if snapped_point == Vector2.ZERO and point != Vector2.ZERO:
 		return point
 
-	return snapped
+	return snapped_point
 
 
 func _end_encounter() -> void:

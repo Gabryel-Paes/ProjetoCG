@@ -157,7 +157,7 @@ func _push_kicked_bodies() -> void:
 			var push_dir := -collision.get_normal()
 			collider.apply_central_impulse(push_dir * velocity.length() * item_push_strength)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_update_aim()
 
 # --- Controles de Ação ---
