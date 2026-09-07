@@ -1,12 +1,123 @@
-[gd_scene format=3 uid="uid://c3acaqoiunl5v"]
+[gd_scene format=3 uid="uid://dt5q47op5cab4"]
 
 [ext_resource type="Script" uid="uid://bemnitcidor6b" path="res://actors/enemy/stalker.gd" id="1_stalker"]
+[ext_resource type="Texture2D" uid="uid://cylws27atped" path="res://ui/assets/sprites/Mr_G.png" id="2_mr_g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_stalker"]
 radius = 6.0
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_stalker"]
-size = Vector2(24, 36)
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg0"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg1"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg2"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg3"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg4"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg5"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg6"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg7"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg8"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg9"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg10"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg11"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg12"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(768, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg13"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(832, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrg14"]
+atlas = ExtResource("2_mr_g")
+region = Rect2(896, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_stalker"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg9")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg13")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrg14")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 12.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hitbox"]
 
@@ -19,8 +130,10 @@ speed = 100.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1612777989]
 shape = SubResource("CircleShape2D_stalker")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=322415365]
-texture = SubResource("PlaceholderTexture2D_stalker")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=322415365]
+sprite_frames = SubResource("SpriteFrames_stalker")
+animation = &"walk"
+autoplay = "walk"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=707977729]
 path_desired_distance = 6.0

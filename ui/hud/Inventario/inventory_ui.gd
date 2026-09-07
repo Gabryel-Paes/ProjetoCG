@@ -1,5 +1,7 @@
 extends Control
 
+const ITEM_PICKUP_SCENE := preload("res://props/item_pickup.tscn")
+
 @export var inventory: Inventory
 @export var slot_scene: PackedScene # Arraste inventory_slot.tscn aqui pelo Inspetor
 @export var grid_size: int = 9      # 3x3
@@ -87,7 +89,7 @@ func _on_slot_clicked(index: int) -> void:
 	action_menu.clear()
 
 	match item.type:
-		Item.ItemType.MEDKIT:
+		Item.ItemType.MEDKIT, Item.ItemType.PILLS:
 			action_menu.add_item("Usar", 0)
 			action_menu.add_item("Descartar", 1)
 		Item.ItemType.KEYITEM:
@@ -107,15 +109,42 @@ func _on_action_selected(id: int) -> void:
 
 	match id:
 		0: # Usar
-			if item.type == Item.ItemType.MEDKIT:
-				# Executa a cura se a vida do player não estiver cheia
-				if player_node and player_node.has_method("heal"):
-					player_node.heal(item.value)
-					inventory.consume_item(selected_slot_index) # tira 1 da pilha, não a pilha inteira
-					_clear_preview()
+			var curou := false
+			match item.type:
+				Item.ItemType.MEDKIT:
+					if player_node and player_node.has_method("heal_full"):
+						curou = player_node.heal_full()
+				Item.ItemType.PILLS:
+					if player_node and player_node.has_method("heal"):
+						curou = player_node.heal(item.value)
+
+			# Só consome o item se a cura realmente aconteceu — vida já
+			# cheia não gasta Medkit/Pills à toa.
+			if curou:
+				inventory.consume_item(selected_slot_index) # tira 1 da pilha, não a pilha inteira
+				_clear_preview()
 		1: # Descartar
+			_drop_item(item)
 			inventory.consume_item(selected_slot_index) # descarta 1 unidade por vez
 			_clear_preview()
+
+# Em vez de só sumir: nasce um ItemPickup de verdade no chão, perto do
+# Player — reaproveita a mesma cena de item largado no mapa (com o mesmo
+# NudgeOnApproach de "chutar" que os pickups colocados no editor já têm).
+func _drop_item(item: Item) -> void:
+	var player_2d := player_node as Node2D
+	if not player_2d:
+		return
+
+	var dropped := ITEM_PICKUP_SCENE.instantiate() as ItemPickup
+	dropped.item = item
+
+	# Pequeno espalhamento aleatório — descartar várias vezes seguidas não
+	# empilha tudo exatamente no mesmo pixel.
+	var offset := Vector2.RIGHT.rotated(randf_range(0.0, TAU)) * randf_range(4.0, 10.0)
+	dropped.global_position = player_2d.global_position + offset
+
+	get_tree().current_scene.add_child(dropped)
 
 func _clear_preview() -> void:
 	selected_icon.texture = null

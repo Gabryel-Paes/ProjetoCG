@@ -108,6 +108,7 @@ toggle_inventory={
 2d_physics/layer_5="attack_hitbox"
 2d_physics/layer_6="floor1_occupant"
 2d_physics/layer_7="floor2_occupant"
+2d_physics/layer_8="movable_prop"
 
 [navigation]
 

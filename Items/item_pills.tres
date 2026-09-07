@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://qvitn2ngcpga"]
+
+[ext_resource type="Script" uid="uid://d2aua770dsvt1" path="res://Items/item.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://b7hfddt77npgp" path="res://ui/assets/sprites/Pills.png" id="2_texture"]
+
+[resource]
+script = ExtResource("1_item")
+item_name = "Analgésico"
+texture = ExtResource("2_texture")
+description = "\"Alivia a dor. Recupera um pouco de vida.\""
+type = 1
+value = 2

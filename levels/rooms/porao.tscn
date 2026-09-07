@@ -18,3 +18,5 @@ color = Color(0.03, 0.03, 0.045, 1)
 
 [node name="StalkerBoss" parent="." unique_id=1631235918 instance=ExtResource("2_boss")]
 position = Vector2(200, 0)
+knockback_strength = 160.0
+save_id = "stalker_boss"

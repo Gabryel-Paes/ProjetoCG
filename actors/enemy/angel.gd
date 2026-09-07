@@ -14,12 +14,12 @@ extends CharacterBody2D
 @export var wander_interval: float = 3.0     # segundos até escolher um novo destino
 
 ## Ajusta se a arte não foi desenhada de frente/direita (+X) — mesma ideia do sprite_angle_offset do Player.
-@export var sprite_angle_offset_deg: float = 0.0
+@export var sprite_angle_offset_deg: float = -90.0
 
 ## Distância em que ele para de avançar. Sem isso ele mira o ponto de flanco
 ## exato pra sempre e fica "empurrando"/colado no Player — e perto o bastante
 ## o vetor de direção (quase zero) normalizado fica instável e treme.
-@export var stop_distance: float = 14.0
+@export var stop_distance: float = 8.0
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: Sprite2D = $Sprite2D
@@ -51,9 +51,9 @@ func _physics_process(delta: float) -> void:
 	if _is_being_watched():
 		velocity = Vector2.ZERO
 		move_and_slide()
-		# Congelado olhando pra quem o observou — não pra onde ele ia indo.
+		# Só congela — mantém a última rotação que já tinha, não precisa
+		# girar pra encarar quem o observou.
 		sprite.texture = sprt_idle
-		sprite.rotation = (player.global_position - global_position).angle() + deg_to_rad(sprite_angle_offset_deg)
 	else:
 		# Tenta chegar nas costas do Player, não direto na frente dele
 		var aim_dir := Vector2.RIGHT.rotated(player.aim_angle)
