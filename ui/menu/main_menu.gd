@@ -14,10 +14,10 @@ func _ready() -> void:
 
 
 func _on_iniciar_pressed() -> void:
-	# Jogo novo de verdade: limpa qualquer progresso que ainda estivesse na
-	# memória (ex: o jogador morreu, voltou ao menu, e apertou Iniciar de
-	# novo sem fechar o jogo).
-	GameState.flags = {}
+	# Jogo novo de verdade: apaga o save antigo (se tiver) e limpa qualquer
+	# progresso que ainda estivesse na memória — sem isso, um save de um
+	# teste antigo continuava valendo como "Continuar" pra sempre.
+	GameState.delete_save()
 	get_tree().change_scene_to_file(STORY_INTRO_SCENE)
 
 

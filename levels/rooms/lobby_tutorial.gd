@@ -3,8 +3,6 @@ extends Node2D
 func _ready() -> void:
 	if has_node("Player"):
 		$Player.z_index = 0
-		$Player.set_collision_mask_value(1, true)
-		$Player.set_collision_mask_value(2, false)
 		# Marca o Player como "presente no térreo" pra quem precisa saber
 		# em qual andar ele está de verdade (não só a parede que ele bate).
 		$Player.set_collision_layer_value(6, true)
@@ -13,6 +11,20 @@ func _ready() -> void:
 	# Garante que o mezanino comece totalmente transparente (invisível)
 	if has_node("TileMap_2sFloor"):
 		$TileMap_2sFloor.modulate.a = 0.0
+
+	# Os dois andares compartilham as mesmas coordenadas e a mesma camada de
+	# física ("mundo") pras paredes — não dá pra diferenciar "parede do 1º"
+	# de "parede do 2º" só pela camada, os dois são fisicamente idênticos.
+	# Por isso desligamos a colisão da TileMapLayer inteira de quem não é o
+	# andar atual, em vez de mexer em bit de camada/máscara.
+	if has_node("TileMap_1sFloor"):
+		$TileMap_1sFloor.collision_enabled = true
+	if has_node("TileMap_2sFloor"):
+		$TileMap_2sFloor.collision_enabled = false
+	if has_node("1fMoveis"):
+		$"1fMoveis".collision_enabled = true
+	if has_node("2fMoveis"):
+		$"2fMoveis".collision_enabled = false
 
 	# Mesma coisa pra tudo que é exclusivo do 2º andar (Hearer, e qualquer
 	# outra coisa que entrar no grupo "floor2_only" no futuro).
@@ -23,14 +35,21 @@ func _ready() -> void:
 func _on_trigger_up_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		body.z_index = 1
-		body.set_collision_mask_value(1, false)
-		body.set_collision_mask_value(2, true)
 		body.set_collision_layer_value(6, false)
 		body.set_collision_layer_value(7, true)
 		# O Hearer só está na camada floor2_occupant (não a "enemies"
 		# genérica) — sem isso na própria máscara do Player, ele nunca
 		# colide com o Hearer, nem estando no mesmo andar de verdade.
 		body.set_collision_mask_value(7, true)
+
+		if has_node("TileMap_1sFloor"):
+			$TileMap_1sFloor.collision_enabled = false
+		if has_node("TileMap_2sFloor"):
+			$TileMap_2sFloor.collision_enabled = true
+		if has_node("1fMoveis"):
+			$"1fMoveis".collision_enabled = false
+		if has_node("2fMoveis"):
+			$"2fMoveis".collision_enabled = true
 
 		# Animação suave para APARECER (Fade-In)
 		if has_node("TileMap_2sFloor"):
@@ -63,11 +82,18 @@ func _on_trigger_up_body_entered(body: Node2D) -> void:
 func _on_trigger_down_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		body.z_index = 0
-		body.set_collision_mask_value(1, true)
-		body.set_collision_mask_value(2, false)
 		body.set_collision_layer_value(6, true)
 		body.set_collision_layer_value(7, false)
 		body.set_collision_mask_value(7, false)
+
+		if has_node("TileMap_1sFloor"):
+			$TileMap_1sFloor.collision_enabled = true
+		if has_node("TileMap_2sFloor"):
+			$TileMap_2sFloor.collision_enabled = false
+		if has_node("1fMoveis"):
+			$"1fMoveis".collision_enabled = true
+		if has_node("2fMoveis"):
+			$"2fMoveis".collision_enabled = false
 
 		# Animação suave para SUMIR (Fade-Out)
 		if has_node("TileMap_2sFloor"):
