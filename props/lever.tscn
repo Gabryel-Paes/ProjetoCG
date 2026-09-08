@@ -1,18 +1,18 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://0sksmxsptm6p"]
 
-[ext_resource type="Script" path="res://props/lever.gd" id="1_lever"]
+[ext_resource type="Script" uid="uid://7s1yj5j6xrkv" path="res://props/lever.gd" id="1_lever"]
+[ext_resource type="Texture2D" uid="uid://bxoem6ckhckng" path="res://ui/assets/sprites/Atlas.png" id="2_1toyg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lever"]
 size = Vector2(16, 16)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lever"]
-size = Vector2(12, 12)
-
-[node name="Lever" type="Area2D"]
+[node name="Lever" type="Area2D" unique_id=945423965]
 script = ExtResource("1_lever")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=296491282]
 shape = SubResource("RectangleShape2D_lever")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_lever")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1389102323]
+texture = ExtResource("2_1toyg")
+region_enabled = true
+region_rect = Rect2(32, 48, 16, 16)
