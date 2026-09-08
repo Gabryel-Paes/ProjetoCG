@@ -31,12 +31,14 @@ func has_save() -> bool:
 	return FileAccess.file_exists(SAVE_PATH)
 
 
-# --- Atalho temporário só pra testar o carregamento ---
-# Ainda não existe menu principal com um botão "Continuar". Quando existir,
-# chama GameState.load_game() a partir dele e pode tirar isso daqui.
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_F9:
-		load_game()
+## Apaga o save existente (se tiver) e limpa as flags da memória. Usado
+## quando o jogador escolhe "Iniciar" um jogo novo de verdade — sem isso,
+## um save antigo (feito num teste, por exemplo) continuava valendo como
+## "o último save" pra sempre, mesmo depois de começar tudo do zero.
+func delete_save() -> void:
+	if FileAccess.file_exists(SAVE_PATH):
+		DirAccess.remove_absolute(SAVE_PATH)
+	flags = {}
 
 
 func save_game() -> void:

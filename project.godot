@@ -112,7 +112,6 @@ toggle_inventory={
 
 [navigation]
 
-2d/default_cell_size=4.0
 2d/merge_rasterizer_cell_scale=0.5
 
 [physics]

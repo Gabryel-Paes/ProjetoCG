@@ -88,7 +88,11 @@ func _move_along_path(current_speed: float) -> void:
 
 		if has_path:
 			var next_point := nav_agent.get_next_path_position()
-			chase_velocity = (next_point - global_position).normalized() * current_speed
+			var to_next := next_point - global_position
+			# Perto o bastante (ex: rente à borda de um buraco no navmesh), o
+			# vetor quase-zero normalizado fica instável e treme.
+			if to_next.length() > 1.0:
+				chase_velocity = to_next.normalized() * current_speed
 		else:
 			var target := nav_agent.target_position
 			if global_position.distance_to(target) > 2.0:
