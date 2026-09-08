@@ -26,10 +26,49 @@ func _ready() -> void:
 	if has_node("2fMoveis"):
 		$"2fMoveis".collision_enabled = false
 
+	# Mesmo problema, mas com a sombra: a Occlusion Layer do TileSet (o
+	# "Light Mask" lá no Inspector) é UMA SÓ, compartilhada pelos dois
+	# andares — não dá pra marcar diferente por camada, marcar num
+	# sobrescreve o outro. Por isso a oclusão inteira liga/desliga junto
+	# com a colisão, por andar.
+	if has_node("TileMap_1sFloor"):
+		$TileMap_1sFloor.occlusion_enabled = true
+	if has_node("TileMap_2sFloor"):
+		$TileMap_2sFloor.occlusion_enabled = false
+	if has_node("1fMoveis"):
+		$"1fMoveis".occlusion_enabled = true
+	if has_node("2fMoveis"):
+		$"2fMoveis".occlusion_enabled = false
+
+	# Mesmo problema de novo, agora com a navegação: os dois andares tavam
+	# jogando o navmesh inteiro no mesmo mapa o tempo todo, sobrepondo
+	# milhares de bordas idênticas (era o "12844 edge error(s)" spammando o
+	# Output). Liga só o navmesh do andar atual, igual colisão/oclusão.
+	if has_node("TileMap_1sFloor"):
+		$TileMap_1sFloor.navigation_enabled = true
+	if has_node("TileMap_2sFloor"):
+		$TileMap_2sFloor.navigation_enabled = false
+	if has_node("1fMoveis"):
+		$"1fMoveis".navigation_enabled = true
+	if has_node("2fMoveis"):
+		$"2fMoveis".navigation_enabled = false
+
 	# Mesma coisa pra tudo que é exclusivo do 2º andar (Hearer, e qualquer
 	# outra coisa que entrar no grupo "floor2_only" no futuro).
 	for node in get_tree().get_nodes_in_group("floor2_only"):
 		node.modulate.a = 0.0
+
+	# Trava a "camada de luz" de cada andar pelo grupo, automaticamente —
+	# sem isso, qualquer coisa nova marcada floor1_only/floor2_only nasce no
+	# light_mask padrão (1) e a lanterna do andar errado enxerga ela (foi
+	# exatamente o que aconteceu com o 2fMoveis e a chaveBiblioteca, que
+	# precisaram ser corrigidos na mão na cena).
+	for node in get_tree().get_nodes_in_group("floor1_only"):
+		if node is CanvasItem:
+			node.light_mask = 1
+	for node in get_tree().get_nodes_in_group("floor2_only"):
+		if node is CanvasItem:
+			node.light_mask = 2
 
 # Conectado ao Trigger_Up (Subindo)
 func _on_trigger_up_body_entered(body: Node2D) -> void:
@@ -50,6 +89,24 @@ func _on_trigger_up_body_entered(body: Node2D) -> void:
 			$"1fMoveis".collision_enabled = false
 		if has_node("2fMoveis"):
 			$"2fMoveis".collision_enabled = true
+
+		if has_node("TileMap_1sFloor"):
+			$TileMap_1sFloor.occlusion_enabled = false
+		if has_node("TileMap_2sFloor"):
+			$TileMap_2sFloor.occlusion_enabled = true
+		if has_node("1fMoveis"):
+			$"1fMoveis".occlusion_enabled = false
+		if has_node("2fMoveis"):
+			$"2fMoveis".occlusion_enabled = true
+
+		if has_node("TileMap_1sFloor"):
+			$TileMap_1sFloor.navigation_enabled = false
+		if has_node("TileMap_2sFloor"):
+			$TileMap_2sFloor.navigation_enabled = true
+		if has_node("1fMoveis"):
+			$"1fMoveis".navigation_enabled = false
+		if has_node("2fMoveis"):
+			$"2fMoveis".navigation_enabled = true
 
 		# Animação suave para APARECER (Fade-In)
 		if has_node("TileMap_2sFloor"):
@@ -94,6 +151,24 @@ func _on_trigger_down_body_entered(body: Node2D) -> void:
 			$"1fMoveis".collision_enabled = true
 		if has_node("2fMoveis"):
 			$"2fMoveis".collision_enabled = false
+
+		if has_node("TileMap_1sFloor"):
+			$TileMap_1sFloor.occlusion_enabled = true
+		if has_node("TileMap_2sFloor"):
+			$TileMap_2sFloor.occlusion_enabled = false
+		if has_node("1fMoveis"):
+			$"1fMoveis".occlusion_enabled = true
+		if has_node("2fMoveis"):
+			$"2fMoveis".occlusion_enabled = false
+
+		if has_node("TileMap_1sFloor"):
+			$TileMap_1sFloor.navigation_enabled = true
+		if has_node("TileMap_2sFloor"):
+			$TileMap_2sFloor.navigation_enabled = false
+		if has_node("1fMoveis"):
+			$"1fMoveis".navigation_enabled = true
+		if has_node("2fMoveis"):
+			$"2fMoveis".navigation_enabled = false
 
 		# Animação suave para SUMIR (Fade-Out)
 		if has_node("TileMap_2sFloor"):
