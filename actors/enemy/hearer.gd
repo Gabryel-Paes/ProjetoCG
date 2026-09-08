@@ -32,8 +32,13 @@ class_name Hearer
 ## num raio aleatório em torno de onde nasceu.
 @export var patrol_points: Array[Marker2D] = []
 
+## Ajusta se a arte não foi desenhada de frente/direita (+X) — mesma ideia
+## do Player/Anjo/Stalker/Zumbi.
+@export var sprite_angle_offset_deg: float = -90.0
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var health: Health = $Health
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var player: CharacterBody2D = null
 var _gun: Gun = null
@@ -100,6 +105,28 @@ func _move_along_path(current_speed: float) -> void:
 
 	velocity = chase_velocity + _knockback
 	move_and_slide()
+	_update_sprite()
+
+
+# --- Animação ---
+# idle: parado, sem suspeitar de nada. lookingfor: parou no último lugar
+# onde ouviu algo e está "farejando" ali. walking: se movendo, tanto
+# rondando quanto atrás do som ouvido (sniffing não é mais usado).
+func _update_sprite() -> void:
+	var moving := velocity.length() > 1.0
+	var desired_animation := "idle"
+	if moving:
+		desired_animation = "walking"
+	elif _alert:
+		desired_animation = "lookingfor"
+
+	if sprite.animation != desired_animation:
+		sprite.play(desired_animation)
+
+	# Gira pra direção que anda — sem isso o sprite fica sempre voltado pro
+	# mesmo lado, rondando ou perseguindo de qualquer ângulo.
+	if moving:
+		sprite.rotation = velocity.angle() + deg_to_rad(sprite_angle_offset_deg)
 
 
 func _wander(delta: float) -> void:

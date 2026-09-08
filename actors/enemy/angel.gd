@@ -24,13 +24,16 @@ extends CharacterBody2D
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: Sprite2D = $Sprite2D
 
-var sprt_idle = preload("res://ui/assets/sprites/angel_idle.png")
-var sprt_moving = preload("res://ui/assets/sprites/angel_moving.png")
+var sprt_idle = preload("res://ui/assets/sprites/angel_idle_outlined.png")
+var sprt_moving = preload("res://ui/assets/sprites/angel_moving_outlined.png")
 
 var player: CharacterBody2D = null
 
 var _spawn_position: Vector2
 var _wander_timer: float = 0.0
+
+var _stuck_check_timer: float = 1.5
+var _stuck_check_position: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -105,6 +108,18 @@ func _update_sprite() -> void:
 
 func _wander(delta: float) -> void:
 	_wander_timer -= delta
+
+	# Detector de "preso": se o destino escolhido for impossível de alcançar
+	# de verdade (ex: uma borda de navmesh que não conecta direito perto de
+	# uma pedra), ele fica tentando pra sempre sem perceber que não anda.
+	# Confere de tempos em tempos se realmente andou alguma coisa — se não
+	# andou, desiste desse destino e escolhe outro.
+	_stuck_check_timer -= delta
+	if _stuck_check_timer <= 0.0:
+		if global_position.distance_to(_stuck_check_position) < 4.0:
+			_pick_wander_target()
+		_stuck_check_timer = 1.5
+		_stuck_check_position = global_position
 
 	if _wander_timer <= 0.0 or nav_agent.is_navigation_finished():
 		_pick_wander_target()
