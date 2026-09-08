@@ -1,24 +1,23 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://bixum4rjrhomu"]
 
-[ext_resource type="Script" path="res://props/nudge_on_approach.gd" id="1_nudge"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_paper"]
-size = Vector2(10, 12)
+[ext_resource type="Script" uid="uid://ch6w4nf4ywtbn" path="res://props/nudge_on_approach.gd" id="1_nudge"]
+[ext_resource type="Texture2D" uid="uid://bxoem6ckhckng" path="res://ui/assets/sprites/Atlas.png" id="1_v23oj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nudge"]
 radius = 6.0
 
-[node name="PaperScrap" type="Node2D"]
+[node name="PaperScrap" type="Node2D" unique_id=729400869]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_paper")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=974277379]
+texture = ExtResource("1_v23oj")
+region_enabled = true
+region_rect = Rect2(325.94083, 116.92018, 5.100464, 6.1320114)
 
-[node name="NudgeOnApproach" type="Area2D" parent="."]
+[node name="NudgeOnApproach" type="Area2D" parent="." unique_id=1260574274]
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("1_nudge")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NudgeOnApproach"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NudgeOnApproach" unique_id=160673745]
 shape = SubResource("CircleShape2D_nudge")
 
 [connection signal="body_entered" from="NudgeOnApproach" to="NudgeOnApproach" method="_on_body_entered"]
