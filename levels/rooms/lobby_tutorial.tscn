@@ -13,16 +13,14 @@
 [ext_resource type="PackedScene" uid="uid://cihj6bltwdi1w" path="res://actors/enemy/angel.tscn" id="9_ad2o2"]
 [ext_resource type="PackedScene" uid="uid://c2asx2wu3lukj" path="res://props/simple_door.tscn" id="10_ptjnr"]
 [ext_resource type="PackedScene" uid="uid://b1sjkfqn15ncx" path="res://props/item_pickup.tscn" id="11_5cw8o"]
-[ext_resource type="PackedScene" uid="uid://dlx3yfi4cmasq" path="res://actors/enemy/enemy___esqueleto.tscn" id="12_5cw8o"]
 [ext_resource type="PackedScene" path="res://actors/components/stalker_director.tscn" id="12_w6hk7"]
 [ext_resource type="PackedScene" uid="uid://bf6s58cvu8m67" path="res://actors/enemy/hearer.tscn" id="13_5cw8o"]
 [ext_resource type="PackedScene" path="res://props/moon_light.tscn" id="18_7oabu"]
 [ext_resource type="PackedScene" path="res://props/save_typewriter.tscn" id="19_7mxoo"]
 [ext_resource type="PackedScene" path="res://props/key_gate.tscn" id="24_nuynq"]
-[ext_resource type="PackedScene" path="res://props/leaf_pile.tscn" id="25_7ehem"]
+[ext_resource type="PackedScene" uid="uid://4wxowv31eof5" path="res://props/leaf_pile.tscn" id="25_7ehem"]
 [ext_resource type="PackedScene" path="res://props/level_exit.tscn" id="25_7hpn8"]
 [ext_resource type="PackedScene" uid="uid://c7ug70ownj2sb" path="res://levels/rooms/porao.tscn" id="26_feb8t"]
-[ext_resource type="Resource" uid="uid://qvitn2ngcpga" path="res://Items/item_pills.tres" id="27_pills"]
 [ext_resource type="Resource" path="res://Items/item_medkit.tres" id="28_medkit"]
 
 [sub_resource type="Environment" id="Environment_glow"]
@@ -80,7 +78,7 @@ tile_map_data = PackedByteArray("AAAXAOH/AgAHAA0AAAA7AOH/AgAHAA0AAAAWAOH/AgAHAA0
 tile_set = ExtResource("2_35gje")
 
 [node name="2fMoveis" type="TileMapLayer" parent="." unique_id=71042130 groups=["floor2_only"]]
-visible = false
+light_mask = 2
 z_index = 1
 tile_set = ExtResource("2_35gje")
 
@@ -99,12 +97,7 @@ position = Vector2(57, -972)
 [node name="Marker2D3" type="Marker2D" parent="inimigos" unique_id=1482280865]
 position = Vector2(-13, -1118)
 
-[node name="Enemy - Esqueleto" parent="inimigos" unique_id=1523164900 instance=ExtResource("12_5cw8o")]
-visible = false
-position = Vector2(860, -710)
-
 [node name="Zumbi" parent="inimigos" unique_id=1114700753 instance=ExtResource("7_7ehem")]
-visible = false
 position = Vector2(1670, -1477)
 
 [node name="Angel" parent="inimigos" unique_id=78216036 instance=ExtResource("9_ad2o2")]
@@ -112,7 +105,6 @@ position = Vector2(494, -1891)
 speed = 160.0
 
 [node name="Hearer" parent="inimigos" unique_id=1266722377 node_paths=PackedStringArray("patrol_points") groups=["floor2_only"] instance=ExtResource("13_5cw8o")]
-visible = false
 light_mask = 2
 visibility_layer = 2
 position = Vector2(-171, -935)
@@ -128,40 +120,11 @@ position = Vector2(57, -972)
 [node name="Marker2D6" type="Marker2D" parent="inimigos" unique_id=208636036]
 position = Vector2(-13, -1118)
 
-[node name="Enemy - Esqueleto2" parent="inimigos" unique_id=1902149428 instance=ExtResource("12_5cw8o")]
-position = Vector2(860, -710)
-
 [node name="Zumbi2" parent="inimigos" unique_id=1598713445 instance=ExtResource("7_7ehem")]
 position = Vector2(1670, -1477)
 
-[node name="Key" parent="." unique_id=1805828081 instance=ExtResource("6_ad2o2")]
-position = Vector2(1466, -1495)
-
-[node name="Lever" parent="." unique_id=65747202 instance=ExtResource("7_ptjnr")]
-position = Vector2(27, -1339)
-
-[node name="Lever3" parent="." unique_id=1774276350 instance=ExtResource("7_ptjnr")]
-position = Vector2(170, -1339)
-
-[node name="Enemy - Esqueleto" parent="." unique_id=1344598551 instance=ExtResource("12_5cw8o")]
-position = Vector2(860, -710)
-
-[node name="ItemPickup2" parent="." unique_id=1516117658 instance=ExtResource("11_5cw8o")]
-position = Vector2(681, -605)
-scale = Vector2(0.5, 0.5)
-item = ExtResource("27_pills")
-
-[node name="SimpleDoor" parent="." unique_id=511895257 instance=ExtResource("10_ptjnr")]
-position = Vector2(-127, -1074)
-rotation = -1.5707964
-
-[node name="SimpleDoor2" parent="." unique_id=308717192 instance=ExtResource("10_ptjnr")]
-position = Vector2(305, -786)
-rotation = -1.5707964
-
-[node name="SimpleDoor3" parent="." unique_id=9058280 instance=ExtResource("10_ptjnr")]
-position = Vector2(-111, -786)
-rotation = -1.5707964
+[node name="Zumbi3" parent="inimigos" unique_id=1259467455 instance=ExtResource("7_7ehem")]
+position = Vector2(560, -704)
 
 [node name="Luzes" type="Node" parent="." unique_id=1213335746]
 
@@ -323,11 +286,8 @@ position = Vector2(27, -1339)
 [node name="Lever3" parent="Portas_Puzzles" unique_id=1706889905 instance=ExtResource("7_ptjnr")]
 position = Vector2(170, -1339)
 
-[node name="chaveJardim" parent="Portas_Puzzles" unique_id=1403943477 instance=ExtResource("6_ad2o2")]
-position = Vector2(1251, -1985)
-key_id = "chave_jardim"
-
 [node name="chaveBiblioteca" parent="Portas_Puzzles" unique_id=529055433 groups=["floor2_only"] instance=ExtResource("6_ad2o2")]
+light_mask = 2
 z_index = 1
 position = Vector2(-88, -644)
 collision_mask = 64
@@ -344,10 +304,12 @@ texture = ExtResource("2_2opja")
 region_enabled = true
 region_rect = Rect2(175.72302, 128.03256, 32.305817, 31.98317)
 
-[node name="SairPorao" parent="Portas_Puzzles" unique_id=1147234906 instance=ExtResource("25_7hpn8")]
+[node name="SairPorao" parent="Portas_Puzzles" unique_id=1147234906 node_paths=PackedStringArray("required_gate") instance=ExtResource("25_7hpn8")]
 position = Vector2(-172, -939)
 scale = Vector2(1.3434906, 1.2651198)
 target_scene = ExtResource("26_feb8t")
+required_gate = NodePath("../AlcapaoPorao")
+require_ground_floor = true
 
 [node name="LeverPuzzle" parent="Portas_Puzzles" unique_id=201661630 node_paths=PackedStringArray("required_on", "required_off") instance=ExtResource("8_yokfp")]
 required_on = [NodePath("../Lever")]
@@ -381,15 +343,12 @@ position = Vector2(-27, -973)
 item = ExtResource("28_medkit")
 
 [node name="SaveTypewriter" parent="." unique_id=91635732 instance=ExtResource("19_7mxoo")]
-position = Vector2(357, -826)
+position = Vector2(3, -824)
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_guq88")]
-position = Vector2(871.00006, -1550.9999)
+position = Vector2(705.00006, -671.9999)
 scale = Vector2(1.0197155, 1.0387352)
 sprint_speed = 160.0
-
-[node name="Zumbi" parent="." unique_id=1259467455 instance=ExtResource("7_7ehem")]
-position = Vector2(560, -704)
 
 [node name="LeafPile" parent="." unique_id=618547647 instance=ExtResource("25_7ehem")]
 position = Vector2(824, -1655)
@@ -403,6 +362,5 @@ position = Vector2(836, -1661)
 [connection signal="body_entered" from="Portas_Puzzles/Trigger_Up" to="." method="_on_trigger_up_body_entered"]
 [connection signal="body_entered" from="Portas_Puzzles/Trigger_Down" to="." method="_on_trigger_down_body_entered"]
 [connection signal="collected" from="Portas_Puzzles/Key" to="Portas_Puzzles/Door" method="_on_key_collected"]
-[connection signal="collected" from="Portas_Puzzles/chaveJardim" to="Portas_Puzzles/AlcapaoPorao" method="_on_key_collected"]
 [connection signal="collected" from="Portas_Puzzles/chaveBiblioteca" to="Portas_Puzzles/AlcapaoPorao" method="_on_key_collected"]
 [connection signal="solved" from="Portas_Puzzles/LeverPuzzle" to="Portas_Puzzles/Door" method="_on_lever_puzzle_solved"]

@@ -14,9 +14,9 @@ script = ExtResource("1_victory")
 
 [node name="TextSequence" parent="." unique_id=1422813070 instance=ExtResource("2_seq")]
 layout_mode = 1
-pages = Array[String](["Após a batalha feroz Claudio saiu vitorioso, mas após vencer contra o gigante ele abre seus olhos e se ve deitado na frente das ruinas de uma casa velha e que ja tombou a anos. Claudio se levanta e com apenas um graveto e um ramo de folhas em maos decide voltar com seu tratamento e ir tomar os remedios", "PARABÉNS!
+pages = Array[String](["Após a batalha feroz Claudio saiu vitorioso, mas após abrir seus olhos, se ve deitado na frente das ruinas de uma casa velha e que ja tombou a anos. Claudio se levanta e com apenas um graveto e um ramo de folhas em maos decide voltar com seu tratamento e ir tomar os remedios", "PARABÉNS!
 
-VOCÊ VENCEU!"])
+VOCÊ VENCEU!(Obrigado por jogar essa beta, por favor nos de seu feedback)"])
 
 [node name="MenuButton" type="Button" parent="." unique_id=911972716]
 layout_mode = 1

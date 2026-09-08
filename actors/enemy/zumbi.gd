@@ -10,7 +10,7 @@ class_name Zumbi
 # perseguição, ele desiste e volta a vagar por perto, em vez de perseguir
 # pra sempre ou voltar pro eixo fixo.
 
-@export var speed: float = 25.0
+@export var speed: float = 35.0
 @export var dano_do_ataque: float = 1.0
 
 ## Distância em que ele para de avançar. Sem isso ele mira o centro exato do
@@ -22,11 +22,13 @@ class_name Zumbi
 @export var knockback_strength: float = 120.0
 @export var knockback_friction: float = 800.0
 
-## Ajusta se a arte não foi desenhada de frente/direita (+X).
-@export var sprite_angle_offset_deg: float = 0.0
+## Ajusta se a arte não foi desenhada de frente/direita (+X) — mesma ideia
+## do Player/Anjo/Stalker: esse zumbi foi desenhado de frente (+Y), então
+## precisa girar -90° a mais pra "olhar" de verdade pra direção que anda.
+@export var sprite_angle_offset_deg: float = -90.0
 
 # --- Visão: curta, e de verdade — parede bloqueia (mesma técnica do Anjo) ---
-@export var vision_range: float = 55.0
+@export var vision_range: float = 100.0
 
 # --- Audição: mesma ideia do Hearer, só que mais fraca ---
 @export var footstep_range: float = 70.0  # Hearer usa 130
@@ -38,7 +40,7 @@ class_name Zumbi
 @export var pursuit_range: float = 140.0
 
 # --- Vagar (quando não está perseguindo nada) ---
-@export var wander_speed: float = 18.0
+@export var wander_speed: float = 25.0
 @export var wander_radius: float = 90.0
 @export var wander_interval: float = 3.5
 
@@ -103,7 +105,12 @@ func _move_along_path(current_speed: float) -> void:
 
 		if has_path:
 			var next_point := nav_agent.get_next_path_position()
-			chase_velocity = (next_point - global_position).normalized() * current_speed
+			var to_next := next_point - global_position
+			# Perto o bastante (ex: rente à borda de um buraco no navmesh), o
+			# vetor quase-zero normalizado fica instável e treme — mesma
+			# correção já usada no Anjo/Hearer/Stalker.
+			if to_next.length() > 1.0:
+				chase_velocity = to_next.normalized() * current_speed
 		else:
 			# Sem navmesh (ainda) ou sem rota: cai pra linha reta.
 			var target := nav_agent.target_position
@@ -116,6 +123,12 @@ func _move_along_path(current_speed: float) -> void:
 
 
 func _update_sprite() -> void:
+	# "running" só enquanto ele está de fato atrás do Player — vagando ou
+	# parado, fica no "idle" (a respiração).
+	var desired_animation := "running" if player != null else "idle"
+	if sprite.animation != desired_animation:
+		sprite.play(desired_animation)
+
 	# Gira pra direção que anda — sem isso o sprite fica sempre voltado pro
 	# mesmo lado, perseguindo de qualquer ângulo.
 	if velocity.length() > 1.0:

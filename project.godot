@@ -112,6 +112,7 @@ toggle_inventory={
 
 [navigation]
 
+2d/warnings/navmesh_edge_merge_errors=false
 2d/merge_rasterizer_cell_scale=0.5
 
 [physics]
