@@ -1,5 +1,23 @@
 extends Node2D
 
+# Guarda a camada de colisão original de cada objeto floor1_only/floor2_only
+# que não seja uma TileMapLayer (essas já têm o collision_enabled cuidando
+# delas à parte) — ex: móveis soltos na cena, não pintados como tile. Sem
+# isso não dá pra "religar" a colisão certa depois de zerá-la, já que cada
+# prop pode usar uma camada diferente.
+var _prop_collision_cache: Dictionary = {}
+
+
+# Zera (ou devolve) a colisão de todo objeto solto de um grupo de andar —
+# complemento do collision_enabled, que só cobre TileMapLayer inteira.
+func _set_prop_collision(group: String, enabled: bool) -> void:
+	for node in get_tree().get_nodes_in_group(group):
+		if node is CollisionObject2D and not node is TileMapLayer:
+			if not _prop_collision_cache.has(node):
+				_prop_collision_cache[node] = node.collision_layer
+			node.collision_layer = _prop_collision_cache[node] if enabled else 0
+
+
 func _ready() -> void:
 	if has_node("Player"):
 		$Player.z_index = 0
@@ -58,6 +76,12 @@ func _ready() -> void:
 	for node in get_tree().get_nodes_in_group("floor2_only"):
 		node.modulate.a = 0.0
 
+	# Móveis soltos (não pintados como tile) também precisam da colisão
+	# desligada enquanto invisíveis — o collision_enabled acima só cobre a
+	# TileMapLayer inteira, não cada prop individual do grupo.
+	_set_prop_collision("floor1_only", true)
+	_set_prop_collision("floor2_only", false)
+
 	# Trava a "camada de luz" de cada andar pelo grupo, automaticamente —
 	# sem isso, qualquer coisa nova marcada floor1_only/floor2_only nasce no
 	# light_mask padrão (1) e a lanterna do andar errado enxerga ela (foi
@@ -107,6 +131,9 @@ func _on_trigger_up_body_entered(body: Node2D) -> void:
 			$"1fMoveis".navigation_enabled = false
 		if has_node("2fMoveis"):
 			$"2fMoveis".navigation_enabled = true
+
+		_set_prop_collision("floor1_only", false)
+		_set_prop_collision("floor2_only", true)
 
 		# Animação suave para APARECER (Fade-In)
 		if has_node("TileMap_2sFloor"):
@@ -169,6 +196,9 @@ func _on_trigger_down_body_entered(body: Node2D) -> void:
 			$"1fMoveis".navigation_enabled = true
 		if has_node("2fMoveis"):
 			$"2fMoveis".navigation_enabled = false
+
+		_set_prop_collision("floor1_only", true)
+		_set_prop_collision("floor2_only", false)
 
 		# Animação suave para SUMIR (Fade-Out)
 		if has_node("TileMap_2sFloor"):

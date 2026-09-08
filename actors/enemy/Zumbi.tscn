@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cp118gj0gi1x2"]
 
 [ext_resource type="Script" uid="uid://b2gjk45lxmurx" path="res://actors/enemy/zumbi.gd" id="1_3csrs"]
-[ext_resource type="Texture2D" uid="uid://bd5584tmdu3r6" path="res://ui/assets/sprites/Zumbi_running.png" id="2_idle"]
+[ext_resource type="Texture2D" uid="uid://c106tvnsum0j6" path="res://ui/assets/sprites/zumbi_idle_outlined.png" id="2_idle"]
 [ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="3_rgqll"]
 [ext_resource type="Texture2D" uid="uid://b7ou3vt8vlt4m" path="res://ui/assets/sprites/zumbi_idle.png" id="4_running"]
 

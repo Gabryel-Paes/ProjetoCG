@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dt5q47op5cab4"]
 
 [ext_resource type="Script" uid="uid://bemnitcidor6b" path="res://actors/enemy/stalker.gd" id="1_stalker"]
-[ext_resource type="Texture2D" uid="uid://cylws27atped" path="res://ui/assets/sprites/Mr_G.png" id="2_mr_g"]
+[ext_resource type="Texture2D" uid="uid://dvvb6y5tjnpg8" path="res://ui/assets/sprites/Mr_G_Outlined.png" id="2_mr_g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_stalker"]
 radius = 6.0
