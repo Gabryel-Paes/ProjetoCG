@@ -57,7 +57,6 @@ color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1153864829]
-visible = false
 color = Color(0.011955088, 0.0026631625, 0.036364146, 1)
 
 [node name="TileMap_1sFloor" type="TileMapLayer" parent="." unique_id=1508748006 groups=["floor1_only"]]
@@ -255,8 +254,6 @@ scale = Vector2(4.3187685, 8.075104)
 andar = 2
 quantidade = 150
 
-[node name="inimigos2" type="Node" parent="." unique_id=1941637650]
-
 [node name="Portas_Puzzles" type="Node" parent="." unique_id=1227242153]
 
 [node name="Door" parent="Portas_Puzzles" unique_id=1555460614 instance=ExtResource("5_6ww7p")]
@@ -346,7 +343,7 @@ item = ExtResource("28_medkit")
 position = Vector2(3, -824)
 
 [node name="Player" parent="." unique_id=335704334 instance=ExtResource("1_guq88")]
-position = Vector2(705.00006, -671.9999)
+position = Vector2(1353, -1468)
 scale = Vector2(1.0197155, 1.0387352)
 sprint_speed = 160.0
 
@@ -359,8 +356,13 @@ position = Vector2(832, -1646)
 [node name="LeafPile3" parent="." unique_id=1636066626 instance=ExtResource("25_7ehem")]
 position = Vector2(836, -1661)
 
+[node name="chavejardim" parent="." unique_id=1164196565 instance=ExtResource("6_ad2o2")]
+position = Vector2(1258, -1989)
+key_id = "chave_jardim"
+
 [connection signal="body_entered" from="Portas_Puzzles/Trigger_Up" to="." method="_on_trigger_up_body_entered"]
 [connection signal="body_entered" from="Portas_Puzzles/Trigger_Down" to="." method="_on_trigger_down_body_entered"]
 [connection signal="collected" from="Portas_Puzzles/Key" to="Portas_Puzzles/Door" method="_on_key_collected"]
 [connection signal="collected" from="Portas_Puzzles/chaveBiblioteca" to="Portas_Puzzles/AlcapaoPorao" method="_on_key_collected"]
 [connection signal="solved" from="Portas_Puzzles/LeverPuzzle" to="Portas_Puzzles/Door" method="_on_lever_puzzle_solved"]
+[connection signal="collected" from="chavejardim" to="Portas_Puzzles/AlcapaoPorao" method="_on_key_collected"]

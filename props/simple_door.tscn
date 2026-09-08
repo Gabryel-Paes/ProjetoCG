@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cldaa6w7kr8dg" path="res://props/simple_door.gd" id="1_door"]
 [ext_resource type="Texture2D" uid="uid://bxoem6ckhckng" path="res://ui/assets/sprites/Atlas.png" id="2_uqrad"]
+[ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="3_font"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
 size = Vector2(9.96, 49)
@@ -11,6 +12,9 @@ polygon = PackedVector2Array(0, -25, 2, -25, 2, 24, 0, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact"]
 size = Vector2(17, 54)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_door"]
+light_mode = 1
 
 [node name="SimpleDoor" type="StaticBody2D" unique_id=308717192]
 rotation = 1.545248
@@ -39,11 +43,18 @@ position = Vector2(1.5, -5)
 shape = SubResource("RectangleShape2D_interact")
 
 [node name="Label" type="Label" parent="." unique_id=2081017020]
-offset_left = 10.0
-offset_top = -33.0
-offset_right = 63.0
-offset_bottom = -10.0
-theme_override_colors/font_color = Color(0.92629945, 2.5027991e-06, 1.540184e-06, 1)
+material = SubResource("CanvasItemMaterial_door")
+offset_left = -35.0
+offset_top = -20.0
+offset_right = 35.0
+offset_bottom = -6.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
 [connection signal="body_exited" from="InteractArea" to="." method="_on_interact_area_body_exited"]
