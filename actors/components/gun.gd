@@ -163,13 +163,22 @@ func _find_ammo_slot(inventory: Inventory) -> int:
 	return -1
 
 
+# Filho da CENA ATUAL, não da raiz (get_tree().root) — cada tiro cria um
+# desses, e antes eram filhos de root direto. Se uma troca de cena
+# acontecesse antes do efeito terminar (ex: o tiro que mata o chefe, que já
+# dispara a troca pra tela de vitória) ele ficava órfão em root pra sempre —
+# root não é limpo em troca de cena, só a cena atual é. Isso é o vazamento
+# de memória: um Line2D/GPUParticles2D esquecido a cada tiro que coincide
+# com uma troca de cena (morrer, derrotar o chefe, atravessar uma porta de
+# saída de nível). Agora, se a cena trocar no meio do efeito, ele morre
+# junto com o resto dela, igual qualquer outro nó normal da cena.
 func _spawn_impact(cena: PackedScene, posicao: Vector2, angulo: float) -> void:
 	var efeito: GPUParticles2D = cena.instantiate()
 	efeito.global_position = posicao
 	efeito.rotation = angulo
 
 	_apply_floor_layering(efeito)
-	get_tree().root.add_child(efeito)
+	get_tree().current_scene.add_child(efeito)
 
 
 # Mesmo problema do Stalker (stalker_director.gd): TileMap_2sFloor desenha em
@@ -192,7 +201,7 @@ func _criar_rastro(inicio: Vector2, fim: Vector2) -> void:
 	linha.default_color = Color(1.0, 0.973, 0.808, 1.0)
 
 	_apply_floor_layering(linha)
-	get_tree().root.add_child(linha)
+	get_tree().current_scene.add_child(linha)
 
 	var tween = create_tween()
 	tween.tween_property(linha, "modulate:a", 0.0, 0.07)

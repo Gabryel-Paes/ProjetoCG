@@ -241,9 +241,13 @@ func _hear(where: Vector2) -> void:
 	_last_heard_position = where
 
 
-# --- Detecção (só existe fisicamente pra quem está no mesmo andar — ver DetectionArea) ---
+# --- Detecção ---
+# A DetectionArea não filtra mais por andar na própria camada de colisão
+# (isso já causou o Hearer nunca conseguir "descobrir" o Player, dependendo
+# do instante exato — mesmo bug já visto na Hitbox). Igual o resto do
+# script, confirma o andar certo aqui, via _same_floor_as().
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	if not body.is_in_group("Player"):
+	if not body.is_in_group("Player") or not _same_floor_as(body):
 		return
 
 	player = body

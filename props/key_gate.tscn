@@ -1,12 +1,19 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://props/key_gate.gd" id="1_gate"]
+[ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="2_font"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
 size = Vector2(16, 32)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_gate"]
 size = Vector2(16, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_info"]
+size = Vector2(40, 48)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gate"]
+light_mode = 1
 
 [node name="KeyGate" type="StaticBody2D"]
 script = ExtResource("1_gate")
@@ -17,3 +24,26 @@ shape = SubResource("RectangleShape2D_gate")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("PlaceholderTexture2D_gate")
+
+[node name="InfoArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InfoArea"]
+shape = SubResource("RectangleShape2D_info")
+
+[node name="Label" type="Label" parent="."]
+material = SubResource("CanvasItemMaterial_gate")
+offset_left = -35.0
+offset_top = -24.0
+offset_right = 35.0
+offset_bottom = -12.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 6
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="InfoArea" to="." method="_on_info_area_body_entered"]
+[connection signal="body_exited" from="InfoArea" to="." method="_on_info_area_body_exited"]

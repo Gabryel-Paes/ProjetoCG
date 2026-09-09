@@ -123,6 +123,14 @@ func _ready() -> void:
 	for node in get_tree().get_nodes_in_group("floor2_only"):
 		_apply_floor_layering(node, 2, 1)
 
+	# Carregando um save feito no 2º andar: tudo acima deixou o Player no
+	# estado padrão do térreo — reaplica a mesma transição de "subir" que o
+	# Trigger_Up dispara, agora na hora do _ready(), pra devolver o mezanino
+	# de verdade em vez de só a posição (x,y), que sozinha não diz em qual
+	# andar você realmente estava (os dois compartilham coordenada).
+	if has_node("Player") and GameState.pending_player_floor2():
+		_on_trigger_up_body_entered($Player)
+
 
 # z_index: TileMap_2sFloor/2fMoveis desenham em z_index 1 de propósito, por
 # cima de tudo que fica no 0 padrão (assim o térreo fica "por baixo" quando

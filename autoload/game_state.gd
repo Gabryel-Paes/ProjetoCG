@@ -36,6 +36,13 @@ func node_save_id(node: Node) -> String:
 	return String(node.get_path())
 
 
+## Consultado pela sala (ex: lobby_tutorial.gd) no próprio _ready() dela,
+## antes de _apply_pending_player_data() rodar — pra saber se precisa
+## aplicar o estado de "presente no 2º andar" em vez do térreo padrão.
+func pending_player_floor2() -> bool:
+	return _pending_player_data.get("floor2", false)
+
+
 func has_save() -> bool:
 	return FileAccess.file_exists(SAVE_PATH)
 
@@ -80,6 +87,11 @@ func save_game() -> void:
 			"health": health_data,
 			"weapon_index": player.get("weapon_index"),
 			"items": items_data,
+			# Andares nas salas de dois-pisos (ex: lobby_tutorial) compartilham
+			# as mesmas coordenadas — sem isso, carregar um save feito no 2º
+			# andar te devolvia no térreo, mesma posição (x,y), mas sem nada do
+			# estado visual/físico do mezanino aplicado.
+			"floor2": player.get_collision_layer_value(7),
 		},
 	}
 

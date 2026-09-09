@@ -1,6 +1,10 @@
 [gd_scene load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://props/lever_puzzle.gd" id="1_puzzle"]
+[ext_resource type="AudioStream" uid="uid://dc341h1mq2r60" path="res://ui/assets/sounds/click.wav" id="2_click"]
 
 [node name="LeverPuzzle" type="Node"]
 script = ExtResource("1_puzzle")
+
+[node name="SfxReset" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_click")

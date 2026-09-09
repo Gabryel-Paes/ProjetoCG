@@ -8,6 +8,8 @@ signal solved()
 ## volta pra desligado e o jogador tem que começar de novo.
 @export var sequence: Array[Lever] = []
 
+@onready var sfx_reset: AudioStreamPlayer = $SfxReset
+
 var _solved: bool = false
 var _next_index: int = 0
 
@@ -42,6 +44,7 @@ func _on_lever_toggled(is_on: bool, lever: Lever) -> void:
 
 
 func _reset_all() -> void:
+	sfx_reset.play()
 	_next_index = 0
 	for lever in sequence:
 		# Atribui direto (não usa toggle()) de propósito — isso não emite
