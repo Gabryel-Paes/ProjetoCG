@@ -6,17 +6,26 @@ class_name Hearer
 # tiro. Investiga o último lugar onde ouviu algo por um tempo, depois desiste
 # e volta a rondar. Ao contrário do Anjo/Stalker, é mortal (tem Health normal).
 
-@export var speed: float = 45.0
+@export var speed: float = 65.0 # investigando um som, corre mais rápido que rondando
 @export var dano_toque: float = 1.0
 
 @export var footstep_range: float = 130.0  # alcance pra ouvir passos correndo
 @export var gunshot_range: float = 500.0   # alcance pra ouvir um tiro
 @export var investigate_time: float = 6.0  # quanto tempo persegue o último som antes de desistir
 
+## Quanto tempo fica parado (idle) antes de virar "lookingfor", farejando o
+## ar, assim que chega no último lugar onde ouviu algo — dá uma transição
+## mais natural em vez de travar direto na pose de suspeita.
+@export var sniff_duration: float = 0.6
+
 # --- Ronda (quando não ouviu nada) ---
 @export var wander_speed: float = 45.0
 @export var wander_radius: float = 150.0   # usado só se "Patrol Points" estiver vazio
 @export var wander_interval: float = 4.0
+
+## Quanto tempo ele fica parado entre um destino de ronda e outro.
+@export var wander_pause_min: float = 1.0
+@export var wander_pause_max: float = 3.0
 
 ## Distância em que ele para de avançar. Sem isso ele mira o centro exato do
 ## Player pra sempre e fica "empurrando"/colado nele — e perto o bastante o
@@ -45,12 +54,18 @@ var _gun: Gun = null
 
 var _spawn_position: Vector2
 var _wander_timer: float = 0.0
+var _wander_pausing: bool = false
+var _wander_pause_timer: float = 0.0
 var _patrol_index: int = 0
 
 var _alert: bool = false
 var _investigate_timer: float = 0.0
 var _last_heard_position: Vector2
 var _knockback: Vector2 = Vector2.ZERO
+
+var _sniffing: bool = false
+var _sniff_timer: float = 0.0
+var _was_moving: bool = false
 
 
 func _ready() -> void:
@@ -66,8 +81,7 @@ func _physics_process(delta: float) -> void:
 	_knockback = _knockback.move_toward(Vector2.ZERO, knockback_friction * delta)
 
 	if player == null:
-		_wander(delta)
-		_move_along_path(wander_speed)
+		_process_wander(delta)
 		return
 
 	_check_footsteps()
@@ -79,13 +93,24 @@ func _physics_process(delta: float) -> void:
 
 	if _alert:
 		nav_agent.target_position = _last_heard_position
-		_move_along_path(speed)
+		_move_along_path(speed, delta)
 	else:
-		_wander(delta)
-		_move_along_path(wander_speed)
+		_process_wander(delta)
 
 
-func _move_along_path(current_speed: float) -> void:
+# Ronda com pausas: escolhe destino, anda até lá, fica parado um tempinho
+# (idle) antes de escolher o próximo — em vez de andar sem parar nunca.
+func _process_wander(delta: float) -> void:
+	_wander(delta)
+	if _wander_pausing:
+		velocity = _knockback
+		move_and_slide()
+		_update_sprite(delta)
+	else:
+		_move_along_path(wander_speed, delta)
+
+
+func _move_along_path(current_speed: float, delta: float) -> void:
 	var chase_velocity := Vector2.ZERO
 
 	if player == null or global_position.distance_to(player.global_position) > stop_distance:
@@ -105,20 +130,38 @@ func _move_along_path(current_speed: float) -> void:
 
 	velocity = chase_velocity + _knockback
 	move_and_slide()
-	_update_sprite()
+	_update_sprite(delta)
 
 
 # --- Animação ---
-# idle: parado, sem suspeitar de nada. lookingfor: parou no último lugar
-# onde ouviu algo e está "farejando" ali. walking: se movendo, tanto
-# rondando quanto atrás do som ouvido (sniffing não é mais usado).
-func _update_sprite() -> void:
+# idle: parado, sem suspeitar de nada (rondando ou na pausa entre destinos).
+# walking: se movendo, tanto rondando quanto atrás do som ouvido.
+# sniffing: acabou de parar no último lugar ouvido, cheirando o ar por
+# `sniff_duration` — transição antes de assentar no lookingfor.
+# lookingfor: parado de vez, investigando, depois do sniffing acabar.
+func _update_sprite(delta: float) -> void:
 	var moving := velocity.length() > 1.0
+
+	if moving:
+		_sniffing = false
+	elif _alert and _was_moving:
+		# Acabou de parar bem no ponto do som agora — começa cheirando em
+		# vez de ir direto pro lookingfor.
+		_sniffing = true
+		_sniff_timer = sniff_duration
+
+	if _sniffing:
+		_sniff_timer -= delta
+		if _sniff_timer <= 0.0:
+			_sniffing = false
+
+	_was_moving = moving
+
 	var desired_animation := "idle"
 	if moving:
 		desired_animation = "walking"
 	elif _alert:
-		desired_animation = "lookingfor"
+		desired_animation = "sniffing" if _sniffing else "lookingfor"
 
 	if sprite.animation != desired_animation:
 		sprite.play(desired_animation)
@@ -130,9 +173,17 @@ func _update_sprite() -> void:
 
 
 func _wander(delta: float) -> void:
+	if _wander_pausing:
+		_wander_pause_timer -= delta
+		if _wander_pause_timer <= 0.0:
+			_wander_pausing = false
+			_pick_wander_target()
+		return
+
 	_wander_timer -= delta
 	if _wander_timer <= 0.0 or nav_agent.is_navigation_finished():
-		_pick_wander_target()
+		_wander_pausing = true
+		_wander_pause_timer = randf_range(wander_pause_min, wander_pause_max)
 
 
 func _pick_wander_target() -> void:
@@ -207,8 +258,23 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 
 # --- Dano de contato ---
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") and body.has_node("Health"):
+	if body.is_in_group("Player") and body.has_node("Health") and _same_floor_as(body):
 		body.get_node("Health").apply_damage(dano_toque, global_position)
+
+
+# Rede de segurança independente do sistema de andar da lobby_tutorial.gd
+# (que liga/desliga collision_layer/mask por grupo floor1_only/floor2_only):
+# mesmo que aquele sistema falhe por algum motivo (corrida de timing, andar
+# trocado rápido demais, um inimigo novo esquecido no grupo certo...), não
+# aplica dano se o Player não estiver de verdade no mesmo andar que este
+# inimigo — confirma direto pelo bit floor1_occupant/floor2_occupant.
+func _same_floor_as(body: Node) -> bool:
+	var body_layer: int = body.get("collision_layer")
+	if is_in_group("floor1_only") and (body_layer & 32) == 0:
+		return false
+	if is_in_group("floor2_only") and (body_layer & 64) == 0:
+		return false
+	return true
 
 
 # --- Vida (mortal, ao contrário do Anjo/Stalker) ---

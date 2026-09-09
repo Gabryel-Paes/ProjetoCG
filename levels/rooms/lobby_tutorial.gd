@@ -10,12 +10,31 @@ var _prop_collision_cache: Dictionary = {}
 
 # Zera (ou devolve) a colisão de todo objeto solto de um grupo de andar —
 # complemento do collision_enabled, que só cobre TileMapLayer inteira.
+#
+# Recursivo de propósito: inimigos (Zumbi, Angel, Stalker...) têm Area2D
+# filhas (Hitbox, Hurtbox, DetectionArea) com collision_layer PRÓPRIA,
+# separada da do CharacterBody2D raiz — só zerar o nó do grupo deixava a
+# Hitbox ativa pra sempre, acertando o Player mesmo no andar errado.
 func _set_prop_collision(group: String, enabled: bool) -> void:
 	for node in get_tree().get_nodes_in_group(group):
 		if node is CollisionObject2D and not node is TileMapLayer:
-			if not _prop_collision_cache.has(node):
-				_prop_collision_cache[node] = node.collision_layer
-			node.collision_layer = _prop_collision_cache[node] if enabled else 0
+			_apply_prop_collision(node, enabled)
+			for descendant in node.find_children("*", "CollisionObject2D", true, false):
+				_apply_prop_collision(descendant, enabled)
+
+
+func _apply_prop_collision(node: CollisionObject2D, enabled: bool) -> void:
+	# Zera layer E mask — o Player carrega o bit "world" (1) o tempo todo
+	# no próprio collision_layer (pra colidir com paredes fora do sistema
+	# de andar), e a Hitbox de inimigo nunca teve collision_mask configurada
+	# (fica no padrão = 1, "world"). Ou seja: zerar só a layer não impedia a
+	# Hitbox de continuar "vendo" o Player por esse bit compartilhado — só
+	# zerando os dois lados garante que não colide nem detecta nada.
+	if not _prop_collision_cache.has(node):
+		_prop_collision_cache[node] = {"layer": node.collision_layer, "mask": node.collision_mask}
+	var original: Dictionary = _prop_collision_cache[node]
+	node.collision_layer = original["layer"] if enabled else 0
+	node.collision_mask = original["mask"] if enabled else 0
 
 
 func _ready() -> void:
@@ -87,12 +106,43 @@ func _ready() -> void:
 	# light_mask padrão (1) e a lanterna do andar errado enxerga ela (foi
 	# exatamente o que aconteceu com o 2fMoveis e a chaveBiblioteca, que
 	# precisaram ser corrigidos na mão na cena).
+	#
+	# Os dois de propósito recursivos: um inimigo/prop composto (ex: Zumbi)
+	# é um CharacterBody2D que não desenha nada sozinho — quem desenha é um
+	# Sprite2D/AnimatedSprite2D filho, que tem seu PRÓPRIO light_mask (não
+	# herda do pai). Só marcar o nó do grupo não chega no filho — foi
+	# exatamente esse bug que deixou o Stalker invisível no 2º andar.
 	for node in get_tree().get_nodes_in_group("floor1_only"):
-		if node is CanvasItem:
-			node.light_mask = 1
+		_apply_floor_layering(node, 1, 0)
 	for node in get_tree().get_nodes_in_group("floor2_only"):
-		if node is CanvasItem:
-			node.light_mask = 2
+		_apply_floor_layering(node, 2, 1)
+
+
+# z_index: TileMap_2sFloor/2fMoveis desenham em z_index 1 de propósito, por
+# cima de tudo que fica no 0 padrão (assim o térreo fica "por baixo" quando
+# os dois andares compartilham a mesma coordenada). Qualquer coisa marcada
+# floor2_only precisa do mesmo z_index, senão fica desenhada atrás do
+# próprio chão de cima — mesmo bug de z_index que pegou o Stalker. Só no nó
+# raiz: z_as_relative é true por padrão, então isso já cascata pros filhos
+# sozinho, sem precisar (e sem risco de atropelar alguma ordenação relativa
+# interna que um filho já tenha entre as próprias partes).
+func _apply_floor_layering(node: Node, light_mask: int, z_index: int) -> void:
+	if node is Node2D:
+		node.z_index = z_index
+	_apply_light_mask_recursive(node, light_mask)
+
+
+# light_mask NÃO é herdado (ao contrário do z_index) — precisa marcar em
+# CADA CanvasItem da árvore. Um inimigo composto (ex: Zumbi) é um
+# CharacterBody2D que não desenha nada sozinho; quem desenha é um
+# Sprite2D/AnimatedSprite2D filho, com seu PRÓPRIO light_mask. Só marcar o
+# nó do grupo não chega no filho — foi exatamente esse bug que deixou o
+# Stalker invisível no 2º andar.
+func _apply_light_mask_recursive(node: Node, light_mask: int) -> void:
+	if node is CanvasItem:
+		node.light_mask = light_mask
+	for child in node.get_children():
+		_apply_light_mask_recursive(child, light_mask)
 
 # Conectado ao Trigger_Up (Subindo)
 func _on_trigger_up_body_entered(body: Node2D) -> void:

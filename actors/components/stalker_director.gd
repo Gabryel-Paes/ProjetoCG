@@ -39,8 +39,42 @@ func _start_encounter() -> void:
 	get_tree().current_scene.add_child(_stalker)
 	_stalker.player = player
 
+	# O Stalker nasce dinamicamente, fora da árvore original da cena — sem
+	# isso ele nunca entra no sistema de andares (floor1_only/floor2_only)
+	# que a lobby_tutorial.gd usa pra ligar/desligar colisão e luz por piso
+	# (esse setup só roda uma vez, no _ready(), bem antes dele existir).
+	# Resultado sem essa marcação: ele continua sólido em qualquer andar,
+	# mesmo depois do Player mudar de piso.
+	var floor_group := "floor2_only" if player.get_collision_layer_value(7) else "floor1_only"
+	_stalker.add_to_group(floor_group)
+
+	# light_mask não é herdado — precisa marcar em CADA CanvasItem (o
+	# Sprite2D que desenha de verdade, não só o CharacterBody2D raiz, que
+	# não desenha nada sozinho). Sem isso ele fica com o light_mask padrão
+	# (1, térreo) e nenhuma luz do andar 2 ilumina o sprite — ele fica
+	# fisicamente ali (a colisão funciona) mas visualmente invisível de
+	# verdade, sempre sem luz nenhuma nele.
+	var floor_light_mask := 2 if floor_group == "floor2_only" else 1
+	_apply_light_mask_recursive(_stalker, floor_light_mask)
+
+	# TileMap_2sFloor/2fMoveis (o chão do mezanino) desenham em z_index = 1
+	# de propósito, por cima de tudo que fica no 0 padrão — é assim que o
+	# térreo fica "por baixo" quando os dois andares compartilham a mesma
+	# coordenada. O Stalker nascia sempre em z_index 0: no térreo ficava
+	# certo, mas no mezanino ele ficava desenhado ATRÁS do próprio chão de
+	# cima, sumindo visualmente mesmo com colisão e luz corretas (z_as_relative
+	# é true por padrão, então setar no nó raiz já cobre os filhos).
+	_stalker.z_index = 1 if floor_group == "floor2_only" else 0
+
 	encounter_started.emit()
 	get_tree().create_timer(encounter_duration).timeout.connect(_end_encounter)
+
+
+func _apply_light_mask_recursive(node: Node, mask: int) -> void:
+	if node is CanvasItem:
+		node.light_mask = mask
+	for child in node.get_children():
+		_apply_light_mask_recursive(child, mask)
 
 
 func _snap_to_navmesh(point: Vector2) -> Vector2:

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b2gjk45lxmurx" path="res://actors/enemy/zumbi.gd" id="1_3csrs"]
 [ext_resource type="Texture2D" uid="uid://c106tvnsum0j6" path="res://ui/assets/sprites/zumbi_idle_outlined.png" id="2_idle"]
 [ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="3_rgqll"]
-[ext_resource type="Texture2D" uid="uid://b7ou3vt8vlt4m" path="res://ui/assets/sprites/zumbi_idle.png" id="4_running"]
+[ext_resource type="Texture2D" uid="uid://d0jt5tq3vw2hb" path="res://ui/assets/sprites/Zumbi_running_outlined.png" id="4_running"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_body"]
 radius = 6.0
@@ -72,6 +72,26 @@ region = Rect2(384, 0, 64, 64)
 atlas = ExtResource("4_running")
 region = Rect2(448, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_run8"]
+atlas = ExtResource("4_running")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run9"]
+atlas = ExtResource("4_running")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run10"]
+atlas = ExtResource("4_running")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run11"]
+atlas = ExtResource("4_running")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run12"]
+atlas = ExtResource("4_running")
+region = Rect2(768, 0, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_ke0wg"]
 animations = [{
 "frames": [{
@@ -127,6 +147,21 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_run7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run9")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run12")
 }],
 "loop": 1,
 "name": &"running",
@@ -143,6 +178,7 @@ height = 20.0
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_3csrs")
+speed = 85.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1589681061]
 shape = SubResource("CircleShape2D_body")
@@ -157,7 +193,6 @@ radius = 6.0
 [node name="Aim" type="Node2D" parent="." unique_id=806017258]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Aim" unique_id=1102553919]
-position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_ke0wg")
 animation = &"running"
 autoplay = "idle"
@@ -172,6 +207,7 @@ shape = SubResource("CapsuleShape2D_4s7lv")
 [node name="Health" parent="." unique_id=1630372287 instance=ExtResource("3_rgqll")]
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1594849126]
+visible = false
 collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1839999983]

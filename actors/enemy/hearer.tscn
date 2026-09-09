@@ -58,34 +58,6 @@ region = Rect2(640, 0, 64, 64)
 atlas = ExtResource("3_idle")
 region = Rect2(704, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sniff0"]
-atlas = ExtResource("4_sniffing")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sniff1"]
-atlas = ExtResource("4_sniffing")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sniff2"]
-atlas = ExtResource("4_sniffing")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sniff3"]
-atlas = ExtResource("4_sniffing")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sniff4"]
-atlas = ExtResource("4_sniffing")
-region = Rect2(256, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sniff5"]
-atlas = ExtResource("4_sniffing")
-region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sniff6"]
-atlas = ExtResource("4_sniffing")
-region = Rect2(384, 0, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_look0"]
 atlas = ExtResource("5_lookingfor")
 region = Rect2(0, 0, 64, 64)
@@ -125,6 +97,34 @@ region = Rect2(512, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_look9"]
 atlas = ExtResource("5_lookingfor")
 region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sniff0"]
+atlas = ExtResource("4_sniffing")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sniff1"]
+atlas = ExtResource("4_sniffing")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sniff2"]
+atlas = ExtResource("4_sniffing")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sniff3"]
+atlas = ExtResource("4_sniffing")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sniff4"]
+atlas = ExtResource("4_sniffing")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sniff5"]
+atlas = ExtResource("4_sniffing")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sniff6"]
+atlas = ExtResource("4_sniffing")
+region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_walk0"]
 atlas = ExtResource("6_walking")
@@ -193,35 +193,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_idle11")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 6.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sniff0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sniff1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sniff2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sniff3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sniff4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sniff5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sniff6")
-}],
-"loop": true,
-"name": &"sniffing",
-"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -254,9 +228,35 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_look9")
 }],
-"loop": true,
+"loop": 1,
 "name": &"lookingfor",
 "speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sniff0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sniff1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sniff2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sniff3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sniff4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sniff5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sniff6")
+}],
+"loop": 1,
+"name": &"sniffing",
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -280,10 +280,22 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_walk6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walking",
 "speed": 14.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nuynq"]
+size = Vector2(12, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_60pvl"]
+size = Vector2(12, 17.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1iy5"]
+size = Vector2(52, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kxx2y"]
+size = Vector2(43, 12.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hitbox"]
 radius = 9.0
@@ -293,9 +305,10 @@ radius = 550.0
 
 [node name="Hearer" type="CharacterBody2D" unique_id=728058646]
 z_index = 1
-collision_layer = 64
+collision_layer = 65
 collision_mask = 65
 script = ExtResource("1_hearer")
+speed = 180.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1257999533]
 shape = SubResource("CircleShape2D_hearer")
@@ -314,9 +327,27 @@ radius = 6.0
 collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=697385239]
-shape = SubResource("CircleShape2D_hearer")
+position = Vector2(0, 13)
+shape = SubResource("RectangleShape2D_nuynq")
+debug_color = Color(0.82529426, 0.36716548, 0.4171886, 0.41960785)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hurtbox" unique_id=1581652664]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_60pvl")
+debug_color = Color(0.8864511, 0.30026048, 0.370222, 0.41960785)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Hurtbox" unique_id=2115741209]
+position = Vector2(-1, -19)
+shape = SubResource("RectangleShape2D_a1iy5")
+debug_color = Color(0.9333382, 0.22315985, 0.34415916, 0.41960785)
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Hurtbox" unique_id=1503231335]
+position = Vector2(-1, 5.75)
+shape = SubResource("RectangleShape2D_kxx2y")
+debug_color = Color(0.9349347, 0.20382625, 0.4004939, 0.41960785)
 
 [node name="Health" parent="." unique_id=1197569412 instance=ExtResource("2_health")]
+max_health = 160.0
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1107325264]
 collision_layer = 16

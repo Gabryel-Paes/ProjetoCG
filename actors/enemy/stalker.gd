@@ -25,12 +25,18 @@ class_name Stalker
 ## do sprite_angle_offset do Player/Anjo.
 @export var sprite_angle_offset_deg: float = -90.0
 
+## Depois de acertar o Player, fica parado esse tempo antes de voltar a
+## perseguir — sem isso ele fica "grudado" no Player pra sempre, já que
+## chega bem perto (stop_distance) e não solta mais.
+@export var attack_cooldown: float = 1.0
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: AnimatedSprite2D = $Sprite2D
 
 var player: CharacterBody2D = null
 
 var _slow_timer: float = 0.0
+var _attack_cooldown_timer: float = 0.0
 var _knockback: Vector2 = Vector2.ZERO
 
 
@@ -53,6 +59,13 @@ func _physics_process(delta: float) -> void:
 	_knockback = _knockback.move_toward(Vector2.ZERO, knockback_friction * delta)
 
 	if player == null:
+		velocity = _knockback
+		move_and_slide()
+		_update_sprite()
+		return
+
+	if _attack_cooldown_timer > 0.0:
+		_attack_cooldown_timer -= delta
 		velocity = _knockback
 		move_and_slide()
 		_update_sprite()
@@ -106,8 +119,26 @@ func _update_sprite() -> void:
 
 # --- Dano de contato ---
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") and body.has_node("Health"):
+	if body.is_in_group("Player") and body.has_node("Health") and _same_floor_as(body):
 		body.get_node("Health").apply_damage(dano_toque, global_position)
+		_attack_cooldown_timer = attack_cooldown
+
+
+# Rede de segurança independente do sistema de andar da lobby_tutorial.gd
+# (que liga/desliga collision_layer/mask por grupo floor1_only/floor2_only):
+# mesmo que aquele sistema falhe por algum motivo (corrida de timing, andar
+# trocado rápido demais...), não aplica dano se o Player não estiver de
+# verdade no mesmo andar que este Stalker — confirma direto pelo bit
+# floor1_occupant/floor2_occupant. Se o Stalker ainda não foi marcado em
+# nenhum grupo de andar (ex: acabou de nascer, antes do stalker_director.gd
+# adicionar o grupo), não bloqueia — só entra em ação depois de marcado.
+func _same_floor_as(body: Node) -> bool:
+	var body_layer: int = body.get("collision_layer")
+	if is_in_group("floor1_only") and (body_layer & 32) == 0:
+		return false
+	if is_in_group("floor2_only") and (body_layer & 64) == 0:
+		return false
+	return true
 
 
 # --- Imunidade a morte: tiro/faca não mata, só atrapalha ---
