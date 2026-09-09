@@ -67,6 +67,7 @@ func _start_encounter() -> void:
 	_stalker.z_index = 1 if floor_group == "floor2_only" else 0
 
 	encounter_started.emit()
+	MusicManager.play_stalker_theme()
 	get_tree().create_timer(encounter_duration).timeout.connect(_end_encounter)
 
 
@@ -95,4 +96,5 @@ func _end_encounter() -> void:
 	if is_instance_valid(_stalker):
 		_stalker.queue_free()
 	_stalker = null
+	MusicManager.stop_stalker_theme()
 	encounter_ended.emit()

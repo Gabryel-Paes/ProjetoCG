@@ -20,6 +20,11 @@ var _player_in_range: Node2D = null
 
 
 func _ready() -> void:
+	# Já foi pego num save anterior — nem chega a existir de novo.
+	if GameState.get_flag(_collected_flag()):
+		queue_free()
+		return
+
 	prompt.text = prompt_text
 	prompt.visible = false
 	if item:
@@ -46,6 +51,7 @@ func _collect() -> void:
 			break # inventário cheio, o resto fica no chão
 
 	if collected >= amount:
+		GameState.set_flag(_collected_flag(), true)
 		queue_free()
 
 
@@ -59,3 +65,7 @@ func _on_pickup_area_body_exited(body: Node2D) -> void:
 	if body == _player_in_range:
 		_player_in_range = null
 		prompt.visible = false
+
+
+func _collected_flag() -> String:
+	return "collected:" + GameState.node_save_id(self)

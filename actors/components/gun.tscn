@@ -1,6 +1,18 @@
 [gd_scene format=3 uid="uid://058jykq0qse7"]
 
 [ext_resource type="Script" uid="uid://4epi7qar40wf" path="res://actors/components/gun.gd" id="1_gun"]
+[ext_resource type="AudioStream" uid="uid://chvdsbow5w4f5" path="res://ui/assets/sounds/gunshot.wav" id="2_gunshot"]
+[ext_resource type="AudioStream" uid="uid://2hpi3clxi3oo" path="res://ui/assets/sounds/reload.wav" id="3_reload"]
+[ext_resource type="AudioStream" uid="uid://dc341h1mq2r60" path="res://ui/assets/sounds/click.wav" id="4_click"]
 
 [node name="Gun" type="Node2D" unique_id=693731863]
 script = ExtResource("1_gun")
+
+[node name="SfxGunshot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_gunshot")
+
+[node name="SfxReload" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_reload")
+
+[node name="SfxClick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_click")

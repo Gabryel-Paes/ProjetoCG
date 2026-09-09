@@ -68,6 +68,13 @@ var _attack_cooldown_timer: float = 0.0
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var health: Health = $Health
 @onready var sprite: AnimatedSprite2D = $Aim/AnimatedSprite2D
+@onready var sfx_footstep: AudioStreamPlayer2D = $SfxFootstep
+
+# --- Som de passo ---
+## Segundos entre cada passo, vagando ou perseguindo (não escala com
+## velocidade de propósito, senão viraria uma metralhadora perseguindo).
+@export var footstep_interval: float = 0.4
+var _footstep_timer: float = 0.0
 
 var player: CharacterBody2D = null
 var _gun: Gun = null
@@ -80,6 +87,11 @@ var _knockback: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
+	# Já morreu num save anterior — nem chega a existir de novo.
+	if GameState.get_flag(_death_flag()):
+		queue_free()
+		return
+
 	health.died.connect(die)
 	health.damaged.connect(_on_damaged)
 
@@ -172,6 +184,14 @@ func _update_sprite() -> void:
 	# mesmo lado, perseguindo de qualquer ângulo.
 	if velocity.length() > 1.0:
 		sprite.rotation = velocity.angle() + deg_to_rad(sprite_angle_offset_deg)
+		_footstep_timer -= get_physics_process_delta_time()
+		if _footstep_timer <= 0.0:
+			_footstep_timer = footstep_interval
+			sfx_footstep.play()
+	else:
+		# Zerado pra tocar o primeiro passo na hora assim que ele voltar a
+		# andar, em vez de esperar o resto do intervalo de quando parou.
+		_footstep_timer = 0.0
 
 
 func _wander(delta: float) -> void:
@@ -295,4 +315,9 @@ func _on_damaged(_amount: float, _source_position: Vector2) -> void:
 
 
 func die() -> void:
+	GameState.set_flag(_death_flag(), true)
 	queue_free()
+
+
+func _death_flag() -> String:
+	return "dead:" + GameState.node_save_id(self)

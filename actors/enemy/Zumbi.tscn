@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c106tvnsum0j6" path="res://ui/assets/sprites/zumbi_idle_outlined.png" id="2_idle"]
 [ext_resource type="PackedScene" path="res://actors/components/health.tscn" id="3_rgqll"]
 [ext_resource type="Texture2D" uid="uid://d0jt5tq3vw2hb" path="res://ui/assets/sprites/Zumbi_running_outlined.png" id="4_running"]
+[ext_resource type="AudioStream" uid="uid://bfea66ia5ducv" path="res://ui/assets/sounds/footstep.wav" id="5_footstep"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_body"]
 radius = 6.0
@@ -189,6 +190,10 @@ shape = SubResource("CircleShape2D_body")
 path_desired_distance = 6.0
 target_desired_distance = 6.0
 radius = 6.0
+
+[node name="SfxFootstep" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_footstep")
+max_distance = 250.0
 
 [node name="Aim" type="Node2D" parent="." unique_id=806017258]
 

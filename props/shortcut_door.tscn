@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bs8twejanjjvh"]
+
+[ext_resource type="Script" uid="uid://bgshi7vmtikk0" path="res://props/shortcut_door.gd" id="1_shortcut"]
+[ext_resource type="Texture2D" uid="uid://bxoem6ckhckng" path="res://ui/assets/sprites/Atlas.png" id="2_uqrad"]
+[ext_resource type="FontFile" uid="uid://bu1xpso6ai3x0" path="res://ui/assets/fonts/PixelOperator8-Bold.ttf" id="3_font"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(9.96, 49)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_door"]
+polygon = PackedVector2Array(0, -25, 2, -25, 2, 24, 0, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact"]
+size = Vector2(17, 49)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_shortcut"]
+light_mode = 1
+
+[node name="ShortcutDoor" type="StaticBody2D" unique_id=971781133]
+script = ExtResource("1_shortcut")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=816638121]
+position = Vector2(2.9340994e-08, -5.6712437)
+rotation = 1.5707964
+scale = Vector2(1.0168384, 1.1875)
+texture = ExtResource("2_uqrad")
+region_enabled = true
+region_rect = Rect2(-0.31016636, 180.81757, 48.54035, 8.390549)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=689136447]
+position = Vector2(0, -5.5)
+shape = SubResource("RectangleShape2D_door")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=903109386]
+position = Vector2(0, -5)
+occluder = SubResource("OccluderPolygon2D_door")
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=857662292]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea" unique_id=1725943740]
+position = Vector2(13, -5.5)
+shape = SubResource("RectangleShape2D_interact")
+
+[node name="Label" type="Label" parent="." unique_id=1879574671]
+material = SubResource("CanvasItemMaterial_shortcut")
+offset_left = -35.0
+offset_top = -20.0
+offset_right = 35.0
+offset_bottom = -6.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="InteractArea" to="." method="_on_interact_area_body_entered"]
+[connection signal="body_exited" from="InteractArea" to="." method="_on_interact_area_body_exited"]

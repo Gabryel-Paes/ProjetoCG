@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bemnitcidor6b" path="res://actors/enemy/stalker.gd" id="1_stalker"]
 [ext_resource type="Texture2D" uid="uid://dvvb6y5tjnpg8" path="res://ui/assets/sprites/Mr_G_Outlined.png" id="2_mr_g"]
+[ext_resource type="AudioStream" uid="uid://cbftkn7emakog" path="res://ui/assets/sounds/heavyfootstep.wav" id="3_footstep"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_stalker"]
 radius = 6.0
@@ -134,6 +135,9 @@ shape = SubResource("CircleShape2D_stalker")
 sprite_frames = SubResource("SpriteFrames_stalker")
 animation = &"walk"
 autoplay = "walk"
+
+[node name="SfxFootstep" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_footstep")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=707977729]
 path_desired_distance = 6.0

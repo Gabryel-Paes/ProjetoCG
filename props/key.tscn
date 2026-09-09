@@ -1,20 +1,18 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://cfhxfv45uxldt"]
 
-[ext_resource type="Script" path="res://props/key.gd" id="1_key"]
+[ext_resource type="Script" uid="uid://cw860vlw1iqow" path="res://props/key.gd" id="1_key"]
+[ext_resource type="Texture2D" uid="uid://8k8p51yoacco" path="res://ui/assets/sprites/ChaveR.png" id="2_ef0qq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_key"]
 size = Vector2(8, 8)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_key"]
-size = Vector2(8, 8)
-
-[node name="Key" type="Area2D"]
+[node name="Key" type="Area2D" unique_id=559930854]
 script = ExtResource("1_key")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1632665872]
 shape = SubResource("RectangleShape2D_key")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_key")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1038016982]
+texture = ExtResource("2_ef0qq")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

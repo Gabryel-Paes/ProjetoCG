@@ -3,6 +3,8 @@ extends Area2D
 @export var damage: float = 10.0
 @export var active_time: float = 0.2
 
+@onready var sfx_hit: AudioStreamPlayer2D = $SfxHit
+
 func _ready() -> void:
 	monitoring = false # Começa desligado
 
@@ -20,10 +22,14 @@ func _on_area_entered(area: Area2D) -> void:
 	# antes.
 	if area.has_method("take_melee_damage"):
 		area.take_melee_damage(damage, global_position)
+		sfx_hit.play()
 	elif area.has_method("take_damage"):
 		area.take_damage(damage, global_position)
+		sfx_hit.play()
 	# Alternativa: se o script de dano estiver no "Pai" da área atingida
 	elif area.owner and area.owner.has_method("take_melee_damage"):
 		area.owner.take_melee_damage(damage, global_position)
+		sfx_hit.play()
 	elif area.owner and area.owner.has_method("take_damage"):
 		area.owner.take_damage(damage, global_position)
+		sfx_hit.play()

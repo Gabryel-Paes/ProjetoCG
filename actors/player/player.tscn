@@ -17,14 +17,14 @@
 [ext_resource type="Texture2D" uid="uid://cvwkcv2goh87a" path="res://ui/assets/sprites/arma.png" id="14_arma_icon"]
 [ext_resource type="Texture2D" uid="uid://bx0upfpuhby7y" path="res://ui/assets/sprites/punho.png" id="14_qrxv1"]
 [ext_resource type="Script" uid="uid://c66oye216f7a6" path="res://actors/player/point_light_2d.gd" id="15_pointlight"]
+[ext_resource type="Texture2D" uid="uid://b32awv1rmryav" path="res://ui/assets/sprites/Pernas.png" id="16_pernas"]
+[ext_resource type="Texture2D" uid="uid://cf35qc1mlgbiq" path="res://ui/assets/sprites/Sprite-faca-sheet.png" id="17_faca_sheet"]
 [ext_resource type="Script" uid="uid://biu1k5p1xo8fu" path="res://Items/inventory.gd" id="18_qrxv1"]
 [ext_resource type="PackedScene" uid="uid://cmq3b2x1t2hf4" path="res://ui/hud/Inventario/inventory_ui.tscn" id="19_invui"]
 [ext_resource type="Resource" uid="uid://rmw78yy8m075" path="res://Items/item_arma.tres" id="20_item_pistol"]
 [ext_resource type="Script" uid="uid://d2aua770dsvt1" path="res://Items/item.gd" id="20_lj3dd"]
 [ext_resource type="Resource" uid="uid://cc5ft3rif5dve" path="res://Items/item_faca.tres" id="21_item_faca"]
 [ext_resource type="Texture2D" uid="uid://bm6rly60y06jf" path="res://ui/assets/sprites/Lanterna.png" id="23_nsxbo"]
-[ext_resource type="Texture2D" uid="uid://b32awv1rmryav" path="res://ui/assets/sprites/Pernas.png" id="16_pernas"]
-[ext_resource type="Texture2D" uid="uid://cf35qc1mlgbiq" path="res://ui/assets/sprites/Sprite-faca-sheet.png" id="17_faca_sheet"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_388e2"]
 radius = 8.0
@@ -318,6 +318,7 @@ process_material = SubResource("ParticleProcessMaterial_60pvl")
 
 [node name="MeleeAttack" parent="Aim" unique_id=192729465 instance=ExtResource("3_ax26v")]
 position = Vector2(6, 0)
+damage = 4.0
 
 [node name="Gun" parent="Aim" unique_id=1907474380 instance=ExtResource("8_gun")]
 position = Vector2(17, 0)

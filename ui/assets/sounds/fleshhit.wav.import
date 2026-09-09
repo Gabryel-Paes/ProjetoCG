@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://bgow0c50u80ip"
-path="res://.godot/imported/explosion.wav-b1c087f760850ca906ce51a4b4e90dee.sample"
+uid="uid://bmfermsjwuo6o"
+path="res://.godot/imported/fleshhit.wav-2efcea6ad97bccde34cd2484bd770e47.sample"
 
 [deps]
 
-source_file="res://ui/assets/sounds/explosion.wav"
-dest_files=["res://.godot/imported/explosion.wav-b1c087f760850ca906ce51a4b4e90dee.sample"]
+source_file="res://ui/assets/sounds/fleshhit.wav"
+dest_files=["res://.godot/imported/fleshhit.wav-2efcea6ad97bccde34cd2484bd770e47.sample"]
 
 [params]
 

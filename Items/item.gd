@@ -8,4 +8,9 @@ enum ItemType { MEDKIT, PILLS, KEYITEM, AMMO, OTHER }
 @export_multiline var description: String = "Descrição curta do Item dizendo pra que ele serve ou algo assim"
 @export var type: ItemType = ItemType.OTHER
 @export var value: int = 25
-@export var stackable: bool = true # Itens-chave (arma, faca, lanterna...) devem ser false
+## Cada item pego ocupa o próprio slot — de propósito, obriga a gerenciar
+## o inventário em vez de empilhar tudo num slot só. Antes era true por
+## padrão (só arma/faca/lanterna eram marcados false na mão); agora é o
+## contrário: só marca true explicitamente se algum item realmente
+## precisar empilhar (nenhum precisa hoje).
+@export var stackable: bool = false

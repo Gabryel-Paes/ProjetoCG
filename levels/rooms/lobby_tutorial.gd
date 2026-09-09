@@ -1,5 +1,10 @@
 extends Node2D
 
+# Volta a 0.0 (totalmente invisível) por enquanto — a ideia de deixar o
+# térreo apagado (tipo "olhando de cima" através de um vão do mezanino) fica
+# pra resolver depois, com calma.
+const FLOOR_BELOW_ALPHA := 0.0
+
 # Guarda a camada de colisão original de cada objeto floor1_only/floor2_only
 # que não seja uma TileMapLayer (essas já têm o collision_enabled cuidando
 # delas à parte) — ex: móveis soltos na cena, não pintados como tile. Sem
@@ -93,7 +98,8 @@ func _ready() -> void:
 	# Mesma coisa pra tudo que é exclusivo do 2º andar (Hearer, e qualquer
 	# outra coisa que entrar no grupo "floor2_only" no futuro).
 	for node in get_tree().get_nodes_in_group("floor2_only"):
-		node.modulate.a = 0.0
+		if node is CanvasItem:
+			node.modulate.a = 0.0
 
 	# Móveis soltos (não pintados como tile) também precisam da colisão
 	# desligada enquanto invisíveis — o collision_enabled acima só cobre a
@@ -126,10 +132,10 @@ func _ready() -> void:
 # raiz: z_as_relative é true por padrão, então isso já cascata pros filhos
 # sozinho, sem precisar (e sem risco de atropelar alguma ordenação relativa
 # interna que um filho já tenha entre as próprias partes).
-func _apply_floor_layering(node: Node, light_mask: int, z_index: int) -> void:
+func _apply_floor_layering(node: Node, target_light_mask: int, target_z_index: int) -> void:
 	if node is Node2D:
-		node.z_index = z_index
-	_apply_light_mask_recursive(node, light_mask)
+		node.z_index = target_z_index
+	_apply_light_mask_recursive(node, target_light_mask)
 
 
 # light_mask NÃO é herdado (ao contrário do z_index) — precisa marcar em
@@ -138,11 +144,11 @@ func _apply_floor_layering(node: Node, light_mask: int, z_index: int) -> void:
 # Sprite2D/AnimatedSprite2D filho, com seu PRÓPRIO light_mask. Só marcar o
 # nó do grupo não chega no filho — foi exatamente esse bug que deixou o
 # Stalker invisível no 2º andar.
-func _apply_light_mask_recursive(node: Node, light_mask: int) -> void:
+func _apply_light_mask_recursive(node: Node, target_light_mask: int) -> void:
 	if node is CanvasItem:
-		node.light_mask = light_mask
+		node.light_mask = target_light_mask
 	for child in node.get_children():
-		_apply_light_mask_recursive(child, light_mask)
+		_apply_light_mask_recursive(child, target_light_mask)
 
 # Conectado ao Trigger_Up (Subindo)
 func _on_trigger_up_body_entered(body: Node2D) -> void:
@@ -192,16 +198,18 @@ func _on_trigger_up_body_entered(body: Node2D) -> void:
 			tween.tween_property($TileMap_2sFloor, "modulate:a", 1.0, 0.5)
 
 		for node in get_tree().get_nodes_in_group("floor2_only"):
-			var tween_node = create_tween()
-			tween_node.tween_property(node, "modulate:a", 1.0, 0.5)
+			if node is CanvasItem:
+				var tween_node = create_tween()
+				tween_node.tween_property(node, "modulate:a", 1.0, 0.5)
 
 		if has_node("TileMap_1sFloor"):
 			var tween_floor1 = create_tween()
-			tween_floor1.tween_property($TileMap_1sFloor, "modulate:a", 0.0, 0.5)
+			tween_floor1.tween_property($TileMap_1sFloor, "modulate:a", FLOOR_BELOW_ALPHA, 0.5)
 
 		for node in get_tree().get_nodes_in_group("floor1_only"):
-			var tween_node1 = create_tween()
-			tween_node1.tween_property(node, "modulate:a", 0.0, 0.5)
+			if node is CanvasItem:
+				var tween_node1 = create_tween()
+				tween_node1.tween_property(node, "modulate:a", FLOOR_BELOW_ALPHA, 0.5)
 
 		print("Subiu: Mezanino aparecendo gradualmente!")
 
@@ -257,16 +265,18 @@ func _on_trigger_down_body_entered(body: Node2D) -> void:
 			tween.tween_property($TileMap_2sFloor, "modulate:a", 0.0, 0.5)
 
 		for node in get_tree().get_nodes_in_group("floor2_only"):
-			var tween_node = create_tween()
-			tween_node.tween_property(node, "modulate:a", 0.0, 0.5)
+			if node is CanvasItem:
+				var tween_node = create_tween()
+				tween_node.tween_property(node, "modulate:a", 0.0, 0.5)
 
 		if has_node("TileMap_1sFloor"):
 			var tween_floor1 = create_tween()
 			tween_floor1.tween_property($TileMap_1sFloor, "modulate:a", 1.0, 0.5)
 
 		for node in get_tree().get_nodes_in_group("floor1_only"):
-			var tween_node1 = create_tween()
-			tween_node1.tween_property(node, "modulate:a", 1.0, 0.5)
+			if node is CanvasItem:
+				var tween_node1 = create_tween()
+				tween_node1.tween_property(node, "modulate:a", 1.0, 0.5)
 
 		print("Desceu: Mezanino sumindo gradualmente!")
 		

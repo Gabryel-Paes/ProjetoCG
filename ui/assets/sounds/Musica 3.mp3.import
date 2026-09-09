@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cuxs74mptclgb"
+path="res://.godot/imported/Musica 3.mp3-da368d37b253bcd4f82372b3a80a7481.mp3str"
+
+[deps]
+
+source_file="res://ui/assets/sounds/Musica 3.mp3"
+dest_files=["res://.godot/imported/Musica 3.mp3-da368d37b253bcd4f82372b3a80a7481.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -11,13 +11,15 @@ config_version=5
 [application]
 
 config/name="ProjetoCG"
-run/main_scene="uid://dq21wj03rqw0p"
+run/main_scene="uid://dw4v6ba1bghtw"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://ui/assets/icon.svg"
 
 [autoload]
 
 GameState="*res://autoload/game_state.gd"
+MusicManager="*res://autoload/music_manager.gd"
+WindowManager="*res://autoload/window_manager.gd"
 
 [display]
 
