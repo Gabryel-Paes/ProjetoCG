@@ -8,7 +8,7 @@ var sprt_corpse = preload("res://ui/assets/sprites/corpse.png")
 signal weapon_changed(weapon: Weapon)
 enum Weapon { NONE, KNIFE, PISTOL }
 
-@export var unarmed_speed_multiplier: float = 1.15 # Mãos vazias = um pouco mais rápido
+@export var unarmed_speed_multiplier: float = 1.07 # Mãos vazias = um pouco mais rápido
 
 var weapon_order: Array[Weapon] = [Weapon.NONE, Weapon.KNIFE, Weapon.PISTOL]
 var weapon_index: int = 0

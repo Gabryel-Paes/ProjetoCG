@@ -78,6 +78,7 @@ color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1153864829]
+visible = false
 color = Color(0.023516318, 0.007840861, 0.065341495, 1)
 
 [node name="TileMap_1sFloor" type="TileMapLayer" parent="." unique_id=1508748006 groups=["floor1_only"]]
