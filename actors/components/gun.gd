@@ -31,6 +31,11 @@ var recarregando: bool = false
 var spread_atual: float = 1.0
 var moving: bool = false
 
+@onready var sfx_gunshot: AudioStreamPlayer2D = $SfxGunshot
+@onready var sfx_reload: AudioStreamPlayer2D = $SfxReload
+## Clique de "sem munição" — toca quando o gatilho é puxado com o pente vazio.
+@onready var sfx_click: AudioStreamPlayer2D = $SfxClick
+
 
 func _ready() -> void:
 	municao_atual = municao_maxima
@@ -56,11 +61,13 @@ func try_fire(alvo: Vector2) -> bool:
 
 	if municao_atual <= 0:
 		ammo_empty.emit()
+		sfx_click.play()
 		return false
 
 	pode_atirar = false
 	municao_atual -= 1
 	ammo_changed.emit(municao_atual, municao_maxima)
+	sfx_gunshot.play()
 
 	# --- Lógica do Hitscan ---
 	##Direção base reta até o alvo
@@ -139,6 +146,7 @@ func try_reload(inventory: Inventory = null) -> bool:
 
 	recarregando = true
 	reload_started.emit()
+	sfx_reload.play()
 
 	await get_tree().create_timer(tempo_recarga).timeout
 	municao_atual = municao_maxima

@@ -27,6 +27,15 @@ func get_flag(id: String) -> bool:
 	return flags.get(id, false)
 
 
+## Id estável pra progresso que não tem (e não vale a pena ganhar) um "Save
+## Id" exportado na mão em cada instância — inimigo comum e item largado no
+## chão, por exemplo. O caminho na árvore de cenas já é único e sempre o
+## mesmo pra quem foi colocado direto no editor (não spawna dinamicamente),
+## então serve como id de save de graça.
+func node_save_id(node: Node) -> String:
+	return String(node.get_path())
+
+
 func has_save() -> bool:
 	return FileAccess.file_exists(SAVE_PATH)
 

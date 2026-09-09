@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://chwvvn514vaiu" path="res://actors/enemy/angel.gd" id="1_angel"]
 [ext_resource type="Texture2D" uid="uid://b83iu5b1577mg" path="res://ui/assets/sprites/angel_idle_outlined.png" id="2_idle"]
+[ext_resource type="AudioStream" uid="uid://c4f3kwnhq3okb" path="res://ui/assets/sounds/Concrete scrape loop.mp3" id="7_chase"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8vi3h"]
 radius = 5.0
@@ -20,6 +21,9 @@ speed = 320.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1504398008]
 shape = SubResource("CircleShape2D_8vi3h")
+
+[node name="SfxChase" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_chase")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1159769797]
 position = Vector2(2.3841858e-07, 0)

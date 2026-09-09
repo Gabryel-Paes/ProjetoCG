@@ -17,6 +17,11 @@ var slot_buttons: Array[Button] = []
 var player_node: Node = null
 
 func _ready() -> void:
+	# Continua processando (input, botões, o toggle_inventory que fecha o
+	# menu) mesmo com a árvore pausada — sem isso, pausar junto de abrir o
+	# inventário também travaria a própria UI do inventário.
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
 	action_menu.id_pressed.connect(_on_action_selected)
 	visible = false
 
@@ -65,6 +70,14 @@ func _set_open(open: bool) -> void:
 		_clear_preview()
 
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if open else Input.MOUSE_MODE_HIDDEN
+
+	# Pausa o jogo de verdade (inimigos, física, timers) enquanto o
+	# inventário está aberto — antes só travava o combate do Player, mas
+	# tudo mais continuava rodando, então dava pra levar dano/ser cercado
+	# enquanto só dava pra mexer no inventário. process_mode = ALWAYS (ver
+	# _ready()) garante que essa própria UI continua respondendo mesmo com
+	# a árvore pausada.
+	get_tree().paused = open
 
 	if player_node:
 		player_node.menu_open = open

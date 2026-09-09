@@ -69,6 +69,11 @@ var _was_moving: bool = false
 
 
 func _ready() -> void:
+	# Já morreu num save anterior — nem chega a existir de novo.
+	if GameState.get_flag(_death_flag()):
+		queue_free()
+		return
+
 	_spawn_position = global_position
 	_pick_wander_target()
 	health.died.connect(die)
@@ -290,4 +295,9 @@ func _on_damaged(_amount: float, source_position: Vector2) -> void:
 
 
 func die() -> void:
+	GameState.set_flag(_death_flag(), true)
 	queue_free()
+
+
+func _death_flag() -> String:
+	return "dead:" + GameState.node_save_id(self)

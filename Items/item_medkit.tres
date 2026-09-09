@@ -9,4 +9,4 @@ item_name = "Kit Médico"
 texture = ExtResource("2_texture")
 description = "Um kit de primeiros socorros completo. Cura todos os ferimentos."
 type = 0
-stackable = true
+stackable = false

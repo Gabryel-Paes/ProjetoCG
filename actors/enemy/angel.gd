@@ -29,6 +29,7 @@ var _attack_cooldown_timer: float = 0.0
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var sfx_chase: AudioStreamPlayer2D = $SfxChase
 
 var sprt_idle = preload("res://ui/assets/sprites/angel_idle_outlined.png")
 var sprt_moving = preload("res://ui/assets/sprites/angel_moving_outlined.png")
@@ -50,6 +51,12 @@ func _ready() -> void:
 	# precisar erodir o polígono de navegação (isso quebra a conexão entre tiles).
 	nav_agent.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_EDGECENTERED
 
+	# O som (arrastar de pedra) precisa repetir sem parar enquanto ele
+	# persegue — mais fácil marcar loop no próprio stream do que ficar
+	# rechamando play() a cada frame.
+	if sfx_chase.stream:
+		sfx_chase.stream.loop = true
+
 
 func _physics_process(delta: float) -> void:
 	if _attack_cooldown_timer > 0.0:
@@ -66,6 +73,7 @@ func _physics_process(delta: float) -> void:
 		# Só congela — mantém a última rotação que já tinha, não precisa
 		# girar pra encarar quem o observou.
 		sprite.texture = sprt_idle
+		_set_chase_sound(false)
 	elif _attack_cooldown_timer > 0.0:
 		# Acabou de acertar o Player — fica parado um instante antes de
 		# voltar a se posicionar atrás dele.
@@ -115,10 +123,21 @@ func _update_sprite() -> void:
 	if velocity.length() > 1.0:
 		sprite.texture = sprt_moving
 		sprite.rotation = velocity.angle() + deg_to_rad(sprite_angle_offset_deg)
+		# Só toca o som enquanto está de fato perseguindo o Player (não
+		# durante o wander normal, sem alvo nenhum).
+		_set_chase_sound(player != null)
 	else:
 		sprite.texture = sprt_idle
 		# Parado sem estar sendo observado (ex: esperando novo destino do
 		# wander) — mantém a última rotação, não trava num ângulo fixo.
+		_set_chase_sound(false)
+
+
+func _set_chase_sound(should_play: bool) -> void:
+	if should_play and not sfx_chase.playing:
+		sfx_chase.play()
+	elif not should_play and sfx_chase.playing:
+		sfx_chase.stop()
 
 
 func _wander(delta: float) -> void:

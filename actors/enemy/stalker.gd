@@ -32,12 +32,17 @@ class_name Stalker
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: AnimatedSprite2D = $Sprite2D
+@onready var sfx_footstep: AudioStreamPlayer2D = $SfxFootstep
 
 var player: CharacterBody2D = null
 
 var _slow_timer: float = 0.0
 var _attack_cooldown_timer: float = 0.0
 var _knockback: Vector2 = Vector2.ZERO
+
+# --- Som de passo pesado (toca enquanto está correndo atrás do Player) ---
+@export var footstep_interval: float = 0.4
+var _footstep_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -115,6 +120,18 @@ func _update_sprite() -> void:
 	# de qualquer ângulo.
 	if velocity.length() > 1.0:
 		sprite.rotation = velocity.angle() + deg_to_rad(sprite_angle_offset_deg)
+		_process_footsteps()
+	else:
+		# Zerado pra tocar o primeiro passo na hora assim que ele voltar a
+		# correr, em vez de esperar o resto do intervalo de quando parou.
+		_footstep_timer = 0.0
+
+
+func _process_footsteps() -> void:
+	_footstep_timer -= get_physics_process_delta_time()
+	if _footstep_timer <= 0.0:
+		_footstep_timer = footstep_interval
+		sfx_footstep.play()
 
 
 # --- Dano de contato ---

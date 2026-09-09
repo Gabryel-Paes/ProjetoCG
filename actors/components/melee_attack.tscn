@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b6j0eteafpf7t"]
 
 [ext_resource type="Script" uid="uid://elfb5xo6i77d" path="res://actors/components/melee_attack.gd" id="1_qwwfr"]
+[ext_resource type="AudioStream" uid="uid://bmfermsjwuo6o" path="res://ui/assets/sounds/fleshhit.wav" id="2_fleshhit"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h7gdp"]
 size = Vector2(30, 3)
@@ -14,5 +15,8 @@ script = ExtResource("1_qwwfr")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2097138953]
 position = Vector2(15, 0)
 shape = SubResource("RectangleShape2D_h7gdp")
+
+[node name="SfxHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_fleshhit")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

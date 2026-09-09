@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://props/save_typewriter.gd" id="1_typewriter"]
+[ext_resource type="Texture2D" uid="uid://def6fbqaum3jy" path="res://ui/assets/sprites/typeWritter.png" id="2_typewriter_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(16, 12)
@@ -8,14 +9,11 @@ size = Vector2(16, 12)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact"]
 size = Vector2(28, 24)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_typewriter"]
-size = Vector2(16, 12)
-
 [node name="SaveTypewriter" type="StaticBody2D"]
 script = ExtResource("1_typewriter")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_typewriter")
+texture = ExtResource("2_typewriter_tex")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_body")
