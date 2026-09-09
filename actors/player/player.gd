@@ -3,6 +3,7 @@ extends CharacterBody2D
 var sprt_normal = preload("res://ui/assets/sprites/Sprite-idle.png")
 var sprt_armado = preload("res://ui/assets/sprites/Sprite-armado.png")
 var sprt_faca = preload("res://ui/assets/sprites/Sprite-faca.png")
+var sprt_corpse = preload("res://ui/assets/sprites/corpse.png")
 
 signal weapon_changed(weapon: Weapon)
 enum Weapon { NONE, KNIFE, PISTOL }
@@ -64,6 +65,17 @@ var _knife_combo_queued: bool = false
 var aim_angle: float = 0.0
 var menu_open: bool = false # travado pelo inventory_ui.gd enquanto o menu está aberto
 
+# --- Morte ---
+@export var corpse_throw_distance: float = 40.0 # o quanto o corpo desliza na direção do último hit
+@export var corpse_throw_duration: float = 0.35
+@export var death_screen_delay: float = 2.0 # tempo parado, olhando pro corpo, antes da tela de morte
+## Ajusta a rotação do sprite do corpo — mesma ideia do sprite_angle_offset,
+## só que aplicado na direção do golpe em vez da mira.
+@export var corpse_angle_offset_deg: float = -90.0
+
+var _last_hit_direction: Vector2 = Vector2.RIGHT
+var _is_dead: bool = false
+
 func _ready() -> void:
 	motion_mode = MOTION_MODE_FLOATING
 	hud.visible = true
@@ -100,7 +112,11 @@ func _on_damaged(_amount: float, source_position: Vector2) -> void:
 	var push_dir := global_position - source_position
 	if push_dir.length() < 0.01:
 		push_dir = Vector2.RIGHT # posições coincidentes: empurra em qualquer direção em vez de ficar zerado
-	_knockback = push_dir.normalized() * knockback_strength
+	push_dir = push_dir.normalized()
+	_knockback = push_dir * knockback_strength
+	# Guardado pra _die() saber pra que lado jogar o corpo caso esse seja o
+	# hit que zerou a vida.
+	_last_hit_direction = push_dir
 
 func _update_blood_overlay(current_health: float, max_health: float) -> void:
 	# Calcula a porcentagem de DANO sofrido (0.0 a 1.0)
@@ -158,12 +174,14 @@ func _push_kicked_bodies() -> void:
 			collider.apply_central_impulse(push_dir * velocity.length() * item_push_strength)
 
 func _process(_delta: float) -> void:
+	if _is_dead:
+		return
 	_update_aim()
 
 # --- Controles de Ação ---
 
 func _input(event:InputEvent) -> void:
-	if menu_open:
+	if menu_open or _is_dead:
 		return
 	if event.is_action_pressed("NextWeapon"):
 		_cycle_weapon(1)
@@ -242,9 +260,40 @@ func _update_aim() -> void:
 	aim.rotation = aim_angle + deg_to_rad(sprite_angle_offset)
 
 func _die() -> void:
+	if _is_dead:
+		return
+	_is_dead = true
+
+	# Trava o Player: sem input, sem física normal (paramos o
+	# _physics_process inteiro, então move_and_slide() não roda mais — o
+	# "arremesso" abaixo move a posição direto, sem física).
+	set_physics_process(false)
+
+	# Vira o corpo: esconde qualquer coisa de combate que possa ter ficado no
+	# ar (golpe de faca no meio da animação) e as pernas separadas (o
+	# corpse.png já é um corpo inteiro, não precisa da Legs por baixo
+	# congelada no meio de uma passada) — e troca pro sprite do cadáver.
+	knife_attack.visible = false
+	legs.visible = false
+	sprite.visible = true
+	sprite.texture = sprt_corpse
+	sprite.rotation = _last_hit_direction.angle() + deg_to_rad(corpse_angle_offset_deg)
+	aim.rotation = 0.0 # solta a mira — o corpo não aponta mais pra lugar nenhum
+
+	# "Arremessa" o corpo na direção do último golpe que zerou a vida.
+	var destino := global_position + _last_hit_direction * corpse_throw_distance
+	var tween := create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "global_position", destino, corpse_throw_duration)
+
+	# Segura a cena aqui — corpo caído, sem fazer nada — pra dar tempo do
+	# jogador entender o que aconteceu antes da tela de morte definitiva.
+	await get_tree().create_timer(death_screen_delay).timeout
+
 	# died dispara no meio de um callback de física (Hitbox/apply_damage) —
-	# trocar de cena na hora tenta remover o Player (CollisionObject2D) nesse
-	# momento, o que o Godot não permite. Adia pro fim do frame.
+	# trocar de cena tenta remover o Player (CollisionObject2D) nesse
+	# momento, o que o Godot não permite. Mantido deferred por segurança,
+	# mesmo já estando alguns frames depois por causa do await acima.
 	get_tree().change_scene_to_file.call_deferred("res://ui/menu/death_screen.tscn")
 
 # --- Cura (chamado pela UI do inventário ao usar Medkit/Pills) ---

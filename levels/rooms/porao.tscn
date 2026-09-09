@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://dwowauhja5bow" path="res://ui/Atlas.tres" id="1_jnhdj"]
 [ext_resource type="PackedScene" uid="uid://dcm57qic4qlkk" path="res://actors/player/player.tscn" id="1_player"]
-[ext_resource type="PackedScene" path="res://actors/enemy/stalker_boss.tscn" id="2_boss"]
+[ext_resource type="PackedScene" uid="uid://brd0t74gcx4yv" path="res://actors/enemy/stalker_boss.tscn" id="2_boss"]
 [ext_resource type="PackedScene" uid="uid://b1sjkfqn15ncx" path="res://props/item_pickup.tscn" id="3_hjeu3"]
 [ext_resource type="Script" uid="uid://7do6mts0ueaa" path="res://levels/rooms/porao.gd" id="3_porao"]
 [ext_resource type="PackedScene" path="res://ui/hud/boss_health_bar.tscn" id="4_boss_bar"]
@@ -63,6 +63,9 @@ metadata/_custom_type_script = "uid://d2aua770dsvt1"
 [node name="Porao" type="Node2D" unique_id=658509346]
 script = ExtResource("3_porao")
 
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1747344779]
+color = Color(0.23146287, 0.08229142, 0.09310513, 1)
+
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1132074979]
 offset_top = -350.0
 offset_right = 600.0
@@ -119,7 +122,6 @@ position = Vector2(150, -168)
 
 [node name="StalkerBoss" parent="." unique_id=1631235918 instance=ExtResource("2_boss")]
 position = Vector2(444, -169)
-knockback_strength = 160.0
-save_id = "stalker_boss"
+knockback_strength = 250.0
 
 [node name="BossHealthBar" parent="." unique_id=1587982805 instance=ExtResource("4_boss_bar")]

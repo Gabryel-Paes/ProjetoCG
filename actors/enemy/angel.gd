@@ -21,6 +21,12 @@ extends CharacterBody2D
 ## o vetor de direção (quase zero) normalizado fica instável e treme.
 @export var stop_distance: float = 8.0
 
+## Depois de acertar o Player, fica parado esse tempo antes de voltar a
+## avançar — sem isso ele fica "grudado", tentando reocupar o mesmo espaço
+## a cada frame (mesmo ajuste já feito no Zumbi/Stalker).
+@export var attack_cooldown: float = 1.0
+var _attack_cooldown_timer: float = 0.0
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -46,6 +52,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _attack_cooldown_timer > 0.0:
+		_attack_cooldown_timer -= delta
+
 	if player == null:
 		_wander(delta)
 		_move_along_path(wander_speed)
@@ -57,6 +66,12 @@ func _physics_process(delta: float) -> void:
 		# Só congela — mantém a última rotação que já tinha, não precisa
 		# girar pra encarar quem o observou.
 		sprite.texture = sprt_idle
+	elif _attack_cooldown_timer > 0.0:
+		# Acabou de acertar o Player — fica parado um instante antes de
+		# voltar a se posicionar atrás dele.
+		velocity = Vector2.ZERO
+		move_and_slide()
+		_update_sprite()
 	else:
 		# Tenta chegar nas costas do Player, não direto na frente dele
 		var aim_dir := Vector2.RIGHT.rotated(player.aim_angle)
@@ -201,8 +216,24 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 
 # --- Dano de contato ---
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") and body.has_node("Health"):
+	if body.is_in_group("Player") and body.has_node("Health") and _same_floor_as(body):
 		body.get_node("Health").apply_damage(dano_toque, global_position)
+		_attack_cooldown_timer = attack_cooldown
+
+
+# Rede de segurança independente do sistema de andar da lobby_tutorial.gd
+# (que liga/desliga collision_layer/mask por grupo floor1_only/floor2_only):
+# mesmo que aquele sistema falhe por algum motivo (corrida de timing, andar
+# trocado rápido demais, um inimigo novo esquecido no grupo certo...), não
+# aplica dano se o Player não estiver de verdade no mesmo andar que este
+# inimigo — confirma direto pelo bit floor1_occupant/floor2_occupant.
+func _same_floor_as(body: Node) -> bool:
+	var body_layer: int = body.get("collision_layer")
+	if is_in_group("floor1_only") and (body_layer & 32) == 0:
+		return false
+	if is_in_group("floor2_only") and (body_layer & 64) == 0:
+		return false
+	return true
 
 
 # --- Imunidade ---

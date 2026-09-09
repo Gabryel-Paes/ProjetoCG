@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cihj6bltwdi1w"]
 
 [ext_resource type="Script" uid="uid://chwvvn514vaiu" path="res://actors/enemy/angel.gd" id="1_angel"]
-[ext_resource type="Texture2D" uid="uid://kksbxvt6iddg" path="res://ui/assets/sprites/angel_idle.png" id="2_idle"]
+[ext_resource type="Texture2D" uid="uid://b83iu5b1577mg" path="res://ui/assets/sprites/angel_idle_outlined.png" id="2_idle"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8vi3h"]
 radius = 5.0
@@ -33,6 +33,7 @@ target_desired_distance = 6.0
 radius = 5.0
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=813457139]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1316531064]
 shape = SubResource("CircleShape2D_detection")
