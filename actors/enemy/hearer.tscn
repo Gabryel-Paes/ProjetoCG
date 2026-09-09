@@ -363,13 +363,11 @@ max_health = 160.0
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1107325264]
 collision_layer = 16
-collision_mask = 64
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1785183221]
 shape = SubResource("CircleShape2D_hitbox")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=191263330]
-collision_mask = 64
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=801365685]
 shape = SubResource("CircleShape2D_detection")

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cwu7v8lxl56ji" path="res://props/door.gd" id="1_door"]
 [ext_resource type="Texture2D" uid="uid://bxoem6ckhckng" path="res://ui/assets/sprites/Atlas.png" id="2_8066x"]
+[ext_resource type="AudioStream" uid="uid://dc341h1mq2r60" path="res://ui/assets/sounds/click.wav" id="3_click"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
 size = Vector2(54, 33)
@@ -19,3 +20,6 @@ region_rect = Rect2(-0.12299347, 213.82277, 48.309193, 5.648468)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=290956167]
 position = Vector2(3, -0.5)
 shape = SubResource("RectangleShape2D_door")
+
+[node name="SfxUnlock" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_click")

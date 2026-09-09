@@ -12,12 +12,16 @@ class_name KeyGate
 
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var label: Label = $Label
 
 var is_unlocked: bool = false
 var _collected: Array[String] = []
+var _player_in_range: Node2D = null
 
 
 func _ready() -> void:
+	label.visible = false
+
 	# Não guarda flag própria: reconstrói quem já foi coletada olhando a
 	# mesma flag que key.gd grava ("key:" + key_id) — se não tiver save
 	# nenhum ainda, GameState.get_flag só devolve false pra tudo.
@@ -38,11 +42,14 @@ func _on_key_collected(key_id: String) -> void:
 
 	if _collected.size() >= required_keys.size():
 		_unlock()
+	else:
+		_update_label()
 
 
 func _unlock(animate: bool = true) -> void:
 	is_unlocked = true
 	collision.set_deferred("disabled", true)
+	label.visible = false
 
 	if sprite:
 		if animate:
@@ -50,6 +57,25 @@ func _unlock(animate: bool = true) -> void:
 			tween.tween_property(sprite, "modulate:a", 0.3, 0.4)
 		else:
 			sprite.modulate.a = 0.3 # veio de um save já destrancado — sem animação
+
+
+# --- Indicador visual: quantas chaves ainda faltam ---
+func _update_label() -> void:
+	label.text = "Precisa de %d chaves (%d/%d)" % [required_keys.size(), _collected.size(), required_keys.size()]
+
+
+func _on_info_area_body_entered(body: Node2D) -> void:
+	if is_unlocked or not body.is_in_group("Player"):
+		return
+	_player_in_range = body
+	_update_label()
+	label.visible = true
+
+
+func _on_info_area_body_exited(body: Node2D) -> void:
+	if body == _player_in_range:
+		_player_in_range = null
+		label.visible = false
 
 
 # --- Imunidade: portão não quebra, só abre com as chaves certas ---
